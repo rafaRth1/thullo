@@ -1,6 +1,7 @@
 import { Logo } from './Components';
-import ImagePerfilEx from '../assets/perfil-image-ex.jpg';
+import { ImagenProfile, LabelElement } from '../components';
 import { IoApps, IoArrowDownOutline } from 'react-icons/io5';
+import ImagePerfilEx from '../assets/perfil-image-ex.jpg';
 
 export const HeaderTop = () => {
 	return (
@@ -12,10 +13,9 @@ export const HeaderTop = () => {
 					<span>DevChallenges Board</span>
 				</div>
 
-				<div className='all-board flex items-center bg-slate-500 rounded-lg py-1 px-2 mx-3 text-xs cursor-pointer'>
+				<LabelElement label='All Board'>
 					<IoApps color='white' />
-					<span className='text-white ml-1'>All Board</span>
-				</div>
+				</LabelElement>
 
 				<div className='search-keyword relative flex justify-end flex-1 w-full'>
 					<input
@@ -27,19 +27,11 @@ export const HeaderTop = () => {
 				</div>
 
 				<div className='user-session flex items-center ml-10 cursor-pointer'>
-					<div className='user-image w-12 mr-5 '>
-						<img
-							src={ImagePerfilEx}
-							alt='Perfil Image'
-							className='rounded-sm'
-						/>
-					</div>
+					<ImagenProfile imageProfile={ImagePerfilEx} />
 
 					<span>Rafael Alvarez</span>
 
-					<IoArrowDownOutline
-						className='ml-1'
-					/>
+					<IoArrowDownOutline className='ml-1' />
 				</div>
 			</div>
 		</header>
