@@ -4,11 +4,11 @@ interface Props {
 
 export const ImagenProfile = ({ imageProfile }: Props) => {
 	return (
-		<div className='user-image mr-5'>
+		<div className='user-image mr-5 w-11 h-11'>
 			<img
 				src={imageProfile}
 				alt='Perfil Image'
-				className='h-11 w-12 object-cover rounded-xl'
+				className='rounded-xl'
 			/>
 		</div>
 	);
