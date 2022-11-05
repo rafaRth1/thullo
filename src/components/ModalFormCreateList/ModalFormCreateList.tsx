@@ -23,6 +23,7 @@ export const ModalFormCreateList = () => {
 		e.preventDefault();
 		dispatch(addListItem({ nameList: formState.nameList, id: Date.now() }));
 		setFormSubmitted(true);
+		dispatch(handleShowModal(false));
 	};
 
 	return (

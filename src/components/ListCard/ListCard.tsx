@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { handleShowModalCard } from '../../store';
-import { useAppDispatch } from '../../hooks';
 import { AddElementLabel } from '../AddElementLabel';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
+import { ModalFormCreateCard } from '../ModalFormCreateCard/ModalFormCreateCard';
+import { Card } from './Components/Card/Card';
 
 export const ListCard = ({ list }: any) => {
-	const [cards, setCards] = useState([]);
-	const dispatch = useAppDispatch();
+	const [isShowModalCard, setIsShowModalCard] = useState(false);
+	const [cards, setCards] = useState<any[]>([]);
 
 	return (
 		<div className='contenedor-list'>
@@ -15,12 +15,26 @@ export const ListCard = ({ list }: any) => {
 				<IoEllipsisHorizontalSharp />
 			</div>
 
+			{cards.map((card) => (
+				<Card
+					key={card.id}
+					{...card}
+				/>
+			))}
+
 			<div className='mt-5'>
 				<AddElementLabel
 					text='Add Another Card'
-					handleDispatch={() => dispatch(handleShowModalCard(true))}
+					handleDispatch={() => setIsShowModalCard(!isShowModalCard)}
 				/>
 			</div>
+
+			<ModalFormCreateCard
+				isShowModalCard={isShowModalCard}
+				setIsShowModalCard={setIsShowModalCard}
+				cards={cards}
+				setCards={setCards}
+			/>
 		</div>
 	);
 };

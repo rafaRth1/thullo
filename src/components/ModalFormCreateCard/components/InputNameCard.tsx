@@ -12,7 +12,7 @@ export const InputNameCard = ({ formState, onInputChange, formValidation, formSu
 			<InputType
 				type='text'
 				placeholder='Name card example'
-				name={'nameCard'}
+				name='name_card'
 				value={formState.nameCard}
 				onChange={onInputChange}
 				isvalid={formValidation.nameCardValid}

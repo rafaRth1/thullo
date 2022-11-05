@@ -1,5 +1,3 @@
-import { handleShowModal } from '../store';
-import { useAppDispatch } from '../hooks';
 import { IoAddOutline } from 'react-icons/io5';
 
 interface Props {
@@ -8,8 +6,6 @@ interface Props {
 }
 
 export const AddElementLabel = ({ text, handleDispatch }: Props) => {
-	const dispatch = useAppDispatch();
-
 	return (
 		<div
 			className='add-element-label-content flex items-center w-80 bg-blue-200 py-1 px-4 rounded-xl cursor-pointer'

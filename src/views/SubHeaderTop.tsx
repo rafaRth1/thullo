@@ -17,8 +17,11 @@ export const SubHeaderTop = () => {
 					<ImagenProfile imageProfile={ImagePerfilEx} />
 					<ImagenProfile imageProfile={ImagePerfilEx} />
 					<div className='user-image-add'>
-						<span className='bg-blue-500 h-11 w-12 object-cover rounded-xl text-3xl inline-flex items-center justify-center cursor-pointer'>
-							<IoAddOutline />
+						<span className='bg-blue-500 w-9 h-9 object-cover rounded-md text-3xl inline-flex items-center justify-center cursor-pointer'>
+							<IoAddOutline
+								color='white'
+								size={20}
+							/>
 						</span>
 					</div>
 				</div>

@@ -9,7 +9,7 @@ export const TrelloLayout = () => {
 			<MainPage />
 
 			<ModalFormCreateList />
-			<ModalFormCreateCard />
+			{/* <ModalFormCreateCard /> */}
 		</>
 	);
 };

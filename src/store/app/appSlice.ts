@@ -16,7 +16,7 @@ export const appSlice = createSlice({
 		},
 
 		addListItem(state: AppTypes, action: any) {
-			state.lists = [...state.lists, action.payload];
+			state.lists = [action.payload, ...state.lists];
 		},
 	},
 });
