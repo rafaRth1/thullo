@@ -1,21 +1,36 @@
-import { memo } from 'react';
-import { LabelActions } from '../../..';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
+import { LabelActions } from '../../..';
 
 interface Props {
-	url_image: string;
-	name_card: string;
-	description: string;
-	attachments: [];
-	comments: [];
+	card: any;
+	isDragging: any;
+	handleDragging: (dragging: boolean) => void;
+	handleEditCard: (id: number) => void;
 }
 
-export const Card = memo(({ name_card }: Props) => {
+export const Card = ({ card, isDragging, handleDragging, handleEditCard }: Props) => {
+	const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+		event.dataTransfer.setData('text', `${card.id}`);
+		handleDragging(true);
+	};
+
+	const handleDragEnd = () => {
+		handleDragging(false);
+	};
+
 	return (
-		<div className='card-container'>
-			<div className='card-content p-2 shadow-xl'>
+		<div
+			className={`card-container rounded-2xl mb-3 z-40 transition-colors relative touch-none select-none ${
+				isDragging ? 'border-dashed border-blue-400 border-2 ' : ''
+			}`}
+			onClick={() => handleEditCard(card)}>
+			<div
+				className={`card-content bg-white p-2 shadow-xl rounded-2xl cursor-move`}
+				draggable
+				onDragStart={handleDragStart}
+				onDragEnd={handleDragEnd}>
 				{/* /* Section Image */}
-				<p className='name-card'>{name_card}</p>
+				<p className='name-card text-black'>{card.name_card}</p>
 
 				<LabelActions />
 
@@ -46,4 +61,4 @@ export const Card = memo(({ name_card }: Props) => {
 			</div>
 		</div>
 	);
-});
+};

@@ -1,9 +1,8 @@
 export const InputType = ({ label, ...props }: any) => {
-	const classInput =
-		'rounded-3xl  outline-none px-3 py-2  bg-neutral-300 text-gray-500 my-2 w-full transition-all';
+	const classInput = 'rounded-3xl outline-none px-3 py-2 bg-neutral-300 text-gray-500 my-2 transition-all';
 
 	return (
-		<div className='items-center'>
+		<div className='items-center flex-1'>
 			{label?.length === 0 && (
 				<label
 					htmlFor={props.name}

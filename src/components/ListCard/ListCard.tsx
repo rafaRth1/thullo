@@ -1,24 +1,53 @@
 import { useState } from 'react';
-import { AddElementLabel } from '../AddElementLabel';
-import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
-import { ModalFormCreateCard } from '../ModalFormCreateCard/ModalFormCreateCard';
+import { AddElementLabel, ModalFormCreateCard } from '../';
 import { Card } from './Components/Card/Card';
+import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
-export const ListCard = ({ list }: any) => {
+export const ListCard = ({ lists, setLists, isDragging, handleDragging, handleUpdateList, list }: any) => {
+	const [cardUpdate, setCardUpdate] = useState({
+		id: 0,
+		name_card: '',
+		attachments: [],
+		comments: [],
+		description: '',
+		url_image: '',
+	});
 	const [isShowModalCard, setIsShowModalCard] = useState(false);
-	const [cards, setCards] = useState<any[]>([]);
+
+	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+	};
+
+	const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+
+		const idCard = +e.dataTransfer.getData('text');
+		handleUpdateList(idCard, list.id);
+		handleDragging(false);
+	};
+
+	const handleEditCard = (card: any) => {
+		setCardUpdate(card);
+		setIsShowModalCard(true);
+	};
 
 	return (
-		<div className='contenedor-list'>
+		<div
+			className={`contenedor-list relative`}
+			onDrop={onDrop}
+			onDragOver={handleDragOver}>
 			<div className='header-list flex justify-between items-center cursor-pointer'>
 				<span className='flex-1'>{list.nameList}</span>
 				<IoEllipsisHorizontalSharp />
 			</div>
 
-			{cards.map((card) => (
+			{list.cards.map((card: any, index: number) => (
 				<Card
 					key={card.id}
-					{...card}
+					handleDragging={handleDragging}
+					card={card}
+					isDragging={isDragging}
+					handleEditCard={handleEditCard}
 				/>
 			))}
 
@@ -32,8 +61,11 @@ export const ListCard = ({ list }: any) => {
 			<ModalFormCreateCard
 				isShowModalCard={isShowModalCard}
 				setIsShowModalCard={setIsShowModalCard}
-				cards={cards}
-				setCards={setCards}
+				idList={list.id}
+				list={list}
+				lists={lists}
+				setLists={setLists}
+				cardUpdate={cardUpdate}
 			/>
 		</div>
 	);

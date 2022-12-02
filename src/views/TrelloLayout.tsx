@@ -1,5 +1,4 @@
 import { HeaderTop, MainPage, SubHeaderTop } from './';
-import { ModalFormCreateCard, ModalFormCreateList } from '../components';
 
 export const TrelloLayout = () => {
 	return (
@@ -7,9 +6,6 @@ export const TrelloLayout = () => {
 			<HeaderTop />
 			<SubHeaderTop />
 			<MainPage />
-
-			<ModalFormCreateList />
-			{/* <ModalFormCreateCard /> */}
 		</>
 	);
 };

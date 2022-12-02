@@ -4,7 +4,28 @@ import { ImagenProfile } from '../../Profile/ImagenProfile';
 import ImagePerfilEx from '../../../assets/perfi-imagen-2.jpg';
 import { IoAdd, IoDocumentTextOutline, IoPencilSharp } from 'react-icons/io5';
 
-export const CardColumnOne = ({ formState, onInputChange, formValidation, formSubmitted }: any) => {
+interface Props {
+	formState: any;
+	onInputChange: any;
+	formValidation: any;
+	formSubmitted: any;
+	cardUpdate: {
+		id: number;
+		name_card: string;
+		attachments: never[];
+		comments: never[];
+		description: string;
+		url_image: string;
+	};
+}
+
+export const CardColumnOne = ({
+	formState,
+	onInputChange,
+	formValidation,
+	formSubmitted,
+	cardUpdate,
+}: Props) => {
 	return (
 		<>
 			<InputNameCard
@@ -12,6 +33,7 @@ export const CardColumnOne = ({ formState, onInputChange, formValidation, formSu
 				onInputChange={onInputChange}
 				formValidation={formValidation}
 				formSubmitted={formSubmitted}
+				cardUpdate={cardUpdate}
 			/>
 
 			<span className='text-xs text-neutral-500'>in list In Progress</span>

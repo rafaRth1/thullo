@@ -4,3 +4,5 @@ export * from './InputType';
 export * from './ModalFormCreateList/ModalFormCreateList';
 export * from './ModalFormCreateCard/ModalFormCreateCard';
 export * from './ListCard/Components/LabelActions/LabelActions';
+export * from './ListCard/ListCard';
+export * from './AddElementLabel';

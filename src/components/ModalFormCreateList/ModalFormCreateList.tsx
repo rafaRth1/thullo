@@ -13,7 +13,7 @@ const formValidations = {
 	nameList: [(value: string) => value.length >= 6, 'Nombre de lista negable'],
 };
 
-export const ModalFormCreateList = () => {
+export const ModalFormCreateList = ({ lists, setLists }: any) => {
 	const { formState, formValidation, onInputChange } = useForm(formData, formValidations);
 	const [formSubmitted, setFormSubmitted] = useState(false);
 	const { showModal } = useAppSelector((state) => state.app);
@@ -21,7 +21,8 @@ export const ModalFormCreateList = () => {
 
 	const handleAddList = (e: any) => {
 		e.preventDefault();
-		dispatch(addListItem({ nameList: formState.nameList, id: Date.now() }));
+		// dispatch(addListItem({ nameList: formState.nameList, id: Date.now() }));
+		setLists([{ nameList: formState.nameList, id: Date.now(), cards: [] }, ...lists]);
 		setFormSubmitted(true);
 		dispatch(handleShowModal(false));
 	};

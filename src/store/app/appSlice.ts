@@ -18,7 +18,11 @@ export const appSlice = createSlice({
 		addListItem(state: AppTypes, action: any) {
 			state.lists = [action.payload, ...state.lists];
 		},
+
+		addCardtoList(state: AppTypes, action: any) {
+			// state.lists =
+		},
 	},
 });
 
-export const { handleShowModal, addListItem, handleShowModalCard } = appSlice.actions;
+export const { handleShowModal, addListItem, handleShowModalCard, addCardtoList } = appSlice.actions;

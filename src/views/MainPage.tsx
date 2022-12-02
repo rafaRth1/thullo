@@ -1,78 +1,108 @@
 import { useState } from 'react';
-import interact from 'interactjs';
-import { AddElementLabel } from '../components/AddElementLabel';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 import { handleShowModal } from '../store';
-import { ListCard } from '../components/ListCard/ListCard';
+import { useAppDispatch } from '../hooks';
+import { ModalFormCreateList, AddElementLabel, ListCard } from '../components';
+
+export interface AppTypes {
+	nameList: string;
+	id: number;
+	cards: [];
+}
 
 export const MainPage = () => {
-	// interact('.dropzone').dropzone({
-	// 	// only accept elements matching this CSS selector
-	// 	accept: '#yes-drop',
-	// 	// Require a 75% element overlap for a drop to be possible
-	// 	overlap: 'center',
+	const [isDragging, setIsDragging] = useState(false);
+	const [lists, setLists] = useState<any[]>([
+		{
+			nameList: 'New Header 1',
+			id: 1,
+			cards: [
+				{
+					attachments: [],
+					comments: [],
+					description: '',
+					id: 1669328877012,
+					name_card: 'Github jobs challenge',
+					url_image: '',
+				},
 
-	// 	// listen for drop related events:
+				{
+					attachments: [],
+					comments: [],
+					description: '',
+					id: 1669328877016,
+					name_card: '✋🏿 Move anything that is actually started here',
+					url_image: '',
+				},
 
-	// 	ondropactivate: function (event) {
-	// 		// add active dropzone feedback
-	// 		event.target.classList.add('drop-active');
-	// 	},
-	// 	ondragenter: function (event) {
-	// 		var draggableElement = event.relatedTarget;
-	// 		var dropzoneElement = event.target;
+				{
+					attachments: [],
+					comments: [],
+					description: '',
+					id: 16693288770125,
+					name_card: 'Add finishing touches for Windbnb solution',
+					url_image: '',
+				},
+			],
+		},
 
-	// 		// feedback the possibility of a drop
-	// 		dropzoneElement.classList.add('drop-target');
-	// 		draggableElement.classList.add('can-drop');
-	// 		draggableElement.textContent = 'Dragged in';
-	// 	},
-	// 	ondragleave: function (event) {
-	// 		// remove the drop feedback style
-	// 		event.target.classList.remove('drop-target');
-	// 		event.relatedTarget.classList.remove('can-drop');
-	// 		event.relatedTarget.textContent = 'Dragged out';
-	// 	},
-	// 	ondrop: function (event) {
-	// 		event.relatedTarget.textContent = 'Dropped Dentro';
-	// 	},
-	// 	ondropdeactivate: function (event) {
-	// 		// remove active dropzone feedback
-	// 		event.target.classList.remove('drop-active');
-	// 		event.target.classList.remove('drop-target');
-	// 	},
-	// });
+		{
+			nameList: 'New Header 2',
+			id: 2,
+			cards: [
+				{
+					attachments: [],
+					comments: [],
+					description: '',
+					id: 1669328877015,
+					name_card: '✋🏿 Move anything ',
+					url_image: '',
+				},
+			],
+		},
 
-	// interact('.drag-drop').draggable({
-	// 	inertia: true,
-	// 	modifiers: [
-	// 		interact.modifiers.restrictRect({
-	// 			restriction: 'parent',
-	// 			endOnly: true,
-	// 		}),
-	// 	],
-	// 	// autoScroll: true,
-	// 	// dragMoveListener from the dragging demo above
-	// 	listeners: { move: dragMoveListener },
-	// });
+		{
+			nameList: 'New Header 3',
+			id: 3,
+			cards: [
+				{
+					attachments: [],
+					comments: [],
+					description: '',
+					id: 1669328877017,
+					name_card: '✋🏿 Move anything from doing to done here',
+					url_image: '',
+				},
+			],
+		},
+	]);
 
-	// function dragMoveListener(event: any) {
-	// 	var target = event.target;
-	// 	// keep the dragged position in the data-x/data-y attributes
-	// 	var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-	// 	var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-	// 	// translate the element
-	// 	target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-	// 	// update the posiion attributes
-	// 	target.setAttribute('data-x', x);
-	// 	target.setAttribute('data-y', y);
-	// }
-
-	const { lists } = useAppSelector((state) => state.app);
 	const dispatch = useAppDispatch();
+	const handleDragging = (dragging: boolean) => setIsDragging(dragging);
+	const handleUpdateList = (id: number, idList: number) => {
+		let listNext = lists.find((item) => item.id === idList);
+
+		let cardPrev;
+		let listPrev: any;
+		lists.map((list: any) => {
+			list.cards.map((card: any) => {
+				if (card.id === id) {
+					cardPrev = card;
+					listPrev = list;
+				}
+			});
+		});
+
+		let cardRemove: any[] = listPrev.cards.filter((item: any) => item.id !== id);
+
+		if (listNext.id === listPrev.id) {
+			listPrev.cards = [...listPrev.cards];
+		} else {
+			listNext.cards = [...listNext.cards, cardPrev];
+			listPrev.cards = [...cardRemove];
+		}
+
+		setLists([...lists]);
+	};
 
 	return (
 		<main className='contenedor'>
@@ -80,6 +110,11 @@ export const MainPage = () => {
 				{lists.map((list) => (
 					<ListCard
 						key={list.id}
+						lists={lists}
+						setLists={setLists}
+						isDragging={isDragging}
+						handleDragging={handleDragging}
+						handleUpdateList={handleUpdateList}
 						list={list}
 					/>
 				))}
@@ -91,31 +126,11 @@ export const MainPage = () => {
 					/>
 				</div>
 			</div>
+
+			<ModalFormCreateList
+				lists={lists}
+				setLists={setLists}
+			/>
 		</main>
 	);
 };
-
-{
-	/* <div
-				id='no-drop'
-				className='drag-drop'>
-				#no-drop
-			</div>
-
-			<div
-				id='yes-drop'
-				className='drag-drop'>
-				#yes-drop
-			</div>
-
-			<div
-				id='outer-dropzone'
-				className='dropzone'>
-				#outer-dropzone
-				<div
-					id='inner-dropzone'
-					className='dropzone'>
-					#inner-dropzone
-				</div>
-			</div> */
-}
