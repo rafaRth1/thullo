@@ -9,7 +9,7 @@ interface Props {
 export const AddElementLabel = memo(({ text, handleDispatch }: Props) => {
 	return (
 		<div
-			className='add-element-label-content flex items-center w-80 bg-blue-200 py-1 px-4 rounded-xl cursor-pointer'
+			className='add-element-label-content flex items-center w-auto bg-neutral-800 py-1 px-4 rounded-xl cursor-pointer'
 			onClick={handleDispatch}>
 			<span className='flex-1 text-blue-500'>{text}</span>
 			<IoAddOutline color='blue' />

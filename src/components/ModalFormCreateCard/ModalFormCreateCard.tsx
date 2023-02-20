@@ -1,135 +1,138 @@
-import { useState, useEffect } from 'react';
-import { useForm } from '../../hooks';
-import { ImageModalCard, CardColumnOne, CardColumnTwo } from './components';
+import { useEffect, memo, useState } from 'react';
+import { useForm, useProvider } from '../../hooks';
+import { CardColumnOne, CardColumnTwo } from './components';
+import { formData, formValidations } from './initialValuesForm';
+import { CardUpdateProps } from '../ListCard/types/CardUpdateProps';
+import clientAxios from '../../config/clientAxios';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import './ModalFormCreateCard.css';
 
 interface Props {
+	idList: string;
+	list: any;
 	isShowModalCard: boolean;
 	setIsShowModalCard: React.Dispatch<React.SetStateAction<boolean>>;
-	idList: number;
-	list: any;
-	lists: any;
-	setLists: any;
 	cardUpdate: CardUpdateProps;
+	cards: any[];
+	setCards: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-interface CardUpdateProps {
-	id: number;
-	name_card: string;
-	attachments: never[];
-	comments: never[];
-	description: string;
-	url_image: string;
-}
+export const ModalFormCreateCard = memo(
+	({ list, isShowModalCard, setIsShowModalCard, cardUpdate, cards, setCards }: Props): JSX.Element => {
+		const { formState, setFormState, onInputChange } = useForm(formData, formValidations);
+		const { setAlertHigh, setOverflow } = useProvider();
+		const [clearValue, setClearValue] = useState(false);
 
-const formData = {
-	url_image: '',
-	name_card: '',
-	description: '',
-	attachments: [],
-	comments: [],
-};
+		const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+			e?.preventDefault();
 
-const formValidations = {
-	url_image: [(value: string) => value.length >= 6, 'Name de la Imagen es negable'],
-	name_card: [(value: string) => value.length >= 6, 'Name de la carta es negable'],
-	description: [(value: any) => value.length >= 1, 'Nombre de la descripcion es negable'],
-	comments: [(value: any) => value.length >= 0, 'Seccion de Comentarios'],
-	attachments: [(value: string) => value.length >= 0, 'Name de los archivos es negable'],
-};
+			if (formState?._id) {
+				handleEditCard();
+			} else {
+				handleAddCard();
+			}
+		};
 
-export const ModalFormCreateCard = ({
-	isShowModalCard,
-	setIsShowModalCard,
-	idList,
-	list,
-	lists,
-	setLists,
-	cardUpdate,
-}: Props) => {
-	const { formState, formValidation, onInputChange, setFormState } = useForm(formData, formValidations);
-	const [formSubmitted, setFormSubmitted] = useState(false);
+		const handleEditCard = async () => {
+			let cardUpdateIndex = list.taskCards.findIndex((card: any) => card._id === formState._id);
 
-	const handleAddCard = () => {
-		let listSelectID = lists.find((list: any) => list.id === idList);
-		let cardExits = list.cards.find((card: any) => card.id === formState.id);
-		let cardUpdate = list.cards.findIndex((card: any) => card.id === formState.id);
+			try {
+				const { data } = await clientAxios.put(`/taskCard/${formState._id}`, formState);
+				cards[cardUpdateIndex] = data;
+				setCards([...cards]);
+			} catch (error) {
+				setAlertHigh({
+					msg: 'Error al editar',
+					error: true,
+				});
+			}
+		};
 
-		if (cardExits) {
-			listSelectID.cards[cardUpdate] = {
-				...listSelectID.cards[cardUpdate],
-				...formState,
-			};
+		const handleAddCard = async () => {
+			try {
+				const { data } = await clientAxios.post('/taskCard', { ...formState, list: list._id });
+				setCards([...cards, data]);
+				setOverflow(false);
+				setIsShowModalCard(false);
+			} catch (error) {
+				setAlertHigh({
+					msg: 'Error al crear un card',
+					error: true,
+				});
+			}
+		};
 
-			setLists([...lists]);
-		} else {
-			listSelectID.cards = [
-				...listSelectID.cards,
-				{
-					id: Date.now(),
-					...formState,
-				},
-			];
+		const closeModal = () => {
+			// handleSubmit();
+			setIsShowModalCard(false);
+			setOverflow(false);
+			setClearValue(!clearValue);
+		};
 
-			setLists([...lists]);
-		}
+		useEffect(() => {
+			setFormState(cardUpdate);
+		}, [cardUpdate]);
 
-		setFormSubmitted(true);
-	};
-
-	useEffect(() => {
-		setFormState(cardUpdate);
-	}, [cardUpdate]);
-
-	return (
-		<div className={`modal-form-create-card z-50 ${isShowModalCard ? 'activeModalCard' : ''}`}>
-			<div
-				className={`modal-form-create-card-content p-5 rounded-xl bg-slate-200 ${
-					isShowModalCard ? 'pointer-events-auto' : ''
-				}`}>
-				<div
-					className='close-modal-form-card absolute right-3 top-3 z-30 cursor-pointer'
-					onClick={() => {
-						setIsShowModalCard(false),
-							setFormState({
-								url_image: '',
-								name_card: '',
-								description: '',
-								attachments: [],
-								comments: [],
-							});
-					}}>
-					<IoCloseCircleOutline size={30} />
-				</div>
-
-				<ImageModalCard />
-
-				<div className='flex mt-5'>
-					<div className='card-column-one'>
-						<CardColumnOne
-							formState={formState}
-							onInputChange={onInputChange}
-							formValidation={formValidation}
-							formSubmitted={formSubmitted}
-							cardUpdate={cardUpdate}
+		return (
+			<div className={`modal-form-create-card z-50 ${isShowModalCard ? 'active-modal-card' : ''}`}>
+				<form
+					className={`modal-form-create-card-content relative p-5 bg-neutral-800 rounded-lg ${
+						isShowModalCard ? 'pointer-events-auto' : ''
+					}`}
+					onSubmit={(e) => handleSubmit(e)}>
+					<div
+						className='close-modal-form-card absolute right-2 top-3 z-30 cursor-pointer'
+						onClick={closeModal}>
+						<IoCloseCircleOutline
+							className='text-white'
+							size={30}
 						/>
 					</div>
 
-					<div className='card-column-two flex-1'>
-						<CardColumnTwo />
-					</div>
-				</div>
+					<>
+						<div className='w-full rounded-xl mb-3'>
+							{!!formState?.imgUlr ? (
+								<img
+									src={formState.imgUlr}
+									alt='image-card'
+									className='h-full w-full object-cover'
+									style={{ height: '130px' }}
+								/>
+							) : null}
+						</div>
 
-				<div>
+						<div className='flex'>
+							<div className='card-column-one'>
+								<CardColumnOne
+									formState={formState}
+									setFormState={setFormState}
+									onInputChange={onInputChange}
+									clearValue={clearValue}
+									cards={cards}
+									setCards={setCards}
+								/>
+							</div>
+
+							<div className='card-column-two relative flex-1'>
+								<CardColumnTwo
+									formState={formState}
+									setFormState={setFormState}
+									clearValue={clearValue}
+									setCards={setCards}
+									setIsShowModalCard={setIsShowModalCard}
+								/>
+							</div>
+						</div>
+					</>
+
 					<button
-						className='bg-blue-500 block py-1 mx-auto my-1 w-32 rounded-xl'
-						onClick={handleAddCard}>
-						{formState.name_card.length > 0 ? 'Actualizar' : 'Crear'}
+						type='submit'
+						className='bg-blue-600 block py-1 mx-auto my-1 w-32 rounded-xl text-sm text-white'>
+						{`${!!formState?._id ? 'Actualizar' : 'Crear'} `}
 					</button>
-				</div>
+				</form>
 			</div>
-		</div>
-	);
-};
+		);
+	}
+);

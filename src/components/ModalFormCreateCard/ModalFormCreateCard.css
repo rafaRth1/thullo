@@ -15,24 +15,28 @@
 	opacity: 0;
 }
 
+.modal-form-create-card::-webkit-scrollbar {
+	width: 0;
+}
+
 .modal-form-create-card-content {
-	position: absolute;
+	width: 730px;
+	max-height: 90vh;
 	z-index: 50;
 	transition: 0.3s ease-in-out all;
 	pointer-events: none;
-	width: 800px;
-	background-color: red;
-	overflow-x: hidden;
-	overflow-y: scroll;
 	scrollbar-width: none;
-	height: 95%;
+	overflow: scroll;
+	overflow-x: hidden;
 }
+
 .modal-form-create-card-content::-webkit-scrollbar {
 	width: 0;
 }
 
 .card-column-one {
-	max-width: 600px;
+	max-width: 450px;
+	min-width: 450px;
 }
 
 .card-column-one textarea {
@@ -40,7 +44,15 @@
 	min-height: 150px;
 }
 
-.activeModalCard {
+.active-modal-card {
 	opacity: 1;
 	pointer-events: auto;
+}
+
+.input-description-card textarea::-webkit-scrollbar {
+	width: 0;
+}
+
+.list-comments::-webkit-scrollbar {
+	width: 0;
 }

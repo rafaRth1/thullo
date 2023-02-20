@@ -5,24 +5,20 @@ export const appSlice = createSlice({
 	name: 'appReducer',
 	initialState,
 	reducers: {
-		loadingStart(state: AppTypes) {},
+		loadingStart: (state: AppTypes) => {},
 
-		handleShowModal(state: AppTypes, action: any) {
+		handleShowModal: (state: AppTypes, action: any) => {
 			state.showModal = action.payload;
 		},
 
-		handleShowModalCard(state: AppTypes, action: any) {
+		handleShowModalCard: (state: AppTypes, action: any) => {
 			state.showModalCard = action.payload;
 		},
 
-		addListItem(state: AppTypes, action: any) {
-			state.lists = [action.payload, ...state.lists];
-		},
-
-		addCardtoList(state: AppTypes, action: any) {
-			// state.lists =
+		setImages: (state: AppTypes, action: any) => {
+			state.resultImages = action.payload;
 		},
 	},
 });
 
-export const { handleShowModal, addListItem, handleShowModalCard, addCardtoList } = appSlice.actions;
+export const { handleShowModal, handleShowModalCard, setImages } = appSlice.actions;
