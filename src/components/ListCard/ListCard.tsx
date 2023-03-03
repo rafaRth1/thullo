@@ -1,6 +1,6 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useRef } from 'react';
 import { useProvider } from '../../hooks';
-import { AddElementLabel, Card, ModalFormCreateCard, ModalRename } from '../';
+import { AddElementLabel, Card, ModalFormCreateCard, ModalRename, StrictModeDroppable } from '../';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 import clientAxios from '../../config/clientAxios';
 import { CardUpdateProps } from './types/CardUpdateProps';
@@ -25,6 +25,7 @@ export const ListCard = memo(({ list, isDragging, handleDragging }: Props): JSX.
 		description: '',
 		imgUlr: '',
 		labels: [],
+		index: '',
 	});
 
 	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -154,7 +155,7 @@ export const ListCard = memo(({ list, isDragging, handleDragging }: Props): JSX.
 					</div>
 				</div>
 
-				<div className='cards flex-1'>
+				<div className='flex-1'>
 					{cards.map((card: any) => (
 						<Card
 							key={card._id}
@@ -180,6 +181,7 @@ export const ListCard = memo(({ list, isDragging, handleDragging }: Props): JSX.
 									description: '',
 									imgUlr: '',
 									labels: [],
+									index: '',
 								});
 						}}
 					/>

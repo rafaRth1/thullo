@@ -6,4 +6,5 @@ export interface CardUpdateProps {
 	description: string;
 	imgUlr: string;
 	labels: never[];
+	index: string;
 }

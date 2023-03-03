@@ -12,3 +12,6 @@ export * from './ModalCreateBoard/ModalCreateBoard';
 export * from './CardBoard';
 export * from './Alerta';
 export * from './ModalRename';
+export * from './StrictModeDroppable';
+export * from './ListTaskCard';
+export * from './TaskCard';
