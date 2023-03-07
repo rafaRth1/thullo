@@ -1,8 +1,8 @@
-export const applyDrag = (arr: any, dragResult: any) => {
+export const applyDrag = (lists: any[], dragResult: any) => {
 	const { removedIndex, addedIndex, payload } = dragResult;
-	if (removedIndex === null && addedIndex === null) return arr;
+	if (removedIndex === null && addedIndex === null) return lists;
 
-	const result = [...arr];
+	const result = [...lists];
 	let itemToAdd = payload;
 
 	if (removedIndex !== null) {

@@ -1,38 +1,23 @@
-import { Draggable } from 'react-beautiful-dnd';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
+import { Draggable } from 'react-smooth-dnd';
 
 interface Props {
 	taskCard: any;
-	index: number;
+	index?: number;
 	handleEditCard: any;
 }
 
-const grid = 8;
-
-const getItemStyle = (isDragging: any, draggableStyle: any) => ({
-	padding: grid * 2,
-	margin: `0 0 ${grid}px 0`,
-	...draggableStyle,
-});
-
-export const TaskCard = ({ taskCard, index, handleEditCard }: Props) => {
+export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 	return (
-		<Draggable
-			draggableId={taskCard._id}
-			index={index}>
-			{(provided: any, snapshot: any) => (
+		<>
+			<Draggable>
 				<div
 					// border-dashed border-blue-400 border-4
 					className={`card-container rounded-2xl mb-3 z-0 transition-colors relative touch-none select-none`}
 					onClick={() => {
 						handleEditCard(taskCard);
 					}}>
-					<div
-						ref={provided.innerRef}
-						{...provided.draggableProps}
-						{...provided.dragHandleProps}
-						style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-						className='card-content  bg-neutral-800 p-2 shadow-xl rounded-2xl cursor-move'>
+					<div className='card-content bg-neutral-800 p-2 shadow-xl rounded-2xl cursor-move'>
 						<div className='card-image'>
 							{!!taskCard.imgUlr ? (
 								<img
@@ -83,19 +68,9 @@ export const TaskCard = ({ taskCard, index, handleEditCard }: Props) => {
 								</div>
 							</div>
 						</div>
-
-						{/* <button
-								type='button'
-								onClick={() => {
-									const newState = [...lists];
-									newState[ind].cards.splice(index, 1);
-									setLists(newState);
-								}}>
-								delete
-							</button> */}
 					</div>
 				</div>
-			)}
-		</Draggable>
+			</Draggable>
+		</>
 	);
 };

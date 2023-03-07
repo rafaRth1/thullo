@@ -1,8 +1,14 @@
 import { createContext } from 'react';
 
 export interface AppContextProps {
-	lists: any[];
-	setLists: React.Dispatch<React.SetStateAction<any[]>>;
+	lists: {
+		lists: any[];
+	};
+	setLists: React.Dispatch<
+		React.SetStateAction<{
+			lists: any[];
+		}>
+	>;
 	project: any;
 	setProject: React.Dispatch<React.SetStateAction<{}>>;
 	projects: any[];

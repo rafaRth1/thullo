@@ -10,8 +10,9 @@ interface Props {
 export const AppProvider = ({ children }: Props) => {
 	const [project, setProject] = useState<any>({});
 	const [projects, setProjects] = useState<any[]>([]);
-	const [lists, setLists] = useState<any[]>([]);
-	const [cards, setCards] = useState<any[]>([]);
+	const [lists, setLists] = useState<{
+		lists: any[];
+	}>({ lists: [] });
 	const [alertHigh, setAlertHigh] = useState({ msg: '', error: false });
 	const [modalFormList, setModalFormList] = useState(false);
 	const [overflow, setOverflow] = useState(false);
@@ -41,7 +42,7 @@ export const AppProvider = ({ children }: Props) => {
 				config
 			);
 
-			setLists((prevList) => [...prevList, data]);
+			setLists({ lists: [...lists.lists, data] });
 
 			setAlertHigh({
 				msg: 'Lista Creada',
@@ -65,29 +66,29 @@ export const AppProvider = ({ children }: Props) => {
 	};
 
 	const handleUpdateList = async (idCard: string, idList: string) => {
-		let listNext = lists.find((list: any) => list._id === idList);
-		let listPrev: any;
-		let cardPrev: any;
-		lists.map((list: any) => {
-			list.taskCards.map((card: any) => {
-				if (card._id === idCard) {
-					cardPrev = card;
-					listPrev = list;
-				}
-			});
-		});
-		let cardRemove: any[] = listPrev.taskCards.filter((item: any) => item._id !== idCard);
-		if (listNext._id === listPrev._id) {
-			listPrev.taskCards = [...listPrev.taskCards];
-		} else {
-			await clientAxios.post(`/list/${idCard}`, {
-				listIdNext: listNext._id,
-				listIdPrev: listPrev._id,
-			});
-			listNext.taskCards = [...listNext.taskCards, cardPrev];
-			listPrev.taskCards = [...cardRemove];
-			setLists([...lists]);
-		}
+		// let listNext = lists.find((list: any) => list._id === idList);
+		// let listPrev: any;
+		// let cardPrev: any;
+		// lists.map((list: any) => {
+		// 	list.taskCards.map((card: any) => {
+		// 		if (card._id === idCard) {
+		// 			cardPrev = card;
+		// 			listPrev = list;
+		// 		}
+		// 	});
+		// });
+		// let cardRemove: any[] = listPrev.taskCards.filter((item: any) => item._id !== idCard);
+		// if (listNext._id === listPrev._id) {
+		// 	listPrev.taskCards = [...listPrev.taskCards];
+		// } else {
+		// 	await clientAxios.post(`/list/${idCard}`, {
+		// 		listIdNext: listNext._id,
+		// 		listIdPrev: listPrev._id,
+		// 	});
+		// 	listNext.taskCards = [...listNext.taskCards, cardPrev];
+		// 	listPrev.taskCards = [...cardRemove];
+		// 	setLists([...lists]);
+		// }
 	};
 
 	const showModalFormList = () => {

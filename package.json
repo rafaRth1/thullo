@@ -18,7 +18,7 @@
     "react-icons": "^4.6.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
-    "react-smooth-dnd": "^0.11.1"
+    "react-smooth-dnd": "patch:react-smooth-dnd@npm:0.11.1#../.yarn/patches/react-smooth-dnd-npm-0.11.1-2550ef032f.patch"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
