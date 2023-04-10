@@ -1,4 +1,6 @@
 import { createContext } from 'react';
+import { CardStateProps } from '../components/ListTaskCard/ListTaskCardTypes';
+import { CancelTokenSource } from 'axios';
 
 export interface AppContextProps {
 	lists: {
@@ -9,11 +11,19 @@ export interface AppContextProps {
 			lists: any[];
 		}>
 	>;
-	project: any;
-	setProject: React.Dispatch<React.SetStateAction<{}>>;
+	project: {
+		_id?: '';
+		name: '';
+		description: '';
+		collaborators: any[];
+	};
+	setProject: React.Dispatch<
+		React.SetStateAction<{ _id?: ''; name: ''; description: ''; collaborators: any[] }>
+	>;
 	projects: any[];
 	setProjects: React.Dispatch<React.SetStateAction<any[]>>;
-	handleAddList: (e: any, nameList: string, id?: string) => Promise<void>;
+	listCurrent: string;
+	setListCurrent: React.Dispatch<React.SetStateAction<string>>;
 	alertHigh: {
 		msg: string;
 		error: boolean;
@@ -24,13 +34,23 @@ export interface AppContextProps {
 			error: boolean;
 		}>
 	>;
+	handleAddList: (e: any, nameList: string, id?: string) => Promise<void>;
 	modalFormList: boolean;
 	showModalFormList: () => void;
+	modalRename: boolean;
+	setModalRename: React.Dispatch<React.SetStateAction<boolean>>;
 	handleUpdateList: (idCard: string, idList: string) => Promise<void>;
 	overflow: boolean;
 	setOverflow: React.Dispatch<React.SetStateAction<boolean>>;
 	loading: boolean;
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+	submitCard: (cardState: CardStateProps) => Promise<void>;
+	isShowModalCard: boolean;
+	setIsShowModalCard: React.Dispatch<React.SetStateAction<boolean>>;
+	cardUpdate: CardStateProps;
+	setCardUpdate: React.Dispatch<React.SetStateAction<CardStateProps>>;
+	getProject: (id: string | undefined, cancelToken: CancelTokenSource) => Promise<void>;
+	getLists: (id: string | undefined, cancelToken: CancelTokenSource) => Promise<void>;
 }
 
 export const AppContext = createContext<AppContextProps>({} as AppContextProps);

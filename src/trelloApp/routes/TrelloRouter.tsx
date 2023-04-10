@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Profile } from '../../pages';
-import { BoardTrello, ListBoard } from '../../views';
+import { BoardContainer, Profile } from '../../pages';
 import { TrelloLayout } from './TrelloLayout';
+import { ListBoard } from '../../components';
 
 export const TrelloRouter = () => {
 	return (
@@ -16,7 +16,7 @@ export const TrelloRouter = () => {
 
 				<Route
 					path='board/:id'
-					element={<BoardTrello />}
+					element={<BoardContainer />}
 				/>
 
 				{/* <Route

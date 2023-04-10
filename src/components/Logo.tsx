@@ -1,11 +1,18 @@
 import LogoSVG from '../assets/Logo.svg';
 
-export const Logo = () => {
+interface PropsLogo {
+	width?: number;
+	height?: number;
+}
+
+export const Logo = ({ width, height }: PropsLogo) => {
 	return (
 		<div className='logo mr-6 cursor-pointer'>
 			<img
 				src={LogoSVG}
 				alt='Logo'
+				width={width}
+				height={height}
 			/>
 		</div>
 	);

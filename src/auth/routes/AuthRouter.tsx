@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ConfirmEmail, ForgetPassword, Login, NewPassword, Register } from '../pages';
-import { AuthLayout } from './AuthLayout';
+import { AuthLayout } from './AuthLayout/AuthLayout';
 
 export const AuthRouter = () => {
 	return (

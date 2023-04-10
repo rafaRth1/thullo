@@ -1,5 +1,5 @@
 export const formData = {
-	id: '',
+	_id: '',
 	nameCard: '',
 	imgUlr: '',
 	description: '',

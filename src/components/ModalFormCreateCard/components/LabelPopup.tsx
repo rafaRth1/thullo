@@ -5,15 +5,10 @@ interface Props {
 	nameLabel: string;
 	children?: JSX.Element;
 	IconLabel: any;
-	clearValue: boolean;
 }
 
-export const LabelPopup = ({ children, nameLabel, IconLabel, clearValue }: Props) => {
+export const LabelPopup = ({ children, nameLabel, IconLabel }: Props) => {
 	const [isShow, setIsShow] = useState(false);
-
-	useEffect(() => {
-		setIsShow(false);
-	}, [clearValue]);
 
 	return (
 		<>

@@ -1,121 +1,111 @@
-import { useState, useEffect } from 'react';
+import clientAxios from '../../../config/clientAxios';
+import { useState } from 'react';
 import { LabelPopup } from './';
+import { pickColors } from '../../../utils/pickColor';
 import { IoPricetag } from 'react-icons/io5';
+import { useProvider } from '../../../hooks';
 
-const colors = [
-	{
-		name: 'green',
-		color: '#16a34a',
-		color_light: '#86efac',
-	},
-
-	{
-		name: 'yellow',
-		color: '#eab308',
-		color_light: '#fde047',
-	},
-
-	{
-		name: 'orange',
-		color: '#f97316',
-		color_light: '#fdba74',
-	},
-
-	{
-		name: 'red',
-		color: '#ef4444',
-		color_light: '#fca5a5',
-	},
-
-	{
-		name: 'blue',
-		color: '#3b82f6',
-		color_light: '#93c5fd',
-	},
-
-	{
-		name: 'sky',
-		color: '#0ea5e9',
-		color_light: '#7dd3fc',
-	},
-
-	{
-		name: 'green-light',
-		color: '#4ade80',
-		color_light: '#16a34a',
-	},
-
-	{
-		name: 'slate',
-		color: '#64748b',
-		color_light: '#475569',
-	},
-
-	{
-		name: 'gray-light',
-		color: '#9ca3af',
-		color_light: '#4b5563',
-	},
-];
-
-export const SectionLabels = ({ formState, setFormState, clearValue }: any) => {
-	const [valueSearch, setValueSearch] = useState<any>({
+export const SectionLabels = ({ formState, setFormState }: any) => {
+	const [stateToggle, setStateToggle] = useState(0);
+	const { lists, setLists, cardUpdate } = useProvider();
+	const [value, setValue] = useState({
 		nameLabel: '',
 		palet: {
 			name: 'green',
 			color: '#16a34a',
+			color_light: '#86efac',
 		},
 	});
 
-	const [stateToggle, setStateToggle] = useState(0);
-
-	// const paletItems = document.querySelectorAll('.palet-colors-item');
-	// const paletColor = document.querySelector('.palet-colors');
-	// paletItems[0]?.classList.add('active-palet-color');
-
-	// paletItems.forEach((item) => {
-	// 	item.addEventListener('click', () => {
-	// 		paletColor?.querySelector('.active-palet-color')?.classList.remove('active-palet-color');
-	// 		item.classList.add('active-palet-color');
-	// 	});
-	// });
-
-	const handleSelectColor = (palet: { name: string; color: string }, index: number) => {
+	const handleSelectColor = (palet: { name: string; color: string; color_light: string }, index: number) => {
 		setStateToggle(index);
-		setValueSearch({ ...valueSearch, palet });
+		setValue({ ...value, palet });
 	};
 
-	const handleAddLabel = () => {
-		setFormState((prevState: any) => ({
-			...prevState,
-			labels: [...prevState.labels, valueSearch],
-		}));
+	const handleAddLabel = async () => {
+		if (value.nameLabel.length <= 2) {
+			return;
+		}
+
+		const listUpdate = { ...lists };
+		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const columnIndex = listUpdate.lists.indexOf(column);
+		const newColumn = { ...column };
+
+		try {
+			const { data } = await clientAxios.post(`/taskCard/label/${formState._id}`, {
+				nameLabel: value.nameLabel,
+				nameColor: value.palet.name,
+				color: value.palet.color,
+				color_light: value.palet.color_light,
+			});
+
+			const formStateUpdate = { ...formState };
+			formStateUpdate.labels = [...formStateUpdate.labels, data];
+			setFormState(formStateUpdate);
+
+			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
+			);
+
+			newColumn.taskCards = [...taskCardUpdate];
+			listUpdate.lists.splice(columnIndex, 1, newColumn);
+			setLists(listUpdate);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const handleRemoveAvailable = (id: number) => {
-		const updateArraLabels = formState.labels.filter((label: any, index: number) => index !== id);
-		setFormState((prevState: any) => ({
-			...prevState,
-			labels: updateArraLabels,
-		}));
+	const handleRemoveAvailable = async (id: string) => {
+		const listUpdate = { ...lists };
+		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const columnIndex = listUpdate.lists.indexOf(column);
+		const newColumn = { ...column };
+
+		try {
+			const { data } = await clientAxios.post(`/taskCard/label-delete/${formState._id}`, {
+				idLabel: id,
+			});
+
+			const formStateUpdate = { ...formState };
+			formStateUpdate.labels = formStateUpdate.labels.filter(
+				(labels: { _id: string }) => labels._id !== id
+			);
+			setFormState(formStateUpdate);
+
+			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
+			);
+
+			newColumn.taskCards = [...taskCardUpdate];
+			listUpdate.lists.splice(columnIndex, 1, newColumn);
+			setLists(listUpdate);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	useEffect(() => {
-		setValueSearch({
-			nameLabel: '',
-			palet: {
-				name: 'green',
-				color: '#16a34a',
-			},
-		});
-	}, [clearValue]);
+	// useEffect(() => {
+	// 	const paletItems = document.querySelectorAll('.palet-colors-item');
+	// 	const paletColor = document.querySelector('.palet-colors');
+
+	// 	paletItems.forEach((item) => {
+	// 		item.addEventListener('click', () => {
+	// 			paletColor?.querySelector('.active-palet-color')?.classList.remove('active-palet-color');
+	// 			item.classList.add('active-palet-color');
+	// 		});
+	// 	});
+
+	// 	return () => {
+	// 		paletItems[0]?.classList.remove('active-palet-color');
+	// 	};
+	// }, []);
 
 	return (
 		<div className='mt-2'>
 			<LabelPopup
 				nameLabel='Labels'
-				IconLabel={IoPricetag}
-				clearValue={clearValue}>
+				IconLabel={IoPricetag}>
 				<div
 					className='popup-labels absolute mt-2 z-30 bg-neutral-700 rounded-xl p-2 flex flex-col'
 					style={{ width: '245px' }}>
@@ -125,17 +115,20 @@ export const SectionLabels = ({ formState, setFormState, clearValue }: any) => {
 					</div>
 
 					<div className='image-search flex relative items-center my-3'>
-						<input
-							type='text'
-							placeholder='Label..'
-							className='w-full p-2 rounded bg-neutral-500 text-white text-xs focus-visible:outline-none'
-							value={valueSearch.nameLabel}
-							onChange={(e) => setValueSearch({ ...valueSearch, nameLabel: e.target.value })}
-						/>
+						<label htmlFor='label'>
+							<input
+								type='text'
+								name='label'
+								placeholder='Ejm: Design'
+								className='w-full p-2 rounded bg-neutral-500 text-white text-xs focus-visible:outline-none capitalize'
+								value={value.nameLabel}
+								onChange={(e) => setValue({ ...value, nameLabel: e.target.value })}
+							/>
+						</label>
 					</div>
 
 					<div className='palet-colors flex flex-wrap'>
-						{colors.map((palet, index) => (
+						{pickColors.map((palet, index) => (
 							<div
 								key={index}
 								style={{ width: '49px', height: '27px', background: `${palet.color}` }}
@@ -146,7 +139,7 @@ export const SectionLabels = ({ formState, setFormState, clearValue }: any) => {
 						))}
 					</div>
 
-					<div className='labels-made'>
+					<div className='labels-made mb-3'>
 						<div className='text-neutral-300 p-1'>
 							<IoPricetag
 								size={15}
@@ -155,18 +148,19 @@ export const SectionLabels = ({ formState, setFormState, clearValue }: any) => {
 							<span className='text-xs'>Available</span>
 						</div>
 
-						{formState?.labels.map((label: any, index: number) => (
+						{formState?.labels.map((label: any) => (
 							<div
-								key={index}
+								key={label._id}
 								className={`all-board inline-flex items-center rounded-lg py-1 px-3 mt-1 mx-2 text-xs cursor-pointer h-6`}
-								style={{ background: label.palet.color_light }}
-								onClick={() => handleRemoveAvailable(index)}>
-								<span style={{ color: label.palet.color }}>{label.nameLabel}</span>
+								style={{ background: label.color_light }}
+								onClick={() => handleRemoveAvailable(label._id)}>
+								<span style={{ color: label.color }}>{label.nameLabel}</span>
 							</div>
 						))}
 					</div>
 
 					<button
+						type='button'
 						className='bg-blue-600 text-white py-1 px-5 rounded-lg text-xs mx-auto'
 						onClick={handleAddLabel}>
 						Add

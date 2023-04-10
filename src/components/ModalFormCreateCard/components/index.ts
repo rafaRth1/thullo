@@ -1,6 +1,6 @@
 export * from './CardColumnOne';
 export * from './SectionDescription';
-export * from './SectionComments';
+export * from './SectionComments/SectionComments';
 export * from './SectionAttachments';
 export * from './ImageModalCard';
 export * from './InputNameCard';

@@ -1,47 +1,64 @@
-import { useState, useEffect } from 'react';
-import { useProvider } from '../hooks';
-import { AddElementLabel, ModalFormCreateCard, ModalRename, TaskCard } from './';
+import clientAxios from '../../config/clientAxios';
+import { useState } from 'react';
+import { useProvider } from '../../hooks';
+import { AddElementLabel, ModalRename, TaskCard } from '..';
 import { Container, Draggable } from 'react-smooth-dnd';
-import { applyDrag } from '../utils';
-import { CardUpdateProps } from './ListCard/types/CardUpdateProps';
+import { applyDrag } from '../../utils';
+import { CardStateProps } from './ListTaskCardTypes';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
-import clientAxios from '../config/clientAxios';
 
-let card: CardUpdateProps = {
-	id: '',
+interface PropsListTaskCard {
+	list: {
+		_id: string;
+		name: string;
+		project: string;
+		taskCards: CardStateProps[];
+	};
+}
+
+let card: CardStateProps = {
+	_id: '',
 	nameCard: '',
-	attachments: [],
-	comments: [],
 	description: '',
 	imgUlr: '',
+	members: [],
+	attachments: [],
+	comments: [],
 	labels: [],
-	index: '',
 };
 
-export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
-	const [taskCards, setTaskCards] = useState<any[]>(list.taskCards);
-	const [isShowModalCard, setIsShowModalCard] = useState(false);
-	const [modalRename, setModalRename] = useState(false);
+export const ListTaskCard = ({ list }: PropsListTaskCard): JSX.Element => {
 	const [showMenuList, setShowMenuList] = useState(false);
-	const { lists, setLists, setOverflow } = useProvider();
-	const [cardUpdate, setCardUpdate] = useState(card);
+	const {
+		lists,
+		setLists,
+		setListCurrent,
+		isShowModalCard,
+		setIsShowModalCard,
+		setCardUpdate,
+		setModalRename,
+	} = useProvider();
 
-	const handleEditCard = (card: any) => {
+	const handleEditCard = (card: CardStateProps) => {
 		setIsShowModalCard(true);
 		setCardUpdate(card);
 	};
 
 	const handleEditList = () => {
 		setModalRename(true);
+		setListCurrent(list._id);
 	};
 
-	const onCardDrop = async (columnId: any, dropResult: any) => {
+	const onCardDrop = async (
+		columnId: string,
+		dropResult: { addedIndex: number | null; payload?: CardStateProps; removedIndex: number | null }
+	) => {
 		if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-			const project = Object.assign({}, lists);
-			const [column] = project.lists.filter((p: any) => p._id === columnId);
+			const project = { ...lists };
+			const [column] = project.lists.filter((list: { _id: string }) => list._id === columnId);
 			const columnIndex = project.lists.indexOf(column);
 
-			const newColumn = Object.assign({}, column);
+			const newColumn = { ...column };
 			newColumn.taskCards = applyDrag(newColumn.taskCards, dropResult);
 			project.lists.splice(columnIndex, 1, newColumn);
 			setLists(project);
@@ -52,6 +69,7 @@ export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
 				try {
 					await clientAxios.put(`/list/update-list/${column._id}`, {
 						taskCards: newColumn.taskCards,
+						_idTaskCard: dropResult.payload?._id,
 					});
 				} catch (error) {
 					console.log(error);
@@ -60,21 +78,17 @@ export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
 		}
 	};
 
-	const getCardPayload = (columnId: any, index: any) => {
-		return lists.lists.filter((p: any) => p._id === columnId)[0].taskCards[index];
+	const getCardPayload = (columnId: string, index: number) => {
+		return lists.lists.filter((p: { _id: string }) => p._id === columnId)[0].taskCards[index];
 	};
-
-	useEffect(() => {
-		setTaskCards(list.taskCards);
-	}, [lists.lists]);
 
 	return (
 		<>
 			<Draggable>
 				<div className='contenedor-list relative'>
-					<div className='content-list max-h-full flex flex-col'>
-						<div className='header-list mb-5 flex justify-between items-center cursor-pointer'>
-							<span className='column-drag-handle'>&#x2630;</span>
+					<div className='content-list max-h-full'>
+						<div className='header-list mb-5 px-2 flex justify-between  items-center cursor-pointer'>
+							{/* <span className='column-drag-handle'>&#x2630;</span> */}
 							<span className='flex-1 text-white'>{list.name}</span>
 
 							<div className='relative'>
@@ -93,7 +107,7 @@ export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
 									}`}>
 									<span
 										className='text-yellow-500 hover:text-yellow-600 text-md p-2'
-										onClick={handleEditList}>
+										onClick={() => handleEditList()}>
 										Rename
 									</span>
 
@@ -107,34 +121,20 @@ export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
 							</div>
 						</div>
 					</div>
+
 					<Container
 						orientation='vertical'
 						groupName='col'
-						onDragStart={(e) => {
-							// console.log('drag started', e);
-						}}
-						onDragEnd={(e) => {
-							// console.log('drag end', e);
-						}}
 						onDrop={(e) => onCardDrop(list._id, e)}
 						getChildPayload={(index) => getCardPayload(list._id, index)}
 						dragClass='card-ghost'
 						dropClass='card-ghost-drop'
-						onDragEnter={() => {
-							// console.log('drag enter:', column.id);
-						}}
-						onDragLeave={() => {
-							// console.log('drag leave:', list.id);
-						}}
-						onDropReady={(p) => {
-							// console.log('Drop ready: ', p);
-						}}
 						dropPlaceholder={{
-							animationDuration: 150,
+							animationDuration: 250,
 							showOnTop: true,
 							className: 'drop-preview',
 						}}>
-						{list.taskCards.map((taskCard: any) => (
+						{list.taskCards.map((taskCard) => (
 							<TaskCard
 								key={taskCard._id}
 								taskCard={taskCard}
@@ -143,31 +143,14 @@ export const ListTaskCard = ({ list, indexList }: any): JSX.Element => {
 						))}
 					</Container>
 
-					<div className='mt-5'>
+					<div className='mt-2'>
 						<AddElementLabel
 							text='Add Another Card'
 							handleDispatch={() => {
-								setIsShowModalCard(!isShowModalCard), setOverflow(true), setCardUpdate(card);
+								setIsShowModalCard(!isShowModalCard), setCardUpdate(card), setListCurrent(list._id);
 							}}
 						/>
 					</div>
-
-					<ModalFormCreateCard
-						idList={list._id}
-						list={list}
-						isShowModalCard={isShowModalCard}
-						setIsShowModalCard={setIsShowModalCard}
-						cardUpdate={cardUpdate}
-						cards={taskCards}
-						setCards={setTaskCards}
-					/>
-
-					<ModalRename
-						modalRename={modalRename}
-						setModalRename={setModalRename}
-						list={list}
-						setShowMenuList={setShowMenuList}
-					/>
 				</div>
 			</Draggable>
 		</>

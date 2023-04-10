@@ -1,11 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Logo } from '../../components';
 import clientAxios from '../../config/clientAxios';
 import { useForm } from '../../hooks';
+import { pickColors } from '../../utils/pickColor';
+
+const color = Math.floor(Math.random() * pickColors.length);
 
 const formData = {
 	name: '',
 	email: '',
 	password: '',
+	colorImg: pickColors[color].color,
 };
 
 const formValidations = {
@@ -30,11 +36,15 @@ export const Register = () => {
 	};
 
 	return (
-		<div className='w-full h-full flex justify-center items-center'>
-			<div className='content-login'>
+		<div className='flex-1 w-full h-full flex flex-col justify-center items-center'>
+			<div className='mt-10 mb-10 mx-auto'>
+				<Logo width={300} />
+			</div>
+
+			<div className='content-login w-full'>
 				<form
-					action='#'
-					className='flex flex-col'
+					style={{ maxWidth: '400px' }}
+					className='flex flex-col mx-auto'
 					onSubmit={handleSubmit}>
 					<div className='mb-4'>
 						<label
@@ -45,7 +55,7 @@ export const Register = () => {
 						<input
 							type='text'
 							name='name'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none'
+							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
 							value={formState.name}
 							onChange={onInputChange}
 						/>
@@ -60,7 +70,7 @@ export const Register = () => {
 						<input
 							type='text'
 							name='email'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none'
+							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
 							value={formState.email}
 							onChange={onInputChange}
 						/>
@@ -73,9 +83,9 @@ export const Register = () => {
 							Password:
 						</label>
 						<input
-							type='text'
+							type='password'
 							name='password'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none'
+							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
 							value={formState.password}
 							onChange={onInputChange}
 						/>
@@ -84,6 +94,14 @@ export const Register = () => {
 					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 mt-4'>
 						Register
 					</button>
+
+					<div className='mt-10'>
+						<Link
+							to='/auth/login'
+							className='text-white text-base block font-light text-center hover:underline'>
+							¿Ya tiene una cuenta?, Inicie Sesión
+						</Link>
+					</div>
 				</form>
 			</div>
 		</div>

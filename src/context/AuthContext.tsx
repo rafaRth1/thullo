@@ -1,8 +1,9 @@
 import { createContext } from 'react';
+import { AuthInterface } from './Types';
 
 export interface AuthContextProps {
-	auth: any;
-	setAuth: React.Dispatch<React.SetStateAction<{}>>;
+	auth: AuthInterface;
+	setAuth: React.Dispatch<React.SetStateAction<AuthInterface>>;
 	loading: boolean;
 }
 

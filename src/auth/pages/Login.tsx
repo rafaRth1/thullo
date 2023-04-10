@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Alerta } from '../../components';
+import { Link } from 'react-router-dom';
+import { Alerta, Logo } from '../../components';
 import clientAxios from '../../config/clientAxios';
 import { useForm } from '../../hooks';
 import { useAuthProvider } from '../../hooks/useAuthProvider';
@@ -37,13 +38,20 @@ export const Login = () => {
 	const { msg } = alerta;
 
 	return (
-		<div className='w-full h-full flex justify-center items-center flex-col'>
+		<div className='flex-1 w-full h-full flex justify-center items-center flex-col my-auto'>
 			{msg && <Alerta alerta={alerta} />}
 
-			<div className='content-login'>
+			<div className='mt-10 mb-10 mx-auto'>
+				<Logo width={300} />
+			</div>
+
+			<section className='content-login w-full'>
 				<form
-					className='flex flex-col'
+					style={{ maxWidth: '400px' }}
+					className='flex flex-col mx-auto p-5'
 					onSubmit={handleSubmit}>
+					<h1 className='text-white font-medium text-2xl text-center mb-10'>Iniciar sesión en Thullo</h1>
+
 					<div className='mb-5'>
 						<label
 							htmlFor='email'
@@ -53,7 +61,7 @@ export const Login = () => {
 						<input
 							type='text'
 							name='email'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none'
+							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
 							value={formState.email}
 							onChange={onInputChange}
 						/>
@@ -66,17 +74,30 @@ export const Login = () => {
 							Password:
 						</label>
 						<input
-							type='text'
+							type='password'
 							name='password'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none'
+							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
 							value={formState.password}
 							onChange={onInputChange}
 						/>
 					</div>
 
 					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700'>Login</button>
+
+					<div className='mt-10'>
+						<Link
+							to='/auth/forget-password'
+							className='text-white text-base block font-light text-center hover:underline'>
+							¿No puedes iniciar Sesión?
+						</Link>
+						<Link
+							to='/auth/register'
+							className='text-white text-base block font-light text-center hover:underline'>
+							¿No tiene una cuenta?, Registrese
+						</Link>
+					</div>
 				</form>
-			</div>
+			</section>
 		</div>
 	);
 };

@@ -1,5 +1,3 @@
-export * from './ListCard/ListCard';
-export * from './Card';
 export * from './ModalFormCreateCard/ModalFormCreateCard';
 export * from './ModalFormCreateList/ModalFormCreateList';
 export * from './ImageProfile/ImageProfile';
@@ -12,6 +10,7 @@ export * from './ModalCreateBoard/ModalCreateBoard';
 export * from './CardBoard';
 export * from './Alerta';
 export * from './ModalRename';
-export * from './StrictModeDroppable';
-export * from './ListTaskCard';
+export * from './ListTaskCard/ListTaskCard';
 export * from './TaskCard';
+export * from './Modal/Modal';
+export * from './ListBoard';

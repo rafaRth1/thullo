@@ -2,16 +2,9 @@ import { useState } from 'react';
 import clientAxios from '../config/clientAxios';
 import { useProvider } from '../hooks';
 
-interface Props {
-	modalRename: boolean;
-	setModalRename: React.Dispatch<React.SetStateAction<boolean>>;
-	list: any;
-	setShowMenuList: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const ModalRename = ({ modalRename, setModalRename, list, setShowMenuList }: Props) => {
+export const ModalRename = () => {
 	const [nameList, setNameList] = useState('');
-	const { setAlertHigh, setOverflow } = useProvider();
+	const { setLists, modalRename, setModalRename, listCurrent, setListCurrent, lists } = useProvider();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -25,34 +18,21 @@ export const ModalRename = ({ modalRename, setModalRename, list, setShowMenuList
 				},
 			};
 
-			const { data } = await clientAxios.put(`/list/${list._id}`, { name: nameList }, config);
+			const listUpdate = Object.assign({}, lists);
+			const [column] = listUpdate.lists.filter((list: any) => list._id === listCurrent);
+			const columnIndex = listUpdate.lists.indexOf(column);
+			const newColumn = Object.assign({}, column);
 
+			const { data } = await clientAxios.put(`/list/${listCurrent}`, { name: nameList }, config);
+
+			newColumn.name = data.name;
+			listUpdate.lists.splice(columnIndex, 1, newColumn);
+			setLists(listUpdate);
+
+			setListCurrent('');
 			setModalRename(false);
-			setShowMenuList(false);
-
-			setAlertHigh({
-				msg: data.msg,
-				error: false,
-			});
-
-			setTimeout(() => {
-				setAlertHigh({
-					msg: '',
-					error: false,
-				});
-			}, 3000);
 		} catch (error: any) {
-			setAlertHigh({
-				msg: error.response.data.msg,
-				error: true,
-			});
-
-			setTimeout(() => {
-				setAlertHigh({
-					msg: '',
-					error: false,
-				});
-			}, 3000);
+			console.log(error);
 		}
 	};
 
@@ -79,7 +59,7 @@ export const ModalRename = ({ modalRename, setModalRename, list, setShowMenuList
 			<div
 				className='absolute top-0 left-0 w-full h-full z-40'
 				onClick={() => {
-					setModalRename(false), setOverflow(false), setShowMenuList(false);
+					setModalRename(false);
 				}}></div>
 		</div>
 	);

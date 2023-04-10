@@ -23,7 +23,8 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 	const { setProjects } = useProvider();
 
 	const handleAddBoard = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		if (value.name_title.length <= 2) {
+		if (value.name_title.length <= 2 || value.type === '') {
+			console.log('Elige el tipo');
 			return;
 		}
 
@@ -127,8 +128,9 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 								name='select-status'
 								className='bg-neutral-600 text-white rounded-md block w-full text-sm'
 								onChange={(e) => setValue({ ...value, type: e.target.value })}>
-								<option value='public'>Public</option>
-								<option value='private'>Private</option>
+								<option value=''>--Seleccionar--</option>
+								<option value='public'> Public </option>
+								<option value='private'> Private </option>
 							</select>
 						</div>
 

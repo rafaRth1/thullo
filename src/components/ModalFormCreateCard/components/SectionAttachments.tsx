@@ -11,15 +11,15 @@ export const SectionAttachments = ({ formState }: any) => {
 	const fileInputRef: any = useRef(null);
 
 	const handleAddAttachment = async () => {
-		formState.attachments = [...formState.attachments, { id: Date.now(), ...attachement }];
-		setLists((list) => [...list]);
-		setAttachement({ name: '', file: '', name_img: '' });
+		// formState.attachments = [...formState.attachments, { id: Date.now(), ...attachement }];
+		// setLists((list) => [...list]);
+		// setAttachement({ name: '', file: '', name_img: '' });
 	};
 
 	const handleDeleteAttachment = (id: number) => {
-		const deleteComment = formState.attachments.filter((attachment: any) => attachment.id !== id);
-		formState.attachments = [...deleteComment];
-		setLists((list) => [...list]);
+		// const deleteComment = formState.attachments.filter((attachment: any) => attachment.id !== id);
+		// formState.attachments = [...deleteComment];
+		// setLists((list) => [...list]);
 	};
 
 	const handleFileUploadImage = async (image: FileList) => {
@@ -100,7 +100,9 @@ export const SectionAttachments = ({ formState }: any) => {
 								className='hidden'
 								ref={fileInputRef}
 							/>
-							<button className='border-2 py-1 px-3 mr-2 rounded-xl border-neutral-700 text-neutral-500 text-sm'>
+							<button
+								type='button'
+								className='border-2 py-1 px-3 mr-2 rounded-xl border-neutral-700 text-neutral-500 text-sm'>
 								Upload file
 							</button>
 						</div>
@@ -139,10 +141,13 @@ export const SectionAttachments = ({ formState }: any) => {
 							</div>
 
 							<div className='actions-attachments'>
-								<button className='border-2 py-1 px-3 mr-2 rounded-xl border-neutral-700 text-neutral-500 text-sm'>
+								<button
+									type='button'
+									className='border-2 py-1 px-3 mr-2 rounded-xl border-neutral-700 text-neutral-500 text-sm'>
 									Download
 								</button>
 								<button
+									type='button'
 									className='border-2 py-1 px-3 rounded-xl border-neutral-700 text-neutral-500 text-sm'
 									onClick={() => handleDeleteAttachment(attach.id)}>
 									Delete

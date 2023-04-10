@@ -1,18 +1,19 @@
-import { ImageProfile, LabelElement } from '../components';
-import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed, IoSearchSharp } from 'react-icons/io5';
-import ImagePerfilEx from '../assets/PerfilImage.png';
-import { useEffect, useRef, useState } from 'react';
-import clientAxios from '../config/clientAxios';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useProvider } from '../hooks';
+import { ImageProfile, LabelElement } from '../components';
+import { useAuthProvider, useProvider } from '../hooks';
+import clientAxios from '../config/clientAxios';
 import { MenuProject } from './MenuProject';
+import ImagePerfilEx from '../assets/PerfilImage.png';
+import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed, IoSearchSharp } from 'react-icons/io5';
 
-export const SubHeader = () => {
+export const SubHeader = (): JSX.Element => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [userSearch, setUserSearch] = useState('');
-	const [collaborator, setCollaborator] = useState({ name: '', email: '', _id: '' });
+	const [collaborator, setCollaborator] = useState({ name: '', email: '', _id: '', colorImg: '' });
 	const { project, setProject } = useProvider();
+	const { auth } = useAuthProvider();
 	const { id } = useParams();
 	const navigation = useNavigate();
 
@@ -64,6 +65,7 @@ export const SubHeader = () => {
 			);
 
 			setProject(data);
+			setCollaborator({ name: '', email: '', _id: '', colorImg: '' });
 		} catch (error) {
 			console.log(error);
 		}
@@ -84,6 +86,8 @@ export const SubHeader = () => {
 							<ImageProfile
 								key={collaborator._id}
 								name={collaborator.name}
+								color={collaborator.colorImg}
+								imageProfile={collaborator.imgUlr}
 							/>
 						))}
 
@@ -129,7 +133,10 @@ export const SubHeader = () => {
 									<div
 										className='collaborator flex items-center p-1 mb-1 cursor-pointer'
 										onClick={handleAddCollaborator}>
-										<ImageProfile imageProfile={ImagePerfilEx} />
+										<ImageProfile
+											name={collaborator.name}
+											color={collaborator.colorImg}
+										/>
 										<span className='text-white font-medium text-lg flex-1'>
 											{collaborator.name}
 										</span>

@@ -4,13 +4,12 @@ import { ImageProfile, LabelElement, Logo } from '../components';
 import { useAuthProvider } from '../hooks/useAuthProvider';
 import { useProvider } from '../hooks';
 import { IoApps, IoArrowDownOutline } from 'react-icons/io5';
-import ImagePerfilEx from '../assets/PerfilImage.png';
 
-export const Header = () => {
+export const Header = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	const { auth, setAuth } = useAuthProvider();
-	const { project, setProject } = useProvider();
+	const { project, setProject, setLists } = useProvider();
 
 	const handleNavigationProfile = () => {
 		navigate(`/profile/${auth._id}`);
@@ -18,14 +17,27 @@ export const Header = () => {
 	};
 
 	const handleLogout = () => {
-		setAuth({});
+		setAuth({
+			_id: '',
+			name: '',
+			email: '',
+			confirm: false,
+			colorImg: '',
+		});
 		localStorage.setItem('token', '');
+	};
+
+	const handleResetProject = () => {
+		setProject({ _id: '', name: '', description: '', collaborators: [] });
+		setLists({ lists: [] });
 	};
 
 	return (
 		<header className='h-auto'>
 			<div className='header-top contenedor-header mx-auto flex items-center border-b-neutral-700 border-b'>
-				<Link to='/board'>
+				<Link
+					to='/board'
+					onClick={handleResetProject}>
 					<Logo />
 				</Link>
 
@@ -35,7 +47,7 @@ export const Header = () => {
 
 				<Link
 					to='/board'
-					onClick={() => setProject({})}>
+					onClick={handleResetProject}>
 					<LabelElement
 						label='All Board'
 						classname='bg-neutral-700'>
@@ -56,7 +68,10 @@ export const Header = () => {
 					<div
 						className='user-session flex items-center cursor-pointer'
 						onClick={() => setOpen(!open)}>
-						<ImageProfile name={auth.name} />
+						<ImageProfile
+							name={auth.name}
+							color={auth.colorImg}
+						/>
 						<span className='text-white'>{auth.name}</span>
 
 						<IoArrowDownOutline className='ml-1 text-white' />

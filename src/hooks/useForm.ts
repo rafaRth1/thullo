@@ -19,8 +19,8 @@ export const useForm = (initialForm = {}, formValidations: any) => {
 		return true;
 	}, [formValidation]);
 
-	const onInputChange = ({ target }: any) => {
-		const { name, value } = target;
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 
 		setFormState({
 			...formState,
