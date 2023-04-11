@@ -5,7 +5,7 @@ interface PropsLogo {
 	height?: number;
 }
 
-export const Logo = ({ width, height }: PropsLogo) => {
+export const Logo = ({ width, height }: PropsLogo): JSX.Element => {
 	return (
 		<div className='logo mr-6 cursor-pointer'>
 			<img

@@ -1,13 +1,18 @@
-import { useState } from 'react';
 import clientAxios from '../config/clientAxios';
+import { useState } from 'react';
 import { useProvider } from '../hooks';
 
-export const ModalRename = () => {
+export const ModalRename = (): JSX.Element => {
 	const [nameList, setNameList] = useState('');
 	const { setLists, modalRename, setModalRename, listCurrent, setListCurrent, lists } = useProvider();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		if (nameList.length <= 4) {
+			return;
+		}
+
 		try {
 			const token = localStorage.getItem('token');
 
@@ -18,20 +23,18 @@ export const ModalRename = () => {
 				},
 			};
 
-			const listUpdate = Object.assign({}, lists);
+			const listUpdate = { ...lists };
 			const [column] = listUpdate.lists.filter((list: any) => list._id === listCurrent);
 			const columnIndex = listUpdate.lists.indexOf(column);
-			const newColumn = Object.assign({}, column);
+			const newColumn = { ...column };
 
 			const { data } = await clientAxios.put(`/list/${listCurrent}`, { name: nameList }, config);
 
 			newColumn.name = data.name;
 			listUpdate.lists.splice(columnIndex, 1, newColumn);
 			setLists(listUpdate);
-
 			setListCurrent('');
-			setModalRename(false);
-		} catch (error: any) {
+		} catch (error) {
 			console.log(error);
 		}
 	};
@@ -56,6 +59,7 @@ export const ModalRename = () => {
 					Edit Name
 				</button>
 			</form>
+
 			<div
 				className='absolute top-0 left-0 w-full h-full z-40'
 				onClick={() => {

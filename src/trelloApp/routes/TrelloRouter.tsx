@@ -3,7 +3,7 @@ import { BoardContainer, Profile } from '../../pages';
 import { TrelloLayout } from './TrelloLayout';
 import { ListBoard } from '../../components';
 
-export const TrelloRouter = () => {
+export const TrelloRouter = (): JSX.Element => {
 	return (
 		<Routes>
 			<Route

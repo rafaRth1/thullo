@@ -7,7 +7,14 @@ interface Props {
 	color: string;
 }
 
-export const ImageProfile = ({ imageProfile, width = '38', height = '38', name, style, color }: Props) => {
+export const ImageProfile = ({
+	imageProfile,
+	width = '38',
+	height = '38',
+	name,
+	style,
+	color,
+}: Props): JSX.Element => {
 	return (
 		<div
 			className='user-image mr-4'

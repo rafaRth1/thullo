@@ -16,6 +16,7 @@ export interface AppContextProps {
 		name: '';
 		description: '';
 		collaborators: any[];
+		type: string;
 	};
 	setProject: React.Dispatch<
 		React.SetStateAction<{ _id?: ''; name: ''; description: ''; collaborators: any[] }>
@@ -34,7 +35,7 @@ export interface AppContextProps {
 			error: boolean;
 		}>
 	>;
-	handleAddList: (e: any, nameList: string, id?: string) => Promise<void>;
+	handleAddList: (e: React.FormEvent<HTMLFormElement>, nameList: string, id?: string) => Promise<void>;
 	modalFormList: boolean;
 	showModalFormList: () => void;
 	modalRename: boolean;

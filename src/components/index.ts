@@ -3,7 +3,6 @@ export * from './ModalFormCreateList/ModalFormCreateList';
 export * from './ImageProfile/ImageProfile';
 export * from './AddElementLabel';
 export * from './LabelElement';
-export * from './LabelCard/LabelCard';
 export * from './Spinner/Spinner';
 export * from './Logo';
 export * from './ModalCreateBoard/ModalCreateBoard';

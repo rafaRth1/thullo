@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
 	handleDispatch: () => any;
 }
 
-export const AddElementLabel = memo(({ text, handleDispatch }: Props) => {
+export const AddElementLabel = ({ text, handleDispatch }: Props) => {
 	return (
 		<div
 			className='add-element-label-content flex items-center w-auto bg-neutral-800 py-1 px-4 rounded-xl cursor-pointer pointer-events-auto '
@@ -15,4 +14,4 @@ export const AddElementLabel = memo(({ text, handleDispatch }: Props) => {
 			<IoAddOutline color='blue' />
 		</div>
 	);
-});
+};

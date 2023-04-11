@@ -19,7 +19,7 @@ let card: CardStateProps = {
 	members: [],
 };
 
-export const AppProvider = ({ children }: Props) => {
+export const AppProvider = ({ children }: Props): JSX.Element => {
 	const [lists, setLists] = useState<{
 		lists: any[];
 	}>({ lists: [] });
@@ -90,8 +90,12 @@ export const AppProvider = ({ children }: Props) => {
 		}
 	};
 
-	const handleAddList = async (e: any, nameList: string, id?: string) => {
+	const handleAddList = async (e: React.FormEvent<HTMLFormElement>, nameList: string, id?: string) => {
 		e.preventDefault();
+
+		if (nameList.length <= 4) {
+			return;
+		}
 
 		try {
 			const token = localStorage.getItem('token');

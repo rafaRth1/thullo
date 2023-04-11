@@ -1,7 +1,7 @@
-import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
 import { Draggable } from 'react-smooth-dnd';
 import { ImageProfile } from './ImageProfile/ImageProfile';
 import { CardStateProps } from './ListTaskCard/ListTaskCardTypes';
+import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
 
 interface Props {
 	taskCard: CardStateProps;
@@ -9,12 +9,9 @@ interface Props {
 }
 
 export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
-	// console.log(taskCard);
-
 	return (
 		<Draggable>
 			<div
-				// border-dashed border-blue-400 border-4
 				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none`}
 				onClick={() => {
 					handleEditCard(taskCard);
@@ -33,11 +30,7 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 
 					<p className='name-card text-white'>{taskCard.nameCard}</p>
 
-					{/* <div className='all-board inline-flex bg-green-300 items-center rounded-lg py-1 px-3 mt-1 text-xs cursor-pointer h-6'>
-						<span className='text-green-900'>Concept</span>
-					</div> */}
-
-					{taskCard.labels.map((label: any) => (
+					{taskCard.labels.map((label) => (
 						<div
 							key={label._id}
 							className={`all-board inline-flex items-center rounded-lg py-1 px-3 mt-1 mx-2 text-xs cursor-pointer h-6`}
@@ -53,7 +46,7 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 					<div className='footer-card flex items-center justify-between mt-3'>
 						<div className='users-access'>
 							<div className='user-image-add flex'>
-								{taskCard.members.map((member: any, index) => (
+								{taskCard.members.map((member, index) => (
 									<div
 										className='user-access'
 										key={index}>

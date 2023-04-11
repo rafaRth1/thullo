@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useProvider } from '../../hooks';
 import { IoCloseCircleOutline } from 'react-icons/io5';
+
 import './ModalFormCreateList.css';
 
-export const ModalFormCreateList = () => {
+export const ModalFormCreateList = (): JSX.Element => {
 	const [nameList, setNameList] = useState<string>('');
-	const { id } = useParams();
 	const { modalFormList, showModalFormList, handleAddList } = useProvider();
+	const { id } = useParams();
 
 	return (
 		<div
@@ -42,6 +43,10 @@ export const ModalFormCreateList = () => {
 					size={30}
 				/>
 			</div>
+
+			<div
+				className='absolute top-0 left-0 w-full h-full z-40'
+				onClick={showModalFormList}></div>
 		</div>
 	);
 };
