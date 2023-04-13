@@ -1,4 +1,4 @@
-import { Draggable } from 'react-smooth-dnd';
+import { Draggable } from '@sntxx/react-smooth-dnd';
 import { ImageProfile } from './ImageProfile/ImageProfile';
 import { CardStateProps } from './ListTaskCard/ListTaskCardTypes';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';

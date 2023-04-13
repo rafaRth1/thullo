@@ -1,8 +1,8 @@
 import clientAxios from '../../config/clientAxios';
+import { Draggable, Container } from '@sntxx/react-smooth-dnd';
 import { useState } from 'react';
 import { useProvider } from '../../hooks';
 import { AddElementLabel, ModalRename, TaskCard } from '..';
-import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag } from '../../utils';
 import { CardStateProps } from './ListTaskCardTypes';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
@@ -126,7 +126,7 @@ export const ListTaskCard = ({ list }: PropsListTaskCard): JSX.Element => {
 						orientation='vertical'
 						groupName='col'
 						onDrop={(e) => onCardDrop(list._id, e)}
-						getChildPayload={(index) => getCardPayload(list._id, index)}
+						getChildPayload={(index: any) => getCardPayload(list._id, index)}
 						dragClass='card-ghost'
 						dropClass='card-ghost-drop'
 						dropPlaceholder={{
