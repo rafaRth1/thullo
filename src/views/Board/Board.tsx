@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Draggable, Container } from '@sntxx/react-smooth-dnd';
 import { useProvider } from '../../hooks';
-import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag } from '../../utils';
 import {
 	Spinner,
