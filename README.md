@@ -15,6 +15,10 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open (http://localhost:5173) to view it in your browser.
 
+### Backend Project
+
+https://github.com/rafaRth1/movies-app-backend
+
 ### Figma Project 
 
 https://www.figma.com/file/UOqXCGxVb1fjY7pWUzvI8K/Thullo---Trello-Clone?node-id=0-1&t=j1H4wEJKJklOFett-0
