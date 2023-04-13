@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build yarn patch-package react-smooth-dnd",
+    "build": "tsc && vite build",
+    "prebuild": "yarn patch-package react-smooth-dnd",
     "preview": "vite preview"
   },
   "dependencies": {
