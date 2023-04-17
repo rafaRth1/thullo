@@ -7,9 +7,9 @@ import { IoApps, IoArrowDownOutline } from 'react-icons/io5';
 
 export const Header = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const navigate = useNavigate();
 	const { auth, setAuth } = useAuthProvider();
 	const { project, setProject, setLists } = useProvider();
+	const navigate = useNavigate();
 
 	const handleNavigationProfile = () => {
 		navigate(`/profile/${auth._id}`);
@@ -50,7 +50,7 @@ export const Header = (): JSX.Element => {
 					onClick={handleResetProject}>
 					<LabelElement
 						label='All Board'
-						classname='bg-neutral-700'>
+						classname='bg-neutral-700 mx-3'>
 						<IoApps className='text-neutral-200' />
 					</LabelElement>
 				</Link>

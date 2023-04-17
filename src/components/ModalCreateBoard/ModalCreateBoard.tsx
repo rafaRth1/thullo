@@ -1,7 +1,7 @@
+import clientAxios from '../../config/clientAxios';
 import { useState, memo, useRef } from 'react';
 import { LabelElement } from '../';
 import { useProvider } from '../../hooks';
-import clientAxios from '../../config/clientAxios';
 import { fileUpload } from '../../helpers';
 import { IoClose, IoImage } from 'react-icons/io5';
 import './ModalCreateBoard.css';
@@ -14,15 +14,15 @@ interface Props {
 export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 	const [value, setValue] = useState({
 		name_title: '',
-		name_img:
-			'https://res.cloudinary.com/dork20pxe/image/upload/v1674275936/trullo-trello-clone/l8hc7bkbf0ijfmk4fhw1.avif',
+		name_img: '',
 		type: '',
+		public_id: '',
 	});
 	const fileInputRef: any = useRef(null);
 
 	const { setProjects } = useProvider();
 
-	const handleAddBoard = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const handleAddBoard = async () => {
 		if (value.name_title.length <= 2 || value.type === '') {
 			console.log('Elige el tipo');
 			return;
@@ -49,7 +49,7 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 			);
 
 			setProjects((prevProjects) => [...prevProjects, data]);
-			setValue({ name_title: '', name_img: '', type: '' });
+			setValue({ name_title: '', name_img: '', type: '', public_id: '' });
 			setShowModal(false);
 		} catch (error) {
 			console.log(error);
@@ -58,7 +58,30 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 
 	const handleFileUploadImage = async (image: FileList) => {
 		const respFileUpload = await fileUpload(image[0]);
-		setValue({ ...value, name_img: respFileUpload });
+		setValue({
+			...value,
+			name_img: respFileUpload.url,
+			public_id: respFileUpload?.public_id,
+			type: respFileUpload.resource_type,
+		});
+	};
+
+	const handleDestroyImage = async () => {
+		setShowModal(false);
+		if (!value.public_id) return;
+
+		try {
+			const { data } = await clientAxios.post('/projects/image-delete', {
+				public_id: value.public_id,
+			});
+
+			console.log(data);
+
+			setValue({ name_title: '', name_img: '', type: '', public_id: '' });
+			setShowModal(false);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -83,14 +106,8 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 								style={{ height: '120px' }}
 							/>
 						) : (
-							// <img
-							// 	src='https://static.vecteezy.com/system/resources/previews/002/058/031/non_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg'
-							// 	alt='Image Board'
-							// 	className='w-full object-cover rounded-lg'
-							// 	style={{ height: '120px' }}
-							// />
 							<img
-								src='https://res.cloudinary.com/dork20pxe/image/upload/v1674275936/trullo-trello-clone/l8hc7bkbf0ijfmk4fhw1.avif'
+								src='https://static.vecteezy.com/system/resources/previews/002/058/031/non_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg'
 								alt='Image Board'
 								className='w-full object-cover rounded-lg'
 								style={{ height: '120px' }}
@@ -107,11 +124,11 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 							onChange={(e) => setValue({ ...value, name_title: e.target.value })}
 						/>
 
-						<div className='labels-accions relative flex justify-center mb-4'>
+						<div className='labels-accions relative flex gap-2 justify-center mb-4'>
 							<div className='w-full mr-2'>
 								<LabelElement
 									label='Cover'
-									classname='bg-neutral-600 w-full mr-3 mx-0'
+									classname='bg-neutral-600 w-full mx-0'
 									handleFunction={() => fileInputRef.current.click()}>
 									<IoImage className='text-white mr-2' />
 								</LabelElement>
@@ -135,10 +152,17 @@ export const ModalCreateBoard = memo(({ showModal, setShowModal }: Props) => {
 						</div>
 
 						<div className='buttons-accions flex justify-end'>
-							<button className='py-1 px-3 text-white text-sm rounded-lg'>Cancel</button>
 							<button
+								type='button'
+								className='py-1 px-3 text-white text-sm rounded-lg'
+								onClick={handleDestroyImage}>
+								Cancel
+							</button>
+
+							<button
+								type='button'
 								className='py-1 px-3 bg-blue-600 text-white text-sm rounded-lg'
-								onClick={(e) => handleAddBoard(e)}>
+								onClick={handleAddBoard}>
 								Create
 							</button>
 						</div>

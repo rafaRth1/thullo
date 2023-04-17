@@ -27,10 +27,6 @@ export const SectionAttachments = ({ formState }: any) => {
 		setAttachement({ ...attachement, name_img: respFileUpload });
 	};
 
-	// useEffect(() => {
-
-	// }, [formState]);
-
 	return (
 		<div className='attachments-content'>
 			<div className='header-attachments-card flex mt-5'>
@@ -47,7 +43,7 @@ export const SectionAttachments = ({ formState }: any) => {
 					type='submit'>
 					<LabelElement
 						label='Add'
-						classname='border-solid border-neutral-700 border-2 hover:text-blue-300'>
+						classname='border-solid border-neutral-700 border-2 hover:text-blue-300 mx-3'>
 						<IoAddSharp className='text-white' />
 					</LabelElement>
 				</button>

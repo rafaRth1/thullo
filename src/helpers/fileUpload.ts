@@ -1,3 +1,5 @@
+import clientAxios from '../config/clientAxios';
+
 export const fileUpload = async (file: File) => {
 	const cloudUrl = 'https://api.cloudinary.com/v1_1/dork20pxe/upload';
 
@@ -14,9 +16,14 @@ export const fileUpload = async (file: File) => {
 		if (!resp.ok) throw new Error('No se pudo subir la imagen');
 
 		const cloudResponse = await resp.json();
-		console.log(cloudResponse);
+		const { data } = await clientAxios.post(`/projects/image`, {
+			publicId: cloudResponse.public_id,
+			url: cloudResponse.url,
+			createdAt: cloudResponse.created_at,
+			resourceType: cloudResponse.resource_type,
+		});
 
-		return cloudResponse.url;
+		return cloudResponse;
 	} catch (error: any) {
 		console.log(error);
 		throw new Error(error.message);

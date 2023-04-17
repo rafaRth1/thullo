@@ -1,8 +1,8 @@
+import axios from 'axios';
+import clientAxios from '../config/clientAxios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
-import clientAxios from '../config/clientAxios';
-import axios from 'axios';
 import { AuthInterface } from './Types';
 
 interface Props {

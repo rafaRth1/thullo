@@ -17,6 +17,8 @@ interface Comment {
 export const Comments = ({ comment, setValues, handleDeleteComment }: Props) => {
 	const { auth } = useAuthProvider();
 
+	console.log(comment);
+
 	return (
 		<div className='card-comment mb-4'>
 			<div className='flex  justify-between'>

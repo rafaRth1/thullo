@@ -60,7 +60,7 @@ export const SectionDescription = ({ formState, setFormState, onInputChange }: P
 				<LabelElement
 					label='Edit'
 					handleFunction={() => setIsActiveDesc(!isActiveDesc)}
-					classname='border-solid border-neutral-700 border-2'>
+					classname='border-solid border-neutral-700 border-2 mx-3'>
 					<IoPencilSharp className='text-white' />
 				</LabelElement>
 			</div>

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Alerta, Logo } from '../../components';
 import clientAxios from '../../config/clientAxios';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Alerta, Logo } from '../../components';
 import { useForm } from '../../hooks';
 import { useAuthProvider } from '../../hooks/useAuthProvider';
 
@@ -19,6 +19,7 @@ export const Login = () => {
 	const { formState, onInputChange } = useForm(formData, formValidations);
 	const [alerta, setAlerta] = useState({ msg: '', error: false });
 	const { setAuth } = useAuthProvider();
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -32,6 +33,8 @@ export const Login = () => {
 				msg: error.response.data.msg,
 				error: true,
 			});
+		} finally {
+			navigate('/');
 		}
 	};
 
