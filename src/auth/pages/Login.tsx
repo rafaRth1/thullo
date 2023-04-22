@@ -88,11 +88,11 @@ export const Login = () => {
 					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700'>Login</button>
 
 					<div className='mt-10'>
-						<Link
+						{/* <Link
 							to='/auth/forget-password'
 							className='text-white text-base block font-light text-center hover:underline'>
 							¿No puedes iniciar Sesión?
-						</Link>
+						</Link> */}
 						<Link
 							to='/auth/register'
 							className='text-white text-base block font-light text-center hover:underline'>
