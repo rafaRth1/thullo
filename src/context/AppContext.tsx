@@ -12,14 +12,22 @@ export interface AppContextProps {
 		}>
 	>;
 	project: {
-		_id?: '';
-		name: '';
-		description: '';
+		_id?: string;
+		name: string;
+		description: string;
 		collaborators: any[];
+		creator: string;
 		type: string;
 	};
 	setProject: React.Dispatch<
-		React.SetStateAction<{ _id?: ''; name: ''; description: ''; collaborators: any[] }>
+		React.SetStateAction<{
+			_id?: string;
+			name: string;
+			description: string;
+			collaborators: any[];
+			creator: string;
+			type: string;
+		}>
 	>;
 	projects: any[];
 	setProjects: React.Dispatch<React.SetStateAction<any[]>>;

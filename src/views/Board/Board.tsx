@@ -42,7 +42,6 @@ export const Board = (): JSX.Element => {
 
 	useEffect(() => {
 		const cancelToken = axios.CancelToken.source();
-
 		getProject(id, cancelToken);
 
 		return () => {
@@ -52,7 +51,6 @@ export const Board = (): JSX.Element => {
 
 	useEffect(() => {
 		const cancelToken = axios.CancelToken.source();
-
 		getLists(id, cancelToken);
 
 		return () => {

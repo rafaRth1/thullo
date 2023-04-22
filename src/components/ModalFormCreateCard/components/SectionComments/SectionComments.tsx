@@ -16,7 +16,7 @@ export const SectionComments = ({ formState, setFormState }: Props) => {
 	const { day, month, hours, minutes } = useDate();
 	const date = `${day} ${month} at ${hours}:${minutes}`;
 	const { auth } = useAuthProvider();
-	const { lists, setLists, cardUpdate } = useProvider();
+	const { lists, setLists, cardUpdate, project } = useProvider();
 
 	const handleSubmitComment = async () => {
 		if (!id) {
@@ -41,6 +41,7 @@ export const SectionComments = ({ formState, setFormState }: Props) => {
 		try {
 			const { data } = await clientAxios.post('/taskCard/comment', {
 				taskCard: formState._id,
+				author: auth._id,
 				name: auth.name,
 				colorImg: auth.colorImg,
 				comment,
@@ -162,6 +163,8 @@ export const SectionComments = ({ formState, setFormState }: Props) => {
 				{formState?.comments.map((comment: any) => (
 					<Comments
 						key={comment._id}
+						authId={auth._id}
+						creatorProject={project.creator}
 						comment={comment}
 						setValues={setValues}
 						handleDeleteComment={handleDeleteComment}

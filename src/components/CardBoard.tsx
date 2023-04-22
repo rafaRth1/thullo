@@ -21,12 +21,21 @@ export const CardBoard = ({ project }: Props) => {
 			>
 				<Link to={`/board/${_id}`}>
 					<div className='card-board-image mb-3'>
-						<img
-							src={name_img}
-							alt='Image Board'
-							style={{ height: '190px' }}
-							className='rounded-lg w-full object-cover'
-						/>
+						{!!project.name_img ? (
+							<img
+								src={name_img}
+								alt='Image Board'
+								style={{ height: '190px' }}
+								className='rounded-lg w-full object-cover'
+							/>
+						) : (
+							<img
+								src='https://i.pinimg.com/originals/85/a3/09/85a309ce4204e643f6ccb4c45d4bce4b.jpg'
+								alt='Image Board'
+								style={{ height: '190px' }}
+								className='rounded-lg w-full object-cover'
+							/>
+						)}
 					</div>
 
 					<p className='card-board-name text-white text-xl mb-3'>{name}</p>

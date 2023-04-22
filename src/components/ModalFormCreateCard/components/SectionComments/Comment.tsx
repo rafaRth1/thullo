@@ -1,8 +1,9 @@
-import { useAuthProvider } from '../../../../hooks';
 import { ImageProfile } from '../../../ImageProfile/ImageProfile';
 
 interface Props {
 	comment: Comment;
+	authId: string;
+	creatorProject: string;
 	setValues: ({ _id, comment }: any) => void;
 	handleDeleteComment: (id: string) => Promise<void>;
 }
@@ -13,9 +14,10 @@ interface Comment {
 	dateCurrent: string;
 	comment: string;
 	colorImg: string;
+	author: string;
 }
 
-export const Comments = ({ comment, setValues, handleDeleteComment }: Props) => {
+export const Comments = ({ comment, authId, creatorProject, setValues, handleDeleteComment }: Props) => {
 	return (
 		<div className='card-comment mb-4'>
 			<div className='flex  justify-between'>
@@ -30,21 +32,23 @@ export const Comments = ({ comment, setValues, handleDeleteComment }: Props) => 
 					</div>
 				</div>
 
-				<div className='actions-comments cursor-pointer text-neutral-500'>
-					<button
-						type='button'
-						className='px-2 text-sm hover:text-orange-500'
-						onClick={() => setValues(comment)}>
-						Edit
-					</button>
-					-
-					<button
-						type='button'
-						className='px-2 text-sm hover:text-red-500'
-						onClick={() => handleDeleteComment(comment._id)}>
-						Delete
-					</button>
-				</div>
+				{comment.author === authId || creatorProject === authId ? (
+					<div className='actions-comments cursor-pointer text-neutral-500'>
+						<button
+							type='button'
+							className='px-2 text-sm hover:text-orange-500'
+							onClick={() => setValues(comment)}>
+							Edit
+						</button>
+						-
+						<button
+							type='button'
+							className='px-2 text-sm hover:text-red-500'
+							onClick={() => handleDeleteComment(comment._id)}>
+							Delete
+						</button>
+					</div>
+				) : null}
 			</div>
 
 			<div className='body-comment text-white'>{comment.comment}</div>
