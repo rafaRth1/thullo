@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../components';
 import clientAxios from '../../config/clientAxios';
 import { useForm } from '../../hooks';
@@ -22,6 +22,7 @@ const formValidations = {
 
 export const Register = () => {
 	const { formState, onInputChange, onResetForm } = useForm(formData, formValidations);
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -30,6 +31,7 @@ export const Register = () => {
 			const { data } = await clientAxios.post('/user', formState);
 			onResetForm();
 			console.log(data);
+			navigate('/');
 		} catch (error) {
 			console.log(error);
 		}
