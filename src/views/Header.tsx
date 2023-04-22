@@ -28,7 +28,7 @@ export const Header = (): JSX.Element => {
 	};
 
 	const handleResetProject = () => {
-		setProject({ _id: '', name: '', description: '', collaborators: [] });
+		setProject({ _id: '', name: '', description: '', collaborators: [], creator: '', type: '' });
 		setLists({ lists: [] });
 	};
 
