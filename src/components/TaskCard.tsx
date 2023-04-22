@@ -12,7 +12,7 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 	return (
 		<Draggable>
 			<div
-				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none`}
+				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-2`}
 				onClick={() => {
 					handleEditCard(taskCard);
 				}}>

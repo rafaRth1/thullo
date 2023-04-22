@@ -12,19 +12,16 @@ interface Comment {
 	name: string;
 	dateCurrent: string;
 	comment: string;
+	colorImg: string;
 }
 
 export const Comments = ({ comment, setValues, handleDeleteComment }: Props) => {
-	const { auth } = useAuthProvider();
-
-	console.log(comment);
-
 	return (
 		<div className='card-comment mb-4'>
 			<div className='flex  justify-between'>
 				<div className='profile-author flex'>
 					<ImageProfile
-						color={auth.colorImg}
+						color={comment.colorImg}
 						name={comment.name}
 					/>
 					<div className='flex flex-col'>

@@ -42,6 +42,7 @@ export const SectionComments = ({ formState, setFormState }: Props) => {
 			const { data } = await clientAxios.post('/taskCard/comment', {
 				taskCard: formState._id,
 				name: auth.name,
+				colorImg: auth.colorImg,
 				comment,
 				dateCurrent: date,
 			});
