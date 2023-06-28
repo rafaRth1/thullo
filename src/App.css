@@ -6,17 +6,6 @@ html {
 	user-select: none;
 }
 
-body {
-	overflow: hidden;
-}
-
-.contenedor-header {
-	box-sizing: border-box;
-	position: relative;
-	padding: 1.5rem;
-	min-width: 1280px;
-}
-
 .lists {
 	margin-bottom: 0.5rem;
 }

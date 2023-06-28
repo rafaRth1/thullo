@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Draggable, Container } from '@sntxx/react-smooth-dnd';
+import { Container } from '@sntxx/react-smooth-dnd';
 import { useProvider } from '../../hooks';
 import { applyDrag } from '../../utils';
 import {
 	Spinner,
-	ListTaskCard,
 	ModalFormCreateCard,
 	ModalFormCreateList,
 	AddElementLabel,
 	Modal,
 	ModalRename,
+	TaskCardList,
 } from '../../components';
 
 import './Board.css';
@@ -63,10 +63,11 @@ export const Board = (): JSX.Element => {
 			{loading ? (
 				<Spinner />
 			) : (
-				<div className='board-main'>
+				<div className='board-main absolute inset-0'>
 					<Container
 						onDrop={onColumnDrop}
 						orientation='horizontal'
+						style={{ height: '100%' }}
 						dragHandleSelector='.column-drag-handle'
 						dropPlaceholder={{
 							animationDuration: 150,
@@ -74,7 +75,7 @@ export const Board = (): JSX.Element => {
 							className: 'cards-drop-preview',
 						}}>
 						{lists.lists.map((list) => (
-							<ListTaskCard
+							<TaskCardList
 								key={list._id}
 								list={list}
 							/>

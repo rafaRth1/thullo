@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LabelPopup } from './';
 import { IoImage, IoSearch } from 'react-icons/io5';
 import clientAxios from '../../../config/clientAxios';
-import { CardStateProps } from '../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../interfaces/ListTaskCardTypes';
 import { useProvider } from '../../../hooks';
 
 interface Props {

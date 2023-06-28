@@ -1,7 +1,7 @@
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
 import { useEffect, useState } from 'react';
-import { CardBoard, Modal, ModalCreateBoard } from '.';
-import { useProvider } from '../hooks';
+import { CardBoard, Modal, ModalCreateBoard } from '..';
+import { useProvider } from '../../hooks';
 import { IoAdd } from 'react-icons/io5';
 
 export const ListBoard = (): JSX.Element => {
@@ -32,8 +32,8 @@ export const ListBoard = (): JSX.Element => {
 	}, []);
 
 	return (
-		<div className='content-list-board contenedor mx-auto mt-10'>
-			<div className='header-list flex justify-between items-center w-full mb-10 mx-3'>
+		<div className='content-list-board container mx-auto mt-10 p-4'>
+			<div className='header-list flex justify-between items-center w-full mb-10'>
 				<span className='text-white text-xl'>All Boards</span>
 				<button
 					className='text-white flex items-center bg-blue-600 py-1 px-3 rounded-lg '
@@ -43,7 +43,7 @@ export const ListBoard = (): JSX.Element => {
 				</button>
 			</div>
 
-			<div className='list-board flex flex-wrap mx-5 gap-11 justify-center sm:mx-5 sm:gap-7 md:mx-5 md:gap-7 md:justify-start lg:gap-11 lg:mx-0 '>
+			<div className='list-board flex flex-wrap justify-center sm:justify-start'>
 				{projects.map((project) => (
 					<CardBoard
 						key={project._id}

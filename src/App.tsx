@@ -1,10 +1,9 @@
 import './App.css';
-import { useProvider } from './hooks';
 import { AppRouter } from './router/AppRouter';
 
 function App() {
 	return (
-		<div className={`App relative flex flex-col min-h-screen`}>
+		<div className='app flex flex-col h-screen'>
 			<AppRouter />
 		</div>
 	);

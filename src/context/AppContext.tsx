@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { CardStateProps } from '../components/ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../interfaces/ListTaskCardTypes';
 import { CancelTokenSource } from 'axios';
 
 export interface AppContextProps {

@@ -1,6 +1,6 @@
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../../config/clientAxios';
 import { useState } from 'react';
-import { useProvider } from '../hooks';
+import { useProvider } from '../../hooks';
 
 export const ModalRename = (): JSX.Element => {
 	const [nameList, setNameList] = useState('');

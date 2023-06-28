@@ -5,6 +5,7 @@ interface Props {
 	style?: string | undefined;
 	name?: string;
 	color: string;
+	className?: string;
 }
 
 export const ImageProfile = ({
@@ -14,10 +15,11 @@ export const ImageProfile = ({
 	name,
 	style,
 	color,
+	className,
 }: Props): JSX.Element => {
 	return (
 		<div
-			className='user-image mr-4'
+			className={`user-image ${className}`}
 			style={{ width: `${width}px`, height: `${height}px` }}>
 			{!imageProfile ? (
 				<div

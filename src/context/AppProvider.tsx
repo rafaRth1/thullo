@@ -2,7 +2,7 @@ import axios, { CancelTokenSource } from 'axios';
 import clientAxios from '../config/clientAxios';
 import { useState } from 'react';
 import { AppContext } from './AppContext';
-import { CardStateProps } from '../components/ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../interfaces/ListTaskCardTypes';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];

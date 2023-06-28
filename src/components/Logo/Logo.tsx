@@ -1,4 +1,4 @@
-import LogoSVG from '../assets/Logo.svg';
+import LogoSVG from '../../assets/Logo.svg';
 
 interface PropsLogo {
 	width?: number;
@@ -7,12 +7,12 @@ interface PropsLogo {
 
 export const Logo = ({ width, height }: PropsLogo): JSX.Element => {
 	return (
-		<div className='logo mr-6 cursor-pointer'>
+		<div className='logo cursor-pointer mr-6'>
 			<img
 				src={LogoSVG}
 				alt='Logo'
-				width={width}
-				height={height}
+				style={{ width: `${width}px`, height: `${height}px` }}
+				className='max-w-none'
 			/>
 		</div>
 	);

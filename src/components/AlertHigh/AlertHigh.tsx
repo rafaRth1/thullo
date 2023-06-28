@@ -1,4 +1,4 @@
-import { useProvider } from '../hooks';
+import { useProvider } from '../../hooks';
 
 interface PropsAlerta {
 	alertHigh: {

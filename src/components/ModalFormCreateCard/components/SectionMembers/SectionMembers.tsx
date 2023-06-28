@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { IoAddOutline, IoPeopleSharp, IoSearch } from 'react-icons/io5';
 import { useProvider } from '../../../../hooks';
 import { ImageProfile } from '../../../ImageProfile/ImageProfile';
-import { CardStateProps } from '../../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../../interfaces/ListTaskCardTypes';
 import { LabelPopup } from '../LabelPopup';
 import { Member } from './Member';
 import './SectionMembers.css';

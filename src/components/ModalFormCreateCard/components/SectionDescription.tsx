@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LabelElement } from '../..';
 import { IoDocumentTextOutline, IoPencilSharp } from 'react-icons/io5';
-import { CardStateProps } from '../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../interfaces/ListTaskCardTypes';
 import { useProvider } from '../../../hooks';
 import clientAxios from '../../../config/clientAxios';
 

@@ -6,16 +6,5 @@ interface PropsModal {
 }
 
 export const Modal = ({ children }: PropsModal) => {
-	// const portalNode = document.createElement('div');
-	// const modalRoot = document.querySelector('#modal');
-
-	// useEffect(() => {
-	// 	modalRoot?.appendChild(portalNode)
-
-	// 	return () => {
-	// 		modalRoot?.removeChild(portalNode)
-	// 	};
-	// }, [portalNode]);
-
-	return ReactDOM.createPortal(children, document.querySelector('#modal')!);
+	return ReactDOM.createPortal(children, document.body);
 };

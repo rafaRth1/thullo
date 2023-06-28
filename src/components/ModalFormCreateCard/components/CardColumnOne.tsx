@@ -1,4 +1,4 @@
-import { CardStateProps } from '../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../interfaces/ListTaskCardTypes';
 import { InputNameCard, SectionComments, SectionAttachments, SectionDescription } from './';
 
 interface Props {

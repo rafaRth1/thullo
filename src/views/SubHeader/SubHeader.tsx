@@ -1,17 +1,18 @@
+import clientAxios from '../../config/clientAxios';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ImageProfile, LabelElement } from '../components';
-import { useAuthProvider, useProvider } from '../hooks';
-import clientAxios from '../config/clientAxios';
-import { MenuProject } from './MenuProject';
-import ImagePerfilEx from '../assets/PerfilImage.png';
+import { ImageProfile, LabelElement } from '../../components';
+import { useAuthProvider, useProvider } from '../../hooks';
+import { MenuProject } from '../MenuProject';
 import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed, IoSearchSharp } from 'react-icons/io5';
+
+const objCollaborator = { name: '', email: '', _id: '', colorImg: '' };
 
 export const SubHeader = (): JSX.Element => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [userSearch, setUserSearch] = useState('');
-	const [collaborator, setCollaborator] = useState({ name: '', email: '', _id: '', colorImg: '' });
+	const [collaborator, setCollaborator] = useState(objCollaborator);
 	const { project, setProject } = useProvider();
 	const { auth } = useAuthProvider();
 	const { id } = useParams();
@@ -72,7 +73,7 @@ export const SubHeader = (): JSX.Element => {
 	};
 
 	return (
-		<div className='sub-header-top contenedor-header flex items-center justify-between'>
+		<div className='sub-header-top flex items-center justify-between p-4'>
 			<div className='flex items-center'>
 				<LabelElement
 					label={project?.type}
@@ -80,20 +81,20 @@ export const SubHeader = (): JSX.Element => {
 					<IoLockClosed className='text-neutral-200' />
 				</LabelElement>
 
-				<div className='allowed-group flex relative'>
-					{!!project.collaborators &&
-						project?.collaborators.map((collaborator: any) => (
-							<ImageProfile
-								key={collaborator._id}
-								name={collaborator.name}
-								color={collaborator.colorImg}
-								imageProfile={collaborator.imgUlr}
-							/>
-						))}
+				<div className='allowed-group flex'>
+					{project.collaborators?.map((collaborator) => (
+						<ImageProfile
+							key={collaborator._id}
+							name={collaborator.name}
+							color={collaborator.colorImg}
+							imageProfile={collaborator.imgUlr}
+							className='mr-2'
+						/>
+					))}
 
 					<div className='user-image-add'>
 						<span
-							className='bg-blue-500 w-9 h-9 object-cover rounded-md text-3xl inline-flex items-center justify-center cursor-pointer'
+							className='bg-blue-500 inline-flex items-center justify-center cursor-pointer object-cover rounded-md text-3xl w-9 h-9 '
 							onClick={() => setShowModal(!showModal)}>
 							<IoAddOutline
 								className='text-neutral-200'
@@ -102,12 +103,13 @@ export const SubHeader = (): JSX.Element => {
 						</span>
 
 						<div
-							className={`add-collaborator bg-neutral-700 mt-3 p-3 w-72 absolute z-40 rounded-xl transition-opacity ${
+							className={`add-collaborator bg-neutral-700 absolute transition-opacity mt-3 p-3 w-80 rounded-xl z-40 ${
 								showModal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
 							}`}>
 							<div className='add-collaborator-header mb-2'>
 								<span className='text-white font-medium'>Invite to Board</span>
-								<p className='text-neutral-400'>Search users you want to invito to</p>
+
+								<p className='text-neutral-400 mb-2'>Search users you want to invito to</p>
 
 								<div className='flex relative'>
 									<input
@@ -131,13 +133,14 @@ export const SubHeader = (): JSX.Element => {
 							<div className='result-collaborator'>
 								{collaborator.email && (
 									<div
-										className='collaborator flex items-center p-1 mb-1 cursor-pointer'
+										className='collaborator flex items-center cursor-pointer p-1 '
 										onClick={handleAddCollaborator}>
 										<ImageProfile
 											name={collaborator.name}
 											color={collaborator.colorImg}
+											className='mr-3'
 										/>
-										<span className='text-white font-medium text-lg flex-1'>
+										<span className='text-white font-medium flex-1 text-lg'>
 											{collaborator.name}
 										</span>
 									</div>

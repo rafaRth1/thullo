@@ -2,7 +2,7 @@ import clientAxios from '../../../../config/clientAxios';
 import { useState } from 'react';
 import { useAuthProvider, useDate, useProvider } from '../../../../hooks';
 import { ImageProfile } from '../../..';
-import { CardStateProps } from '../../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../../interfaces/ListTaskCardTypes';
 import { Comments } from './Comment';
 
 interface Props {

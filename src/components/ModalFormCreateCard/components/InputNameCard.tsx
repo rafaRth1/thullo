@@ -1,6 +1,6 @@
 import clientAxios from '../../../config/clientAxios';
 import { useProvider } from '../../../hooks';
-import { CardStateProps } from '../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../interfaces/ListTaskCardTypes';
 
 interface Props {
 	formState: CardStateProps;

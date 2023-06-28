@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ImageProfile } from './';
+import { ImageProfile } from '..';
 
 interface Props {
 	project: {
@@ -15,17 +15,13 @@ export const CardBoard = ({ project }: Props) => {
 
 	return (
 		<>
-			<div
-				className='card-board-container bg-neutral-800 rounded-lg p-2 cursor-pointer'
-				// style={{ width: '300px', height: '300px' }}
-			>
+			<div className='card-board-container bg-neutral-800 cursor-pointer rounded-lg p-2 mr-4 mb-4'>
 				<Link to={`/board/${_id}`}>
-					<div className='card-board-image mb-3'>
+					<div className='card-board-image mb-3 w-72'>
 						{!!project.name_img ? (
 							<img
 								src={name_img}
 								alt='Image Board'
-								style={{ height: '190px' }}
 								className='rounded-lg w-full object-cover'
 							/>
 						) : (

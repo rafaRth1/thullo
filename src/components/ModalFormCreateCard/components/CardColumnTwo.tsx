@@ -4,7 +4,7 @@ import { ImageProfile } from '../..';
 import { IoAddOutline, IoPeopleSharp, IoPersonCircleOutline, IoSearch } from 'react-icons/io5';
 import Image from '../../../assets/PerfilImage.png';
 import clientAxios from '../../../config/clientAxios';
-import { CardStateProps } from '../../ListTaskCard/ListTaskCardTypes';
+import { CardStateProps } from '../../../interfaces/ListTaskCardTypes';
 import { SectionMembers } from './SectionMembers/SectionMembers';
 import { useProvider } from '../../../hooks';
 
