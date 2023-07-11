@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Container } from '@sntxx/react-smooth-dnd';
 import { useProvider } from '../../hooks';
 import { applyDrag } from '../../utils';
+import { FormCardProvider } from '../../context';
 import {
 	Spinner,
 	AddElementLabel,
@@ -14,7 +15,6 @@ import {
 	ModalFormCard,
 } from '../../components';
 import './Board.css';
-import { FormCardProvider } from '../../context';
 
 export const Board = (): JSX.Element => {
 	const { id } = useParams();
@@ -35,7 +35,7 @@ export const Board = (): JSX.Element => {
 		payload?: undefined;
 		removedIndex: number | null;
 	}) => {
-		const project = Object.assign({}, lists);
+		const project = { ...lists };
 		project.lists = applyDrag(project.lists, dropResult);
 		setLists(project);
 	};

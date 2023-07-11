@@ -6,7 +6,6 @@ import { useProvider } from './useProvider';
 interface Props {
 	_id: string;
 	name: string;
-	project: string;
 	taskCards: CardStateProps[];
 }
 

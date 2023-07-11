@@ -1,65 +1,38 @@
 import { createContext } from 'react';
 import { CardStateProps } from '../../interfaces/ListTaskCardTypes';
 import { CancelTokenSource } from 'axios';
+import { ListTypes, ProjectTypes } from '../../interfaces';
+
+export type DispatchStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export interface AppContextProps {
-	lists: {
-		lists: any[];
-	};
-	setLists: React.Dispatch<
-		React.SetStateAction<{
-			lists: any[];
-		}>
-	>;
-	project: {
-		_id?: string;
-		name: string;
-		description: string;
-		collaborators: any[];
-		creator: string;
-		type: string;
-	};
-	setProject: React.Dispatch<
-		React.SetStateAction<{
-			_id?: string;
-			name: string;
-			description: string;
-			collaborators: any[];
-			creator: string;
-			type: string;
-		}>
-	>;
-	projects: any[];
-	setProjects: React.Dispatch<React.SetStateAction<any[]>>;
+	lists: { lists: ListTypes[] };
+	setLists: DispatchStateAction<{ lists: ListTypes[] }>;
+	project: ProjectTypes;
+	setProject: DispatchStateAction<ProjectTypes>;
+	projects: ProjectTypes[];
+	setProjects: DispatchStateAction<ProjectTypes[]>;
 	listCurrent: string;
-	setListCurrent: React.Dispatch<React.SetStateAction<string>>;
-	alertHigh: {
-		msg: string;
-		error: boolean;
-	};
-	setAlertHigh: React.Dispatch<
-		React.SetStateAction<{
-			msg: string;
-			error: boolean;
-		}>
-	>;
+	setListCurrent: DispatchStateAction<string>;
+	alertHigh: { msg: string; error: boolean };
+	setAlertHigh: DispatchStateAction<{ msg: string; error: boolean }>;
 	handleAddList: (e: React.FormEvent<HTMLFormElement>, nameList: string, id?: string) => Promise<void>;
 	isShowModalFormList: boolean;
-	setIsShowModalFormList: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsShowModalFormList: DispatchStateAction<boolean>;
 	isShowModalRename: boolean;
-	setIsShowModalRename: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsShowModalRename: DispatchStateAction<boolean>;
 	isShowMenuProject: boolean;
-	setIsShowMenuProject: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsShowMenuProject: DispatchStateAction<boolean>;
 	handleUpdateList: (idCard: string, idList: string) => Promise<void>;
 	overflow: boolean;
-	setOverflow: React.Dispatch<React.SetStateAction<boolean>>;
+	setOverflow: DispatchStateAction<boolean>;
 	loading: boolean;
-	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+	setLoading: DispatchStateAction<boolean>;
 	submitCard: (cardState: CardStateProps) => Promise<void>;
 	isShowModalFormCard: boolean;
-	setIsShowModalFormCard: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsShowModalFormCard: DispatchStateAction<boolean>;
 	cardUpdate: CardStateProps;
-	setCardUpdate: React.Dispatch<React.SetStateAction<CardStateProps>>;
+	setCardUpdate: DispatchStateAction<CardStateProps>;
 	getProject: (id: string | undefined, cancelToken: CancelTokenSource) => Promise<void>;
 	getLists: (id: string | undefined, cancelToken: CancelTokenSource) => Promise<void>;
 }

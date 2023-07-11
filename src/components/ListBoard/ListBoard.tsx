@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { useFetch } from '../../hooks';
 import { CardBoard, Modal, ModalFormBoard, Spinner } from '..';
+import { ProjectTypes } from '../../interfaces';
 import { IoAdd } from 'react-icons/io5';
-
-export interface ProjectType {
-	_id: string;
-	name: string;
-	name_img: string;
-	collaborators: any[];
-}
 
 export const ListBoard = (): JSX.Element => {
 	const [showModal, setShowModal] = useState(false);
-	const { data: projects, isLoading } = useFetch<ProjectType[]>('/projects');
+	const { data: projects, isLoading } = useFetch<ProjectTypes[]>('/projects');
 
 	return (
 		<div className='content-list-board container mx-auto mt-10 p-4'>

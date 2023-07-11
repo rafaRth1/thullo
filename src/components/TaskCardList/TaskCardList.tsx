@@ -2,16 +2,11 @@ import { Draggable, Container } from '@sntxx/react-smooth-dnd';
 import { useListTaskCard, useProvider } from '../../hooks';
 import { AddElementLabel, TaskCard } from '..';
 import Popover from '../Popover';
-import { CardStateProps } from '../../interfaces';
+import { CardStateProps, ListTypes } from '../../interfaces';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
-interface PropsTaskcardList {
-	list: {
-		_id: string;
-		name: string;
-		project: string;
-		taskCards: CardStateProps[];
-	};
+interface Props {
+	list: ListTypes;
 }
 
 const card: CardStateProps = {
@@ -25,7 +20,7 @@ const card: CardStateProps = {
 	labels: [],
 };
 
-export const TaskCardList = ({ list }: PropsTaskcardList) => {
+export const TaskCardList = ({ list }: Props) => {
 	const { setListCurrent, setIsShowModalFormCard, setCardUpdate } = useProvider();
 	const { handleEditCard, handleEditList, getCardPayload, onCardDrop } = useListTaskCard(list);
 

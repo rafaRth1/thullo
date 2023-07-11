@@ -2,15 +2,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ImageProfile, LabelElement, Logo } from '../../components';
 import { useProvider, useAuthProvider } from '../../hooks';
 import { IoApps } from 'react-icons/io5';
-import Popover from '../../components/Popover';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export const Header = (): JSX.Element => {
 	const [isShowMenuUser, setIsShowMenuUser] = useState(false);
-	const { auth, setAuth } = useAuthProvider();
 	const { project, setProject, setLists } = useProvider();
+	const { auth, setAuth } = useAuthProvider();
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	const ref = useRef<HTMLInputElement>(null);
 
 	const handleNavigationProfile = () => {
 		navigate(`/profile/${auth._id}`);
@@ -35,7 +36,7 @@ export const Header = (): JSX.Element => {
 
 	return (
 		<header>
-			<div className='border-b-neutral-700 flex items-center border-b mx-auto p-4'>
+			<div className='border-b-neutral-700 relative flex items-center border-b mx-auto p-4'>
 				<Link
 					to='/'
 					onClick={handleResetProject}>
@@ -69,9 +70,9 @@ export const Header = (): JSX.Element => {
 				<div className='mr-10 flex justify-end flex-1 w-full'>
 					<input
 						type='text'
-						placeholder='Keyword...'
+						placeholder='Search'
 						name='search'
-						className='bg-neutral-700 text-white focus-visible:outline-0 rounded-md py-1 px-3 mr-2'
+						className='bg-neutral-700 text-white focus-visible:outline-blue-700 rounded-md py-1 px-3 mr-2'
 					/>
 					<button className='bg-blue-600 text-white py-2 px-4 rounded-md text-base'>Search</button>
 				</div>

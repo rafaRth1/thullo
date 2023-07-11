@@ -1,8 +1,9 @@
 import axios, { CancelTokenSource } from 'axios';
-import clientAxios from '../../config/clientAxios';
 import { useState } from 'react';
 import { AppContext } from './AppContext';
+import clientAxios from '../../config/clientAxios';
 import { CardStateProps } from '../../interfaces/ListTaskCardTypes';
+import { ListTypes, ProjectTypes } from '../../interfaces';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];
@@ -20,12 +21,11 @@ let card: CardStateProps = {
 };
 
 export const AppProvider = ({ children }: Props): JSX.Element => {
-	const [lists, setLists] = useState<{
-		lists: any[];
-	}>({ lists: [] });
-	const [project, setProject] = useState<any>({});
-	const [projects, setProjects] = useState<any[]>([]);
+	const [lists, setLists] = useState<{ lists: ListTypes[] }>({ lists: [] });
+	const [project, setProject] = useState<ProjectTypes>({} as ProjectTypes);
+	const [projects, setProjects] = useState<ProjectTypes[]>([]);
 	const [listCurrent, setListCurrent] = useState('');
+	const [cardUpdate, setCardUpdate] = useState(card);
 	const [isShowModalFormList, setIsShowModalFormList] = useState(false);
 	const [isShowModalRename, setIsShowModalRename] = useState(false);
 	const [isShowModalFormCard, setIsShowModalFormCard] = useState(false);
@@ -33,7 +33,6 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 	const [alertHigh, setAlertHigh] = useState({ msg: '', error: false });
 	const [overflow, setOverflow] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const [cardUpdate, setCardUpdate] = useState(card);
 
 	// Project
 
@@ -53,7 +52,7 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 			setProject(data);
 		} catch (error) {
 			if (axios.isCancel(error)) {
-				console.log('Cancelled');
+				// console.log('Cancelled');
 			} else {
 				// Handle error
 				console.log(error);
@@ -166,9 +165,11 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 		};
 
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === listCurrent);
+		const [column] = listUpdate.lists.filter((list) => list._id === listCurrent);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
+
+		console.log(newColumn);
 
 		try {
 			const { data } = await clientAxios.post('/taskCard', card);
@@ -188,7 +189,7 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 
 	const handleEditCard = async (cardState: CardStateProps) => {
 		const listUpdate = Object.assign({}, lists);
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardState.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardState.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = Object.assign({}, column);
 
