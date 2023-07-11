@@ -1,0 +1,40 @@
+.modal-form-create-card::-webkit-scrollbar {
+	width: 0;
+}
+
+.modal-form-create-card-content {
+	width: 730px;
+	max-height: 90vh;
+	z-index: 50;
+	transition: 0.3s ease-in-out all;
+	scrollbar-width: none;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.modal-form-create-card-content::-webkit-scrollbar {
+	width: 0;
+}
+
+.card-column-one {
+	max-width: 450px;
+	min-width: 450px;
+}
+
+.card-column-one textarea {
+	max-height: 150px;
+	min-height: 150px;
+}
+
+.active-modal-card {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.input-description-card textarea::-webkit-scrollbar {
+	width: 0;
+}
+
+.list-comments::-webkit-scrollbar {
+	width: 0;
+}

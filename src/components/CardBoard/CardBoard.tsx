@@ -1,13 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ImageProfile } from '..';
+import { ImageProfile, OverlayImage, ProjectType } from '..';
+import { IoAddOutline } from 'react-icons/io5';
 
 interface Props {
-	project: {
-		_id: string;
-		name: string;
-		name_img: string;
-		collaborators: any[];
-	};
+	project: ProjectType;
 }
 
 export const CardBoard = ({ project }: Props) => {
@@ -17,19 +13,18 @@ export const CardBoard = ({ project }: Props) => {
 		<>
 			<div className='card-board-container bg-neutral-800 cursor-pointer rounded-lg p-2 mr-4 mb-4'>
 				<Link to={`/board/${_id}`}>
-					<div className='card-board-image mb-3 w-72'>
-						{!!project.name_img ? (
-							<img
+					<div className='card-board-image relative mb-3 w-72'>
+						{name_img ? (
+							<OverlayImage
 								src={name_img}
 								alt='Image Board'
-								className='rounded-lg w-full object-cover'
+								className='rounded-lg w-full object-cover h-[190px]'
 							/>
 						) : (
-							<img
+							<OverlayImage
 								src='https://i.pinimg.com/originals/85/a3/09/85a309ce4204e643f6ccb4c45d4bce4b.jpg'
 								alt='Image Board'
-								style={{ height: '190px' }}
-								className='rounded-lg w-full object-cover'
+								className='rounded-lg w-full object-cover h-[190px]'
 							/>
 						)}
 					</div>
@@ -37,13 +32,22 @@ export const CardBoard = ({ project }: Props) => {
 					<p className='card-board-name text-white text-xl mb-3'>{name}</p>
 
 					<div className='list-users flex items-center'>
-						{collaborators.map((collaborator: any) => (
-							<ImageProfile
-								key={collaborator._id}
-								name={collaborator.name}
-								color={collaborator.colorImg}
-							/>
-						))}
+						{collaborators.length === 0 ? (
+							<span className='bg-blue-500 inline-flex items-center justify-center cursor-pointer object-cover rounded-md text-3xl w-9 h-9 '>
+								<IoAddOutline
+									className='text-neutral-200'
+									size={20}
+								/>
+							</span>
+						) : (
+							collaborators.map((collaborator) => (
+								<ImageProfile
+									key={collaborator._id}
+									name={collaborator.name}
+									color={collaborator.colorImg}
+								/>
+							))
+						)}
 
 						{/* <span
 							className='text-white text-sm cursor-pointer'

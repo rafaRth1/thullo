@@ -2,7 +2,7 @@ import { IoAddOutline } from 'react-icons/io5';
 
 interface Props {
 	text: string;
-	handleDispatch: () => any;
+	handleDispatch?: () => any;
 }
 
 export const AddElementLabel = ({ text, handleDispatch }: Props) => {

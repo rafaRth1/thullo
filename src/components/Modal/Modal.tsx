@@ -1,10 +1,17 @@
-import ReactDOM from 'react-dom';
-import { useEffect } from 'react';
+import { ReactElement } from 'react';
+import { createPortal } from 'react-dom';
+import './Modal.css';
 
-interface PropsModal {
-	children: React.ReactNode | JSX.Element;
+interface Props {
+	isShow: boolean;
+	setIsShow?: React.Dispatch<React.SetStateAction<boolean>>;
+	children: ReactElement;
 }
 
-export const Modal = ({ children }: PropsModal) => {
-	return ReactDOM.createPortal(children, document.body);
+export const Modal = ({ isShow, children }: Props) => {
+	if (!isShow) {
+		return <></>;
+	}
+
+	return createPortal(children, document.body);
 };

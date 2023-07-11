@@ -4,24 +4,23 @@ import { applyDrag } from '../utils';
 import { useProvider } from './useProvider';
 
 interface Props {
-
-		_id: string;
-		name: string;
-		project: string;
-		taskCards: CardStateProps[];
+	_id: string;
+	name: string;
+	project: string;
+	taskCards: CardStateProps[];
 }
 
-export const useListTaskCard = ( list : Props) => {
-	const { lists, setLists, setListCurrent, setIsShowModalCard, setCardUpdate, setModalRename } =
+export const useListTaskCard = (list: Props) => {
+	const { lists, setLists, setListCurrent, setIsShowModalFormCard, setCardUpdate, setIsShowModalRename } =
 		useProvider();
 
 	const handleEditCard = (card: CardStateProps) => {
-		setIsShowModalCard(true);
+		setIsShowModalFormCard(true);
 		setCardUpdate(card);
 	};
 
 	const handleEditList = () => {
-		setModalRename(true);
+		setIsShowModalRename(true);
 		setListCurrent(list._id);
 	};
 

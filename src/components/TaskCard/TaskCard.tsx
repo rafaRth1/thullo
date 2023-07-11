@@ -2,6 +2,7 @@ import { Draggable } from '@sntxx/react-smooth-dnd';
 import { ImageProfile } from '../ImageProfile/ImageProfile';
 import { CardStateProps } from '../../interfaces/ListTaskCardTypes';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
+import { OverlayImage } from '../OverlayImage/OverlayImage';
 
 interface Props {
 	taskCard: CardStateProps;
@@ -12,36 +13,39 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 	return (
 		<Draggable>
 			<div
-				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-2`}
+				className='card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-2'
 				onClick={() => {
 					handleEditCard(taskCard);
 				}}>
 				<div className='card-content bg-neutral-800 p-2 shadow-xl rounded-2xl cursor-grab'>
-					<div className='card-image'>
-						{!!taskCard.imgUlr ? (
-							<img
-								src={taskCard.imgUlr}
-								alt='Card Image'
-								className='rounded-lg w-full object-cover mb-2'
-								style={{ height: '130px' }}
-							/>
-						) : null}
-					</div>
-
-					<p className='name-card text-white'>{taskCard.nameCard}</p>
-
-					{taskCard.labels.map((label) => (
-						<div
-							key={label._id}
-							className={`all-board inline-flex items-center rounded-lg py-1 px-3 mt-1 mx-2 text-xs cursor-pointer h-6`}
-							style={{ background: label.color_light }}>
-							<span
-								style={{ color: label.color }}
-								className='capitalize'>
-								{label.nameLabel}
-							</span>
+					{taskCard.imgUlr && (
+						<div className='card-image relative h-[130px] mb-2'>
+							{taskCard.imgUlr && (
+								<OverlayImage
+									src={taskCard.imgUlr}
+									alt='Card Image'
+									className='rounded-lg w-full h-full object-cover'
+								/>
+							)}
 						</div>
-					))}
+					)}
+
+					<p className='name-card text-white font-medium'>{taskCard.nameCard}</p>
+
+					<div className='labels my-2'>
+						{taskCard.labels.map((label) => (
+							<div
+								key={label._id}
+								className='inline-flex items-center cursor-pointer rounded-lg py-1 px-3 m-1 ml-0 text-xs'
+								style={{ background: label.color_light }}>
+								<span
+									style={{ color: label.color }}
+									className='capitalize font-medium'>
+									{label.nameLabel}
+								</span>
+							</div>
+						))}
+					</div>
 
 					<div className='footer-card flex items-center justify-between mt-3'>
 						<div className='users-access'>
@@ -53,6 +57,7 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 										<ImageProfile
 											name={member.name}
 											color={member.colorImg}
+											className='mr-2'
 										/>
 									</div>
 								))}

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { BoardContainer, Profile } from '../../pages';
+import { BoardContainer } from '../../pages';
 import { TrelloLayout } from './TrelloLayout';
 import { ListBoard } from '../../components';
 

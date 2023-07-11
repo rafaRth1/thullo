@@ -1,64 +1,46 @@
-import clientAxios from '../../config/clientAxios';
-import { useEffect, useState } from 'react';
-import { CardBoard, Modal, ModalCreateBoard } from '..';
-import { useProvider } from '../../hooks';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { CardBoard, Modal, ModalFormBoard, Spinner } from '..';
 import { IoAdd } from 'react-icons/io5';
+
+export interface ProjectType {
+	_id: string;
+	name: string;
+	name_img: string;
+	collaborators: any[];
+}
 
 export const ListBoard = (): JSX.Element => {
 	const [showModal, setShowModal] = useState(false);
-	const { projects, setProjects } = useProvider();
-
-	useEffect(() => {
-		const getProjects = async () => {
-			const token = localStorage.getItem('token');
-			if (!token) return;
-
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			};
-
-			try {
-				const { data } = await clientAxios('/projects', config);
-				setProjects(data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
-		getProjects();
-	}, []);
+	const { data: projects, isLoading } = useFetch<ProjectType[]>('/projects');
 
 	return (
 		<div className='content-list-board container mx-auto mt-10 p-4'>
 			<div className='header-list flex justify-between items-center w-full mb-10'>
-				<span className='text-white text-xl'>All Boards</span>
+				<span className='text-white text-lg'>All Boards</span>
 				<button
 					className='text-white flex items-center bg-blue-600 py-1 px-3 rounded-lg '
 					onClick={() => setShowModal(!showModal)}>
-					<IoAdd size={15} />
-					<span className='text-sm'>Add</span>
+					<IoAdd size={20} />
+					<span>Add</span>
 				</button>
 			</div>
 
-			<div className='list-board flex flex-wrap justify-center sm:justify-start'>
-				{projects.map((project) => (
-					<CardBoard
-						key={project._id}
-						project={project}
-					/>
-				))}
-			</div>
+			{isLoading ? (
+				<Spinner />
+			) : (
+				<div className='list-board flex flex-wrap justify-center sm:justify-start'>
+					{projects?.map((project) => (
+						<CardBoard
+							key={project._id}
+							project={project}
+						/>
+					))}
+				</div>
+			)}
 
-			<Modal>
-				{showModal ? (
-					<ModalCreateBoard
-						showModal={showModal}
-						setShowModal={setShowModal}
-					/>
-				) : null}
+			<Modal isShow={showModal}>
+				<ModalFormBoard setShowModal={setShowModal} />
 			</Modal>
 		</div>
 	);

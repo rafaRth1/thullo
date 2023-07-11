@@ -6,15 +6,15 @@ import { useProvider } from '../../hooks';
 import { applyDrag } from '../../utils';
 import {
 	Spinner,
-	ModalFormCreateCard,
-	ModalFormCreateList,
 	AddElementLabel,
-	Modal,
 	ModalRename,
 	TaskCardList,
+	Modal,
+	ModalFormList,
+	ModalFormCard,
 } from '../../components';
-
 import './Board.css';
+import { FormCardProvider } from '../../context';
 
 export const Board = (): JSX.Element => {
 	const { id } = useParams();
@@ -24,10 +24,10 @@ export const Board = (): JSX.Element => {
 		loading,
 		getProject,
 		getLists,
-		isShowModalCard,
-		showModalFormList,
-		modalFormList,
-		modalRename,
+		isShowModalRename,
+		isShowModalFormList,
+		isShowModalFormCard,
+		setIsShowModalFormList,
 	} = useProvider();
 
 	const onColumnDrop = (dropResult: {
@@ -80,21 +80,30 @@ export const Board = (): JSX.Element => {
 								list={list}
 							/>
 						))}
+
 						<div className='smooth-dnd-draggable-wrapper'>
 							<div className='contenedor-list'>
 								<AddElementLabel
 									text='Add Another List'
-									handleDispatch={showModalFormList}
+									handleDispatch={() => setIsShowModalFormList(true)}
 								/>
 							</div>
 						</div>
 					</Container>
 
-					<Modal>{modalFormList ? <ModalFormCreateList /> : null}</Modal>
+					<Modal isShow={isShowModalFormList}>
+						<ModalFormList />
+					</Modal>
 
-					<Modal>{isShowModalCard ? <ModalFormCreateCard /> : null}</Modal>
+					<Modal isShow={isShowModalFormCard}>
+						<FormCardProvider>
+							<ModalFormCard />
+						</FormCardProvider>
+					</Modal>
 
-					<Modal>{modalRename ? <ModalRename /> : null}</Modal>
+					<Modal isShow={isShowModalRename}>
+						<ModalRename />
+					</Modal>
 				</div>
 			)}
 		</main>
