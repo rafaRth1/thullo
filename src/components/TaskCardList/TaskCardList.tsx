@@ -5,8 +5,6 @@ import Popover from '../Popover';
 import { CardStateProps, ListTypes } from '../../interfaces';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
-// Comment
-
 interface Props {
 	list: ListTypes;
 }
@@ -23,8 +21,8 @@ const card: CardStateProps = {
 };
 
 export const TaskCardList = ({ list }: Props) => {
-	const { setListCurrent, setIsShowModalFormCard, setCardUpdate } = useProvider();
-	const { handleEditCard, handleEditList, getCardPayload, onCardDrop } = useListTaskCard(list);
+	const { setListCurrent, setIsShowModalFormCard, setCardUpdate, deleteList } = useProvider();
+	const { handleOpenFormEditCard, handleEditList, getCardPayload, onCardDrop } = useListTaskCard(list);
 
 	return (
 		<>
@@ -47,7 +45,7 @@ export const TaskCardList = ({ list }: Props) => {
 										className={`flex flex-col bottom-auto right-auto z-40 w-32 bg-neutral-700 rounded transition-opacity `}>
 										<span
 											className='text-yellow-500 hover:text-yellow-600 cursor-pointer text-md p-2'
-											onClick={() => handleEditList()}>
+											onClick={handleEditList}>
 											Rename
 										</span>
 
@@ -55,7 +53,7 @@ export const TaskCardList = ({ list }: Props) => {
 
 										<span
 											className='text-red-500 hover:text-red-600 cursor-pointer text-md p-2'
-											onClick={() => console.log('handleDeleteList')}>
+											onClick={() => deleteList(list._id)}>
 											Delete this list
 										</span>
 									</div>
@@ -80,7 +78,7 @@ export const TaskCardList = ({ list }: Props) => {
 							<TaskCard
 								key={taskCard._id}
 								taskCard={taskCard}
-								handleEditCard={handleEditCard}
+								handleOpenFormEditCard={handleOpenFormEditCard}
 							/>
 						))}
 

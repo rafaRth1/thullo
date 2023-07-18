@@ -6,14 +6,14 @@ import './ModalFormList.css';
 
 export const ModalFormList = (): JSX.Element => {
 	const [nameList, setNameList] = useState('');
-	const { handleAddList, setIsShowModalFormList } = useProvider();
+	const { addList, setIsShowModalFormList } = useProvider();
 	const { id } = useParams();
 
 	return (
 		<div className='fixed inset-0 w-full h-full flex justify-center items-center backdrop-blur transition-opacity z-50'>
 			<div className='z-30'>
 				<form
-					onSubmit={(e) => handleAddList(e, nameList, id)}
+					onSubmit={(e) => addList(e, nameList, id)}
 					className='flex flex-col w-80'>
 					<input
 						type='text'

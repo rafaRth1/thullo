@@ -1,9 +1,10 @@
-import axios, { CancelTokenSource } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { useState } from 'react';
 import { AppContext } from './AppContext';
 import clientAxios from '../../config/clientAxios';
 import { CardStateProps } from '../../interfaces/ListTaskCardTypes';
 import { ListTypes, ProjectTypes } from '../../interfaces';
+import { useToken } from '../../hooks';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];
@@ -35,63 +36,40 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 	const [loading, setLoading] = useState(true);
 
 	// Project
-
-	const getProject = async (id: string | undefined, cancelToken: CancelTokenSource) => {
+	const startProject = async (controller: AbortController, idProject?: string, idList?: string) => {
 		try {
 			const token = localStorage.getItem('token');
-
-			const config = {
+			const config: AxiosRequestConfig = {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
-				cancelToken: cancelToken.token,
+				signal: controller.signal,
 			};
 
-			const { data } = await clientAxios.get(`/projects/${id}`, config);
-			setProject(data);
+			const response = await Promise.allSettled([
+				await clientAxios(`/projects/${idProject}`, config),
+				await clientAxios(`/list/${idList}`, config),
+			]);
+
+			setProject(response[0].status === 'fulfilled' && response[0].value.data);
+			setLists({ lists: response[1].status === 'fulfilled' && response[1].value.data });
+			setLoading(false);
 		} catch (error) {
 			if (axios.isCancel(error)) {
-				// console.log('Cancelled');
+				// console.log('Request Canceled Clear');
 			} else {
-				// Handle error
+				setAlertHigh({
+					msg: 'Error obtener listas',
+					error: true,
+				});
 				console.log(error);
 			}
 		}
 	};
 
 	// Listas
-
-	const getLists = async (id: string | undefined, cancelToken: CancelTokenSource) => {
-		try {
-			const token = localStorage.getItem('token');
-
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-
-				cancelToken: cancelToken.token,
-			};
-
-			const { data } = await clientAxios(`/list/${id}`, config);
-			setLists({ lists: data });
-			setLoading(false);
-		} catch (error) {
-			setAlertHigh({
-				msg: 'Error obtener listas',
-				error: true,
-			});
-			if (axios.isCancel(error)) {
-				console.log('Cancelled');
-			} else {
-				// Handle error
-			}
-		}
-	};
-
-	const handleAddList = async (e: React.FormEvent<HTMLFormElement>, nameList: string, id?: string) => {
+	const addList = async (e: React.FormEvent<HTMLFormElement>, nameList: string, id?: string) => {
 		e.preventDefault();
 
 		if (nameList.length <= 4) {
@@ -100,8 +78,7 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 
 		try {
 			const token = localStorage.getItem('token');
-
-			const config = {
+			const config: AxiosRequestConfig = {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
@@ -116,23 +93,8 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 				},
 				config
 			);
-			1;
-
 			setLists({ lists: [...lists.lists, data] });
-
-			setAlertHigh({
-				msg: 'Lista Creada',
-				error: false,
-			});
-
 			setIsShowModalFormList(false);
-
-			setTimeout(() => {
-				setAlertHigh({
-					msg: '',
-					error: false,
-				});
-			}, 2000);
 		} catch (error) {
 			setAlertHigh({
 				msg: 'Error al crear una lista',
@@ -141,11 +103,33 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 		}
 	};
 
-	const handleUpdateList = async (idCard: string, idList: string) => {};
+	const updateList = async (idCard: string, idList: string) => {};
+
+	const deleteList = async (id: string) => {
+		try {
+			const token = localStorage.getItem('token');
+			const config: AxiosRequestConfig = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clientAxios.delete(`/list/${id}`, config);
+
+			console.log(data);
+
+			const listsUpdate = lists.lists.filter((list) => list._id !== id);
+			setLists({ lists: listsUpdate });
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	// Cards
-
 	const submitCard = async (cardState: CardStateProps) => {
+		console.log(cardState._id);
+
 		if (cardState?._id) {
 			await handleEditCard(cardState);
 		} else {
@@ -168,8 +152,6 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 		const [column] = listUpdate.lists.filter((list) => list._id === listCurrent);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
-
-		console.log(newColumn);
 
 		try {
 			const { data } = await clientAxios.post('/taskCard', card);
@@ -194,13 +176,13 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 		const newColumn = Object.assign({}, column);
 
 		try {
-			const { data } = await clientAxios.put(`/taskCard/${cardState._id}`, cardState);
+			// const { data } = await clientAxios.put(`/taskCard/${cardState._id}`, cardState);
 
-			let update = newColumn.taskCards.map((taskCard: any) =>
-				taskCard._id === data._id ? data : taskCard
-			);
+			// let update = newColumn.taskCards.map((taskCard: any) =>
+			// 	taskCard._id === data._id ? data : taskCard
+			// );
 
-			console.log(data);
+			console.log(cardState);
 
 			// newColumn.taskCards = [...update];
 			// listUpdate.lists.splice(columnIndex, 1, newColumn);
@@ -213,18 +195,6 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	const handleGetProject = async () => {
-	// 		try {
-	// 			console.log(window.location.href.split('/')[4]);
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	};
-
-	// 	handleGetProject();
-	// }, []);
-
 	return (
 		<AppContext.Provider
 			value={{
@@ -236,12 +206,13 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 				setProjects,
 				listCurrent,
 				setListCurrent,
-				handleAddList,
+				addList,
+				deleteList,
 				alertHigh,
 				setAlertHigh,
 				isShowModalFormList,
 				setIsShowModalFormList,
-				handleUpdateList,
+				updateList,
 				overflow,
 				setOverflow,
 				loading,
@@ -253,8 +224,7 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 				setIsShowModalRename,
 				cardUpdate,
 				setCardUpdate,
-				getProject,
-				getLists,
+				startProject,
 				isShowMenuProject,
 				setIsShowMenuProject,
 			}}>

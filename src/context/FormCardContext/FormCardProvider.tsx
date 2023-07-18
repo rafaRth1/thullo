@@ -21,10 +21,10 @@ const formData = {
 const formValidations = {
 	// url_image: [(value: string) => value.length >= 6, 'Name de la Imagen es negable'],
 	// name_card: [(value: string) => value.length >= 6, 'Name de la carta es negable'],
-	// description: [(value: any) => value.length >= 1, 'Nombre de la descripcion es negable'],
-	// comments: [(value: any) => value.length >= 0, 'Seccion de Comentarios'],
+	// description: [(value) => value.length >= 1, 'Nombre de la descripcion es negable'],
+	// comments: [(value) => value.length >= 0, 'Seccion de Comentarios'],
 	// attachments: [(value: string) => value.length >= 0, 'Name de los archivos es negable'],
-	// labels: [(value: any) => value.length >= 0, 'Name de los labels es negable'],
+	// labels: [(value) => value.length >= 0, 'Name de los labels es negable'],
 };
 
 export const FormCardProvider = ({ children }: Props) => {
@@ -33,19 +33,19 @@ export const FormCardProvider = ({ children }: Props) => {
 
 	const handleDeleteCard = async () => {
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
 		try {
 			const { data } = await clientAxios.delete(`/taskCard/${formState._id}`);
 
-			const taskCardUpdate = newColumn.taskCards.filter((taskCard: any) => taskCard._id !== formState._id);
+			const taskCardUpdate = newColumn.taskCards.filter((taskCard) => taskCard._id !== formState._id);
 			newColumn.taskCards = [...taskCardUpdate];
 			listUpdate.lists.splice(columnIndex, 1, newColumn);
 			setLists(listUpdate);
 
-			// setCards((cardsPrev: any) => cardsPrev.filter((card: any) => card._id !== formState._id));
+			// setCards((cardsPrev) => cardsPrev.filter((card) => card._id !== formState._id));
 			setIsShowModalFormCard(false);
 		} catch (error) {
 			console.log(error);
@@ -57,7 +57,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			return;
 		} else {
 			const listUpdate = { ...lists };
-			const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+			const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 			const columnIndex = listUpdate.lists.indexOf(column);
 			const newColumn = { ...column };
 
@@ -70,7 +70,7 @@ export const FormCardProvider = ({ children }: Props) => {
 				formStateUpdate.nameCard = data.nameCard;
 				setFormState(formStateUpdate);
 
-				const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+				const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 					taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 				);
 
@@ -92,7 +92,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			});
 
 			const listUpdate = { ...lists };
-			const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+			const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 			const columnIndex = listUpdate.lists.indexOf(column);
 			const newColumn = { ...column };
 
@@ -100,7 +100,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			formStateUpdate.description = data.description;
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -119,7 +119,7 @@ export const FormCardProvider = ({ children }: Props) => {
 		}
 
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
@@ -128,14 +128,14 @@ export const FormCardProvider = ({ children }: Props) => {
 				nameLabel: value.nameLabel,
 				nameColor: value.palet.name,
 				color: value.palet.color,
-				color_light: value.palet.color_light,
+				colorLight: value.palet.colorLight,
 			});
 
 			const formStateUpdate = { ...formState };
 			formStateUpdate.labels = [...formStateUpdate.labels, data];
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -147,7 +147,7 @@ export const FormCardProvider = ({ children }: Props) => {
 				palet: {
 					name: 'green',
 					color: '#16a34a',
-					color_light: '#86efac',
+					colorLight: '#86efac',
 				},
 			});
 		} catch (error) {
@@ -155,9 +155,9 @@ export const FormCardProvider = ({ children }: Props) => {
 		}
 	};
 
-	const handleRemoveAvailable = async (id: string) => {
+	const deleteLabel = async (id: string) => {
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
@@ -166,13 +166,15 @@ export const FormCardProvider = ({ children }: Props) => {
 				idLabel: id,
 			});
 
+			console.log(data);
+
 			const formStateUpdate = { ...formState };
 			formStateUpdate.labels = formStateUpdate.labels.filter(
 				(labels: { _id: string }) => labels._id !== id
 			);
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -185,8 +187,10 @@ export const FormCardProvider = ({ children }: Props) => {
 	};
 
 	const handleSelectImage = async (image: any) => {
+		console.log(image);
+
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
@@ -199,7 +203,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			formStateUpdate.imgUlr = data.imgUlr;
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -213,7 +217,7 @@ export const FormCardProvider = ({ children }: Props) => {
 
 	const handleDeleteImage = async () => {
 		const listUpdate = { ...lists };
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
@@ -226,7 +230,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			formStateUpdate.imgUlr = data.imgUlr;
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -242,7 +246,7 @@ export const FormCardProvider = ({ children }: Props) => {
 		// const listUpdate = { ...lists };
 
 		const listUpdate = Object.assign({}, lists);
-		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = Object.assign({}, column);
 
@@ -255,7 +259,7 @@ export const FormCardProvider = ({ children }: Props) => {
 			formStateUpdate.members = data;
 			setFormState(formStateUpdate);
 
-			const taskCardUpdate = newColumn.taskCards.map((taskCard: any) =>
+			const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
 				taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
 			);
 
@@ -274,7 +278,7 @@ export const FormCardProvider = ({ children }: Props) => {
 		try {
 			const { data } = await clientAxios.get(`/taskCard/member/${project._id}`);
 			setValueSearch(data);
-			setValue('')
+			setValue('');
 		} catch (error) {
 			console.log(error);
 		}
@@ -299,7 +303,7 @@ export const FormCardProvider = ({ children }: Props) => {
 				handleEditDescription,
 				handleDeleteCard,
 				handleAddLabel,
-				handleRemoveAvailable,
+				deleteLabel,
 				handleDeleteImage,
 				handleSelectImage,
 				handleAssignMember,

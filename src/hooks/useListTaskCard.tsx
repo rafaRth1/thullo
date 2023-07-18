@@ -13,7 +13,7 @@ export const useListTaskCard = (list: Props) => {
 	const { lists, setLists, setListCurrent, setIsShowModalFormCard, setCardUpdate, setIsShowModalRename } =
 		useProvider();
 
-	const handleEditCard = (card: CardStateProps) => {
+	const handleOpenFormEditCard = (card: CardStateProps) => {
 		setIsShowModalFormCard(true);
 		setCardUpdate(card);
 	};
@@ -57,7 +57,7 @@ export const useListTaskCard = (list: Props) => {
 	};
 
 	return {
-		handleEditCard,
+		handleOpenFormEditCard,
 		handleEditList,
 		onCardDrop,
 		getCardPayload,

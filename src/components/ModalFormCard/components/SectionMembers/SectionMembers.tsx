@@ -36,7 +36,7 @@ export const SectionMembers = () => {
 						<span className='pl-2'>
 							<IoPeopleSharp className='text-white mr-2 text-xs' />
 						</span>
-						<span className='text-neutral-200 capitalize text-xs'>Labels</span>
+						<span className='text-neutral-200 capitalize text-xs'>Members</span>
 					</div>
 				</Popover.Trigger>
 

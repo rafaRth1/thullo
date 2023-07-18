@@ -22,12 +22,11 @@ export const Board = (): JSX.Element => {
 		lists,
 		setLists,
 		loading,
-		getProject,
-		getLists,
 		isShowModalRename,
 		isShowModalFormList,
 		isShowModalFormCard,
 		setIsShowModalFormList,
+		startProject,
 	} = useProvider();
 
 	const onColumnDrop = (dropResult: {
@@ -41,20 +40,11 @@ export const Board = (): JSX.Element => {
 	};
 
 	useEffect(() => {
-		const cancelToken = axios.CancelToken.source();
-		getProject(id, cancelToken);
+		const controller = new AbortController();
+		startProject(controller, id, id);
 
 		return () => {
-			cancelToken.cancel();
-		};
-	}, []);
-
-	useEffect(() => {
-		const cancelToken = axios.CancelToken.source();
-		getLists(id, cancelToken);
-
-		return () => {
-			cancelToken.cancel();
+			controller.abort();
 		};
 	}, []);
 

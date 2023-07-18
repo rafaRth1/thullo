@@ -6,16 +6,16 @@ import { OverlayImage } from '../OverlayImage/OverlayImage';
 
 interface Props {
 	taskCard: CardStateProps;
-	handleEditCard: (card: CardStateProps) => void;
+	handleOpenFormEditCard: (card: CardStateProps) => void;
 }
 
-export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
+export const TaskCard = ({ taskCard, handleOpenFormEditCard }: Props) => {
 	return (
 		<Draggable>
 			<div
 				className='card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-2'
 				onClick={() => {
-					handleEditCard(taskCard);
+					handleOpenFormEditCard(taskCard);
 				}}>
 				<div className='card-content bg-neutral-800 p-2 shadow-xl rounded-2xl cursor-grab'>
 					{taskCard.imgUlr && (
@@ -37,7 +37,7 @@ export const TaskCard = ({ taskCard, handleEditCard }: Props) => {
 							<div
 								key={label._id}
 								className='inline-flex items-center cursor-pointer rounded-lg py-1 px-3 m-1 ml-0 text-xs'
-								style={{ background: label.color_light }}>
+								style={{ background: label.colorLight }}>
 								<span
 									style={{ color: label.color }}
 									className='capitalize font-medium'>

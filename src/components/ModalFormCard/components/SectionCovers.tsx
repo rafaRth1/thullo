@@ -31,7 +31,7 @@ export const SectionCovers = (): JSX.Element => {
 						<span className='pl-2'>
 							<IoImage className='text-white mr-2 text-xs' />
 						</span>
-						<span className='text-neutral-200 capitalize text-xs'>Labels</span>
+						<span className='text-neutral-200 capitalize text-xs'>Covers</span>
 					</div>
 				</Popover.Trigger>
 
@@ -60,7 +60,7 @@ export const SectionCovers = (): JSX.Element => {
 						</div>
 
 						{formState.imgUlr && (
-							<div className='delete-image'>
+							<div className='delete-image mb-1'>
 								<button
 									type='button'
 									className='text-white text-center rounded bg-red-600 hover:bg-red-700 w-full p-1 text-sm '

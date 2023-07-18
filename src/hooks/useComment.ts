@@ -30,7 +30,6 @@ export const useComment = ({ formState, setFormState }: Props) => {
 			return;
 		}
 
-		// const listUpdate = Object.assign({}, lists);
 		const listUpdate = { ...lists };
 		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
@@ -71,7 +70,10 @@ export const useComment = ({ formState, setFormState }: Props) => {
 		const newColumn = { ...column };
 
 		try {
-			const { data } = await clientAxios.put(`/taskCard/comment/${id}`, { bodyComment: comment });
+			const { data } = await clientAxios.put(`/taskCard/comment/${formState._id}`, {
+				id: id,
+				bodyComment: comment,
+			});
 
 			const formStateUpdate = { ...formState };
 			formStateUpdate.comments = formState.comments.map((comment: any) =>
@@ -94,12 +96,16 @@ export const useComment = ({ formState, setFormState }: Props) => {
 
 	const handleDeleteComment = async (id: string) => {
 		const listUpdate = { ...lists };
-		const column = listUpdate.lists.find((list: any) => list._id === cardUpdate.list);
+		const [column] = listUpdate.lists.filter((list: any) => list._id === cardUpdate.list);
 		const columnIndex = listUpdate.lists.indexOf(column);
 		const newColumn = { ...column };
 
 		try {
-			await clientAxios.delete(`/taskCard/comment/${id}`);
+			const { data } = await clientAxios.post(`/taskCard/comment-delete/${formState._id}`, {
+				idComment: id,
+			});
+
+			console.log(data);
 
 			const formStateUpdate = { ...formState };
 			formStateUpdate.comments = formStateUpdate.comments.filter((comment: any) => comment._id !== id);

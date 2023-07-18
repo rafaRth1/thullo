@@ -5,7 +5,7 @@ export interface ValueLabelTypes {
 	palet: {
 		name: string;
 		color: string;
-		color_light: string;
+		colorLight: string;
 	};
 }
 
@@ -21,7 +21,7 @@ export interface FormCardContextProps {
 		value: ValueLabelTypes,
 		setValue: React.Dispatch<React.SetStateAction<ValueLabelTypes>>
 	) => Promise<void>;
-	handleRemoveAvailable: (id: string) => Promise<void>;
+	deleteLabel: (id: string) => Promise<void>;
 	handleSelectImage: (image: any) => Promise<void>;
 	handleDeleteImage: () => Promise<void>;
 	handleAssignMember: (pickMembers: any) => Promise<void>;

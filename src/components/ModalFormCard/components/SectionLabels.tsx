@@ -5,18 +5,18 @@ import Popover from '../../Popover';
 import { IoPricetag } from 'react-icons/io5';
 
 export const SectionLabels = () => {
-	const { formState, handleAddLabel, handleRemoveAvailable } = useContext(FormCardContext);
+	const { formState, handleAddLabel, deleteLabel } = useContext(FormCardContext);
 	const [stateToggle, setStateToggle] = useState(0);
 	const [value, setValue] = useState({
 		nameLabel: '',
 		palet: {
 			name: 'green',
 			color: '#16a34a',
-			color_light: '#86efac',
+			colorLight: '#86efac',
 		},
 	});
 
-	const handleSelectColor = (palet: { name: string; color: string; color_light: string }, index: number) => {
+	const handleSelectColor = (palet: { name: string; color: string; colorLight: string }, index: number) => {
 		setStateToggle(index);
 		setValue({ ...value, palet });
 	};
@@ -77,8 +77,8 @@ export const SectionLabels = () => {
 									<div
 										key={label._id}
 										className='all-board inline-flex items-center cursor-pointer rounded-lg py-1 px-3 mr-1 mt-1 text-xs'
-										style={{ background: label.color_light }}
-										onClick={() => handleRemoveAvailable(label._id)}>
+										style={{ background: label.colorLight }}
+										onClick={() => deleteLabel(label._id)}>
 										<span
 											style={{ color: label.color }}
 											className='font-medium'>
