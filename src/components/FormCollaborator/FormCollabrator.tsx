@@ -1,12 +1,12 @@
-import clientAxios from '../../config/clientAxios';
+import clientAxios from '../../utils/clientAxios';
 import { useState } from 'react';
 import { ImageProfile } from '../';
-import { useProvider } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { IoSearchSharp } from 'react-icons/io5';
 
 export const FormCollabrator = ({ collaborator, setCollaborator }: any) => {
 	const [email, setEmail] = useState('');
-	const { project, setProject } = useProvider();
+	const { project } = useAppSelector(state => state.lists);
 
 	const handleSearchUser = async () => {
 		if (!email.includes('@') || !email.includes('.com')) {
@@ -41,7 +41,9 @@ export const FormCollabrator = ({ collaborator, setCollaborator }: any) => {
 				config
 			);
 
-			setProject(data);
+			console.log(data);
+
+			// setProject(data);
 			setCollaborator({ name: '', email: '', _id: '', colorImg: '' });
 		} catch (error) {
 			console.log(error);

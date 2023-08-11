@@ -3,13 +3,13 @@ export * from './ModalContextProps';
 import { CardStateProps } from './ListTaskCardTypes';
 
 export interface ProjectTypes {
-	_id?: string;
+	_id: string;
 	name: string;
-	description: string;
+	name_img: string;
+	description?: string;
 	collaborators: any[];
 	creator: string;
 	type: string;
-	__v?: number;
 }
 
 export interface ListTypes {

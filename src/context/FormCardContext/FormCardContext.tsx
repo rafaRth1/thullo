@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { CardStateProps } from '../../interfaces';
 
 export interface ValueLabelTypes {
 	nameLabel: string;
@@ -10,8 +11,8 @@ export interface ValueLabelTypes {
 }
 
 export interface FormCardContextProps {
-	formState: any;
-	setFormState: React.Dispatch<any>;
+	formState: CardStateProps;
+	setFormState: React.Dispatch<CardStateProps>;
 	onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	onResetForm: () => void;
 	handleEditNameCard: () => Promise<void>;
@@ -25,7 +26,7 @@ export interface FormCardContextProps {
 	handleSelectImage: (image: any) => Promise<void>;
 	handleDeleteImage: () => Promise<void>;
 	handleAssignMember: (pickMembers: any) => Promise<void>;
-	handleSearch: (
+	handleSearchUser: (
 		setValueSearch: React.Dispatch<React.SetStateAction<any[]>>,
 		setValue: React.Dispatch<React.SetStateAction<string>>
 	) => Promise<void>;

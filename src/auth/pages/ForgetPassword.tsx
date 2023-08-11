@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alerta, Logo } from '../../components';
-import clientAxios from '../../config/clientAxios';
+import clientAxios from '../../utils/clientAxios';
 
 export const ForgetPassword = (): JSX.Element => {
 	const [email, setEmail] = useState('');

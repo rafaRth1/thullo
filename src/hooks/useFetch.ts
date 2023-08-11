@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import clientAxios from '../config/clientAxios';
+import clientAxios from '../utils/clientAxios';
 
 export const useFetch = <T>(query: string): { data: T; isLoading: boolean } => {
-	const [data, setData] = useState<any>();
+	const [data, setData] = useState<T>([] as T);
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {

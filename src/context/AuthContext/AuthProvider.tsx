@@ -1,5 +1,5 @@
 import axios from 'axios';
-import clientAxios from '../../config/clientAxios';
+import clientAxios from '../../utils/clientAxios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';

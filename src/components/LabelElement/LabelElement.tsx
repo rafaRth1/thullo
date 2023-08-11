@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface Props {
 	children?: JSX.Element | JSX.Element[];
 	label: string;
@@ -5,7 +7,7 @@ interface Props {
 	handleFunction?: () => void;
 }
 
-export const LabelElement = ({ children, label, classname, handleFunction }: Props): JSX.Element => {
+export const LabelElement = memo(({ children, label, classname, handleFunction }: Props): JSX.Element => {
 	return (
 		<div
 			onClick={handleFunction}
@@ -14,4 +16,4 @@ export const LabelElement = ({ children, label, classname, handleFunction }: Pro
 			<span className='ml-1 text-neutral-200 capitalize'>{label}</span>
 		</div>
 	);
-};
+});

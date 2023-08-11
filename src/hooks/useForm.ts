@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
-export const useForm = (initialForm = {}, formValidations: any) => {
+interface ReturnValuesTyped<T> {
+	formState: T;
+	setFormState: React.Dispatch<T>;
+	onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	onResetForm: () => void;
+}
+
+export const useForm = <T>(initialForm = {}, formValidations: any): ReturnValuesTyped<T> => {
 	const [formState, setFormState] = useState<any>(initialForm);
 	const [formValidation, setFormValidation] = useState<any>({});
 

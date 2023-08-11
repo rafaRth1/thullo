@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthRouter } from '../auth/routes/AuthRouter';
-import { TrelloRouter } from '../trelloApp/routes/TrelloRouter';
+import { HomeRouter } from './routes/HomeRouter';
 
 export const AppRouter = () => {
 	return (
 		<Routes>
 			<Route
 				path='/*'
-				element={<TrelloRouter />}
+				element={<HomeRouter />}
 			/>
 
 			<Route

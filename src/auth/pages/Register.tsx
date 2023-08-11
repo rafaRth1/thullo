@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../components';
-import clientAxios from '../../config/clientAxios';
+import clientAxios from '../../utils/clientAxios';
 import { useForm } from '../../hooks';
 import { pickColors } from '../../utils/pickColor';
 
