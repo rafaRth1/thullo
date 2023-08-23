@@ -1,10 +1,10 @@
-import { useAppSelector, useProvider } from '@hooks/';
-import { SubHeaderContent } from './SubHeaderContent';
 import { useState } from 'react';
+import { useProvider } from '@hooks/';
+import { SubHeaderContent } from './SubHeaderContent';
 
 export const SubHeader = () => {
 	const [isShowMenuProject, setIsShowMenuProject] = useState(false);
-	const { project } = useAppSelector((state) => state.lists);
+	const { project } = useProvider();
 
 	return (
 		<SubHeaderContent

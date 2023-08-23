@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useProvider } from '@hooks/';
 import { addListThunk, editListThunk } from '@redux/home/slices/listsSlice';
+import { ListTypes } from '@interfaces/';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import './ModalFormList.css';
 
@@ -36,17 +37,21 @@ export const ModalFormList = ({ setIsShowModalFormList }: Props) => {
 	const handleUpdateList = async () => {
 		if (nameList.length <= 4) return;
 
-		await dispatch(editListThunk(listCurrent, nameList));
+		await dispatch(editListThunk(listCurrent._id, nameList));
 		setIsShowModalFormList(false);
 	};
 
 	const handleCloseAndClear = () => {
-		setListCurrent('');
-		setIsShowModalFormList(false);
+		if (listCurrent._id) {
+			setListCurrent({} as ListTypes);
+			setIsShowModalFormList(false);
+		} else {
+			setIsShowModalFormList(false);
+		}
 	};
 
 	useEffect(() => {
-		const [listSelected] = lists.filter((list) => list._id === listCurrent);
+		const [listSelected] = lists.filter((list) => list._id === listCurrent._id);
 
 		if (listSelected?.name !== undefined) {
 			setNameList(listSelected.name);
@@ -75,7 +80,7 @@ export const ModalFormList = ({ setIsShowModalFormList }: Props) => {
 					<button
 						type='submit'
 						className='text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg p-2'>
-						{!listCurrent ? 'Create List' : 'Update List'}
+						{!listCurrent._id ? 'Create List' : 'Update List'}
 					</button>
 				</form>
 

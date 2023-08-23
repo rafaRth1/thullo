@@ -26,14 +26,6 @@ export const listSlice = createSlice({
 			state.lists = action.payload.lists;
 		},
 
-		startGetProjectAndListsObject: (
-			state: InitialStateListSlice,
-			action: FulfilledAction<{ lists: any }>
-		) => {
-			// state.lists = action.payload.lists.lists;
-			state.listsObject = action.payload;
-		},
-
 		addList: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
 			state.lists = [...state.lists, action.payload];
 		},
@@ -53,15 +45,16 @@ export const listSlice = createSlice({
 		},
 
 		updateListDrag: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
-			// const { dropResult, columnId } = action.payload;
-			// const listsUpdate = state.lists;
-			// let [column] = listsUpdate.filter((list: any) => list._id === columnId);
-			// const columnIndex = listsUpdate.indexOf(column);
-			// let newColumn = column;
-			// newColumn.taskCards = applyDrag(newColumn.taskCards, dropResult);
-			// listsUpdate.splice(columnIndex, 1, newColumn);
-			// console.log(current(listsUpdate));
-			// state.lists = action.payload;
+			const { type, items, sourceIndex, destinationIndex } = action.payload;
+
+			if (type === 'REORDER') {
+				if (!state.lists[sourceIndex]) return;
+				state.lists[sourceIndex].taskCards = items;
+			} else {
+				if (!state.lists[destinationIndex]) return;
+				state.lists[sourceIndex].taskCards = items[sourceIndex];
+				state.lists[destinationIndex].taskCards = items[destinationIndex];
+			}
 		},
 
 		deleteList: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
@@ -70,6 +63,53 @@ export const listSlice = createSlice({
 			const listsUpdate = state.lists.filter((list) => list._id !== idList);
 
 			state.lists = listsUpdate;
+		},
+
+		addTaskCard: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
+			const { data, listIndex } = action.payload;
+
+			if (!state.lists[listIndex]) {
+				return;
+			}
+
+			state.lists[listIndex].taskCards = [...state.lists[listIndex].taskCards, data];
+		},
+
+		editTaskCard: (
+			state: InitialStateListSlice,
+			action: FulfilledAction<{ data: any; listId?: string }>
+		) => {
+			const { data, listId } = action.payload;
+			const list = state.lists.find((list) => list._id === listId);
+
+			if (list) {
+				const taskCard = list?.taskCards.find((taskCard) => taskCard._id === data._id);
+				if (taskCard) {
+					taskCard.nameCard = data.nameCard || taskCard.nameCard;
+					taskCard.description = data.description || taskCard.description;
+				}
+			}
+		},
+
+		deleteTaskCard: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
+			const { idTaskCard, listId } = action.payload;
+			const list = state.lists.find((list) => list._id === listId);
+
+			if (list) {
+				list.taskCards = list.taskCards.filter((taskCard) => taskCard._id !== idTaskCard);
+			}
+		},
+
+		addComment: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
+			const { data, listId, idTaskCard } = action.payload;
+			const list = state.lists.find((list) => list._id === listId);
+
+			if (list) {
+				const taskCard = list.taskCards.find((taskCard) => taskCard._id === idTaskCard);
+				if (taskCard) {
+					taskCard.comments = [...taskCard.comments, data];
+				}
+			}
 		},
 
 		getProjectUdpate: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
@@ -85,10 +125,34 @@ export const listSlice = createSlice({
 export const {
 	loadingStart,
 	startGetProjectAndLists,
-	startGetProjectAndListsObject,
 	addList,
 	editList,
 	deleteList,
 	updateListDrag,
+	addTaskCard,
+	editTaskCard,
+	deleteTaskCard,
+	addComment,
 	getProjectUdpate,
 } = listSlice.actions;
+
+// if (formState.description === cardUpdate.description) {
+// 	return;
+// } else {
+// 	const { data } = await clientAxios.put(`/taskCard/${formState._id}`, {
+// 		description: formState.description,
+// 	});
+// 	const listUpdate = lists;
+// 	const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
+// 	const columnIndex = listUpdate.indexOf(column);
+// 	const newColumn = column;
+// 	const formStateUpdate = { ...formState };
+// 	formStateUpdate.description = data.description;
+// 	setFormState(formStateUpdate);
+// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
+// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
+// 	);
+// 	newColumn.taskCards = [...taskCardUpdate];
+// 	listUpdate.splice(columnIndex, 1, newColumn);
+// 	setLists(listUpdate);
+// }

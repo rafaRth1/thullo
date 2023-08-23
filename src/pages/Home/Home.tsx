@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { BoardProvider } from '@context/BoardContext/BoardProvider';
-import { useAuthProvider } from '@hooks/useAuthProvider';
 import { Spinner } from '@components/';
-import { Header } from '@pages/Home/views/';
+import { AppProvider, BoardProvider } from '@context/';
+import { useAuthProvider } from '@hooks/useAuthProvider';
+import { Header, SubHeader } from '@pages/Home/views/';
 
 export const Home = () => {
 	const { auth, loading } = useAuthProvider();
@@ -18,11 +18,14 @@ export const Home = () => {
 		<>
 			{auth?._id ? (
 				<>
-					<Header />
+					<AppProvider>
+						<Header />
+						<SubHeader />
 
-					<BoardProvider>
-						<Outlet />
-					</BoardProvider>
+						<BoardProvider>
+							<Outlet />
+						</BoardProvider>
+					</AppProvider>
 				</>
 			) : (
 				<Navigate to='/auth/login' />

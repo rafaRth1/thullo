@@ -1,21 +1,14 @@
 import { ImageProfile } from '@components/';
+import { TypeComment } from '@interfaces/index';
 
 interface Props {
-	comment: Comment;
+	comment: TypeComment;
 	authId: string;
 	creatorProject: string;
 	setValues: ({ _id, comment }: any) => void;
 	handleDeleteComment: (id: string) => Promise<void>;
 }
 
-interface Comment {
-	_id: string;
-	name: string;
-	dateCurrent: string;
-	comment: string;
-	colorImg: string;
-	author: string;
-}
 
 export const Comments = ({ comment, authId, creatorProject, setValues, handleDeleteComment }: Props) => {
 	return (
@@ -45,7 +38,7 @@ export const Comments = ({ comment, authId, creatorProject, setValues, handleDel
 						<button
 							type='button'
 							className='px-2 text-sm hover:text-red-500'
-							onClick={() => handleDeleteComment(comment._id)}>
+							onClick={() => handleDeleteComment(comment._id!)}>
 							Delete
 						</button>
 					</div>

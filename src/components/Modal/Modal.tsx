@@ -1,17 +1,22 @@
-import { ReactElement } from 'react';
+import { ReactElement, useMemo, useState } from 'react';
+import { ModalContext } from './context/ModalContext';
 import { createPortal } from 'react-dom';
 import './Modal.css';
 
 interface Props {
-	isShow: boolean;
-	setIsShow?: React.Dispatch<React.SetStateAction<boolean>>;
-	children: ReactElement;
+	children: ReactElement | ReactElement[];
 }
 
-export const Modal = ({ isShow, children }: Props) => {
-	if (!isShow) {
-		return <></>;
-	}
+export const Modal = ({ children }: Props) => {
+	const [isShow, setIsShow] = useState(false);
 
-	return createPortal(children, document.body);
+	const contextValues = useMemo(
+		() => ({
+			isShow,
+			setIsShow,
+		}),
+		[isShow, setIsShow]
+	);
+
+	return <ModalContext.Provider value={contextValues}>{children}</ModalContext.Provider>;
 };

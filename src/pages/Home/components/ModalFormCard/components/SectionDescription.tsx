@@ -1,10 +1,32 @@
-import { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { LabelElement } from '@components/';
-import { FormCardContext } from '@context/';
 import { IoDocumentTextOutline, IoPencilSharp } from 'react-icons/io5';
+import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
+import { editDesciptionTaskCardThunk } from '@redux/home/slices/listsSlice';
+import { useProvider } from '@hooks/useProvider';
 
 export const SectionDescription = () => {
-	const { formState, onInputChange, handleEditDescription } = useContext(FormCardContext);
+	const [description, setDescription] = useState('');
+	const { cardUpdate } = useProvider();
+	const dispatch = useAppDispatch();
+	const { lists } = useAppSelector((state) => state.lists);
+
+	const handleEditDescription = () => {
+		if (description === cardUpdate.description) {
+			return;
+		}
+
+		setDescription(description);
+		dispatch(editDesciptionTaskCardThunk(description, cardUpdate.list, cardUpdate._id));
+	};
+
+	useEffect(() => {
+		setDescription(cardUpdate.description);
+
+		return () => {
+			setDescription('');
+		};
+	}, []);
 
 	return (
 		<div className='description-card-content'>
@@ -28,8 +50,8 @@ export const SectionDescription = () => {
 				className='w-full p-2 mt-3 bg-transparent text-white'
 				placeholder='Write a description...'
 				name='description'
-				value={formState?.description}
-				onChange={(e) => onInputChange(e)}
+				value={description}
+				onChange={(e) => setDescription(e.target.value)}
 				onBlur={handleEditDescription}
 			/>
 		</div>

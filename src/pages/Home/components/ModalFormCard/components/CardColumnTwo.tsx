@@ -1,11 +1,28 @@
-import { useContext } from 'react';
-import { FormCardContext } from '@context/';
-import { SectionCovers, SectionLabels } from './';
-import { SectionMembers } from './SectionMembers/SectionMembers';
+import { useProvider } from '@hooks/useProvider';
+import { useAppDispatch } from '@hooks/useRedux';
+import { deleteCardThunk } from '@redux/home/slices/listsSlice';
+import { SectionCovers, SectionLabels, SectionMembers } from './';
 import { IoPersonCircleOutline } from 'react-icons/io5';
 
-export const CardColumnTwo = () => {
-	const { formState, handleDeleteCard } = useContext(FormCardContext);
+interface Props {
+	setIsShowModalFormCard: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CardColumnTwo = ({ setIsShowModalFormCard }: Props) => {
+	const { cardUpdate } = useProvider();
+	const dispatch = useAppDispatch();
+
+	const handleDeleteCard = async () => {
+		const alertValue = confirm('Are you sure you want to delete?');
+
+		if (!alertValue) {
+			return;
+		}
+
+		await dispatch(deleteCardThunk(cardUpdate._id, cardUpdate.list));
+
+		setIsShowModalFormCard(false);
+	};
 
 	return (
 		<div className='card-column-two flex-1'>
@@ -22,13 +39,11 @@ export const CardColumnTwo = () => {
 				<SectionCovers />
 				<SectionMembers />
 
-				{formState?._id && (
-					<div
-						className='bg-red-600 hover:bg-red-700 transition-colors rounded p-1 text-center cursor-pointer mt-2'
-						onClick={handleDeleteCard}>
-						<span className='text-white text-sm'>Delete Card</span>
-					</div>
-				)}
+				<div
+					className='bg-red-600 hover:bg-red-700 transition-colors rounded p-1 text-center cursor-pointer mt-2'
+					onClick={handleDeleteCard}>
+					<span className='text-white text-sm'>Delete Card</span>
+				</div>
 			</div>
 		</div>
 	);

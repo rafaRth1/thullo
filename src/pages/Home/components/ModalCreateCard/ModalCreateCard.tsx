@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { useProvider } from '../../../../hooks';
+import { useAppDispatch, useProvider } from '@hooks/';
+import { addCardThunk } from '@redux/home/slices/listsSlice';
+import { CardStateProps } from '@interfaces/';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 interface Props {
@@ -8,25 +10,33 @@ interface Props {
 
 export const ModalCreateCard = ({ setIsShowModalCreateCard }: Props) => {
 	const [nameCard, setNameCard] = useState('');
-	const { submitCard } = useProvider();
+	const { listCurrent } = useProvider();
+	const dispatch = useAppDispatch();
+
+	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const card: CardStateProps = {
+			nameCard,
+			description: '',
+			imgUlr: '',
+			comments: [],
+			attachments: [],
+			labels: [],
+			members: [],
+			list: listCurrent._id,
+		};
+
+		await dispatch(addCardThunk(card, listCurrent));
+
+		setIsShowModalCreateCard(false);
+	};
 
 	return (
 		<div className='fixed inset-0 w-full h-full flex justify-center items-center backdrop-blur-md transition-opacity z-50'>
 			<div className='z-30'>
 				<form
-					onSubmit={(e) => {
-						e.preventDefault();
-
-						submitCard({
-							nameCard,
-							attachments: [],
-							comments: [],
-							description: '',
-							imgUlr: '',
-							labels: [],
-							members: [],
-						});
-					}}
+					onSubmit={onSubmit}
 					className='flex flex-col w-80'>
 					<input
 						type='text'

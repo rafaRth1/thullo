@@ -1,18 +1,23 @@
-import { Draggable } from '@sntxx/react-smooth-dnd';
+import { memo } from 'react';
+import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ImageProfile, OverlayImage } from '@components/';
-import { CardStateProps } from '@interfaces/ListTaskCardTypes';
+import { TaskcardProvider } from '@context/';
+import { CardStateProps } from '@interfaces/';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
 
 interface Props {
 	taskCard: CardStateProps;
 	handlerOpenFormEditCard: (card: CardStateProps) => void;
+	snapshot: DraggableStateSnapshot;
 }
 
-export const TaskCard = ({ taskCard, handlerOpenFormEditCard }: Props) => {
+export const TaskCard = memo(({ taskCard, handlerOpenFormEditCard, snapshot }: Props) => {
 	return (
-		<Draggable>
+		<TaskcardProvider>
 			<div
-				className='card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-2'
+				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-3 ${
+					snapshot.isDragging ? 'rotate-3 border-blue-500 border-2 border-dashed' : ''
+				}`}
 				onClick={() => {
 					handlerOpenFormEditCard(taskCard);
 				}}>
@@ -84,6 +89,6 @@ export const TaskCard = ({ taskCard, handlerOpenFormEditCard }: Props) => {
 					</div>
 				</div>
 			</div>
-		</Draggable>
+		</TaskcardProvider>
 	);
-};
+});

@@ -1,6 +1,35 @@
 import { AxiosRequestConfig } from 'axios';
 import clientAxios from '@utils/clientAxios';
 
+export const fetchProjectService = async (controller: AbortController, idProject?: string) => {
+	const token = localStorage.getItem('token');
+	const config: AxiosRequestConfig = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		signal: controller.signal,
+	};
+
+	const { data } = await clientAxios(`/projects/${idProject}`, config);
+
+	return { data };
+};
+
+export const fetchListsService = async (controller: AbortController, idProject?: string) => {
+	const token = localStorage.getItem('token');
+	const config: AxiosRequestConfig = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		signal: controller.signal,
+	};
+
+	const { data } = await clientAxios(`/list/${idProject}`, config);
+	return { data };
+};
+
 export const addListService = async (idProject: string | undefined, nameList: string) => {
 	const token = localStorage.getItem('token');
 	const config: AxiosRequestConfig = {

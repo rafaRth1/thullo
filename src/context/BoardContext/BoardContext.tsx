@@ -1,7 +1,16 @@
+import { CardStateProps, ListTypes } from '@interfaces/index';
 import { createContext } from 'react';
 
-export type DispatchStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
+type DispatchStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export interface BoardContextProps {}
+export interface BoardContextProps {
+	lists: ListTypes[];
+	setLists: DispatchStateAction<ListTypes[]>;
+	fetchLists: (controller: AbortController, idProject?: string) => Promise<void>;
+	loading: boolean;
+	setLoading: DispatchStateAction<boolean>;
+	taskCards: CardStateProps[];
+	setTaskCards: DispatchStateAction<CardStateProps[]>;
+}
 
 export const BoardContext = createContext<BoardContextProps>({} as BoardContextProps);

@@ -13,6 +13,7 @@ interface Props {
 
 export const HeaderContent = memo(({ projects, project }: Props) => {
 	const [isShowMenuUser, setIsShowMenuUser] = useState(false);
+
 	const { auth, setAuth } = useAuthProvider();
 
 	const handleLogout = () => {

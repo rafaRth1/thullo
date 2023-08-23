@@ -4,6 +4,8 @@ export * from './ImageModalCard';
 export * from './LabelPopup';
 export * from './SectionAttachment/SectionAttachment';
 export * from './SectionComments/SectionComments';
+export * from './SectionNameCard/SectionNameCard';
 export * from './SectionCovers';
 export * from './SectionDescription';
 export * from './SectionLabels';
+export * from './SectionMembers/SectionMembers';

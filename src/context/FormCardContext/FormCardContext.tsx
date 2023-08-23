@@ -15,9 +15,6 @@ export interface FormCardContextProps {
 	setFormState: React.Dispatch<CardStateProps>;
 	onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	onResetForm: () => void;
-	handleEditNameCard: () => Promise<void>;
-	handleEditDescription: () => Promise<void>;
-	handleDeleteCard: () => Promise<void>;
 	handleAddLabel: (
 		value: ValueLabelTypes,
 		setValue: React.Dispatch<React.SetStateAction<ValueLabelTypes>>

@@ -5,3 +5,5 @@ export * from './useProvider';
 export * from './useRedux';
 export * from './useToken';
 export * from './useFetch';
+export * from './useModal';
+export * from './useBoardProvider';

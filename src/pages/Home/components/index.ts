@@ -7,3 +7,4 @@ export * from './ModalCreateCard/ModalCreateCard';
 export * from './ModalFormList/ModalFormList';
 export * from './ModalFormCard/ModalFormCard';
 export * from './Search/Search';
+export * from './StrictModeDroppable/StrictModeDroppable';
