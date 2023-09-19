@@ -1,9 +1,9 @@
 import { ReactElement, useContext, useLayoutEffect, useRef, useState } from 'react';
-import { PopoverContext } from './context/PopoverContext';
+import { PopoverContext } from './PopoverContext';
 import { getModalCoords } from '../../utils/getModalCoords';
 
 interface Props {
-	children: ReactElement | ReactElement[];
+	children: ReactElement | ReactElement[] | null;
 }
 
 export const ContentInternal = ({ children }: Props) => {
@@ -23,8 +23,8 @@ export const ContentInternal = ({ children }: Props) => {
 		}
 
 		const rect = element.getBoundingClientRect();
-
 		const valueCoords = getModalCoords(triggerRect, rect, preferredPosition);
+		// console.log(triggerRect);
 
 		if (valueCoords?.top === undefined) {
 			return;
@@ -38,10 +38,10 @@ export const ContentInternal = ({ children }: Props) => {
 			className='modal-content-internal'
 			ref={ref}
 			style={{
-				position: 'fixed',
-				zIndex: '10',
+				position: 'absolute',
 				left: `${coords.left}px`,
 				top: `${coords.top}px`,
+				zIndex: 70,
 			}}>
 			{children}
 		</div>

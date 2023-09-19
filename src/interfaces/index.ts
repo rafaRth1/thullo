@@ -5,7 +5,7 @@ export interface ProjectTypes {
 	name: string;
 	name_img: string;
 	description?: string;
-	collaborators: any[];
+	collaborators: MemberType[];
 	creator: string;
 	type: string;
 }
@@ -13,22 +13,22 @@ export interface ProjectTypes {
 export interface ListTypes {
 	_id: string;
 	name: string;
-	taskCards: CardStateProps[];
+	taskCards: TaskCardTypes[];
 }
 
-export interface CardStateProps {
+export interface TaskCardTypes {
 	_id?: string;
 	nameCard: string;
 	description: string;
 	imgUlr: string;
 	attachments: any[];
-	comments: TypeComment[];
-	members: any[];
-	labels: any[];
+	comments: CommentTypes[];
+	members: MemberType[];
+	labels: LabelsTypes[];
 	list?: string;
 }
 
-export interface TypeComment {
+export interface CommentTypes {
 	_id?: string;
 	comment: string;
 	author: string;
@@ -40,9 +40,17 @@ export interface TypeComment {
 	updatedAt?: string | null;
 }
 
-export interface TypeCollaborator {
+export interface LabelsTypes {
+	_id?: string;
+	nameLabel: string;
+	nameColor: string;
+	color: string;
+	colorLight: string;
+}
+
+export interface MemberType {
 	_id: string;
-	name: string;
-	email: string;
 	colorImg: string;
+	email?: string;
+	name: string;
 }

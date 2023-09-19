@@ -1,37 +1,37 @@
-import { useContext, useState, useEffect } from 'react';
-import { FormCardContext } from '@context/';
-import { useAppDispatch, useAppSelector, useAuthProvider, useDate, useProvider } from '@hooks/';
+import { useState } from 'react';
+import { useAppSelector, useAuthProvider, useDate, useFormCardProvider } from '@hooks/';
 import { ImageProfile } from '@components/';
-import { useComment } from './hooks/useComment';
-import { addCommentThunk } from '@redux/home/slices/listsSlice';
+import {
+	useAddCommentTaskCardMutation,
+	useDeleteCommentTaskCardMutation,
+	useEditCommentTaskCardMutation,
+} from '@redux/home/apis';
 import { Comments } from './Comment';
+import { CommentTypes } from '@interfaces/';
 
 export const SectionComments = () => {
-	const [id, setId] = useState('');
-	const [comment, setComment] = useState('');
-	const { formState, setFormState } = useContext(FormCardContext);
 	const { auth } = useAuthProvider();
-	const { lists } = useAppSelector((state) => state.lists);
-	const { project, cardUpdate, setCardUpdate } = useProvider();
-	const { handleDeleteComment } = useComment({
-		formState,
-		setFormState,
-	});
+	const [comment, setComment] = useState('');
+	const [commentSelectd, setCommentSelectd] = useState({} as CommentTypes);
+	const { project } = useAppSelector((state) => state.lists);
+	const { cardUpdate, setCardUpdate } = useFormCardProvider();
 	const { day, month, hours, minutes } = useDate();
-	const dispatch = useAppDispatch();
+	const [addCommentTaskCard] = useAddCommentTaskCardMutation();
+	const [editCommentTaskCard] = useEditCommentTaskCardMutation();
+	const [deleteCommentTaskCard] = useDeleteCommentTaskCardMutation();
 
 	const handleSubmitComment = async () => {
-		if (!id) {
-			handleAddComment();
-		} else {
+		if (commentSelectd._id) {
 			handleEditComment();
+		} else {
+			handleAddComment();
 		}
 	};
 
-	const handleAddComment = () => {
+	const handleAddComment = async () => {
 		if (comment.trim() === '') {
-			console.log('Void Comment');
-			return;
+			//  FIX: Manage data
+			return console.log('Void Comment');
 		}
 
 		const commentValue = {
@@ -43,26 +43,59 @@ export const SectionComments = () => {
 			taskCard: cardUpdate._id,
 		};
 
-		dispatch(addCommentThunk(commentValue, cardUpdate.list, cardUpdate._id));
+		await addCommentTaskCard({ commentValue })
+			.unwrap()
+			.then((response) => setCardUpdate({ ...cardUpdate, comments: [...cardUpdate.comments, response] }))
+			.catch((error) => console.log(error));
+
+		setComment('');
 	};
 
-	const handleEditComment = () => {
-		console.log('Edit Comment');
+	const handleEditComment = async () => {
+		if (comment.trim() === '' || comment === commentSelectd.comment) {
+			//  FIX: Manage data
+			return console.log('Comentario vacio o son iguales');
+		}
+
+		await editCommentTaskCard({
+			commentValue: comment,
+			idCard: cardUpdate._id!,
+			idComment: commentSelectd._id!,
+		})
+			.unwrap()
+			.then((response) => {
+				const commentUpdate = cardUpdate.comments.map((comment) => {
+					if (comment._id === response._id) {
+						return (comment = response);
+					} else {
+						return comment;
+					}
+				});
+
+				// FIX: Edit date comment
+				setCardUpdate({ ...cardUpdate, comments: commentUpdate });
+				setComment('');
+				setCommentSelectd({} as CommentTypes);
+			})
+			.catch((error) => console.log(error));
 	};
 
-	const setValues = ({ _id, comment }: { _id: string; comment: string }) => {
-		setId(_id);
-		setComment(comment);
+	const handleDeleteComment = async (idComment: string) => {
+		await deleteCommentTaskCard({ idCard: cardUpdate._id!, idComment })
+			.unwrap()
+			.then(() =>
+				setCardUpdate({
+					...cardUpdate,
+					comments: cardUpdate.comments.filter((comment) => comment._id !== idComment),
+				})
+			)
+			.catch((error) => console.log(error));
 	};
 
-	useEffect(() => {
-		const list = lists.find((list) => list._id === cardUpdate.list);
-		const taskCard = list?.taskCards.find((taskCard) => taskCard._id === cardUpdate._id);
-		setCardUpdate((state) => ({
-			...state,
-			comments: [...taskCard!.comments],
-		}));
-	}, [lists]);
+	const setValues = (comment: CommentTypes) => {
+		setComment(comment.comment);
+		setCommentSelectd(comment);
+	};
 
 	return (
 		<div className='comments-card-content'>
@@ -75,7 +108,7 @@ export const SectionComments = () => {
 				</div>
 
 				<textarea
-					className='w-full h-28 p-2 rounded-xl my-3 pl-16 pt-6 border-2 text-white bg-neutral-800 border-neutral-700 leading-4'
+					className='text-white bg-neutral-800 border-neutral-700 leading-4 resize-none focus-visible:border-neutral-500 focus-visible:outline-none w-full h-28 p-2 rounded-xl my-3 pl-16 pt-6 border-2'
 					placeholder='Write a comment...'
 					name='comments'
 					value={comment}
@@ -86,7 +119,7 @@ export const SectionComments = () => {
 					type='button'
 					className='bg-blue-600 text-white text-sm px-3 py-1 rounded-xl absolute bottom-8 right-4'
 					onClick={() => handleSubmitComment()}>
-					Comment
+					{commentSelectd._id ? 'Edit comment' : 'Comment'}
 				</button>
 			</div>
 

@@ -1,8 +1,8 @@
 import { AxiosRequestConfig } from 'axios';
 import clientAxios from '@utils/clientAxios';
-import { CardStateProps, TypeComment } from '@interfaces/';
+import { TaskCardTypes, CommentTypes } from '@interfaces/';
 
-export const addTaskCardService = async (card: CardStateProps) => {
+export const addTaskCardService = async (card: TaskCardTypes) => {
 	const token = localStorage.getItem('token');
 	const config: AxiosRequestConfig = {
 		headers: {
@@ -57,7 +57,7 @@ export const editDescriptionTaskCardService = async (description: string, idTask
 	return { data };
 };
 
-export const addCommentService = async (commentValue: TypeComment) => {
+export const addCommentService = async (commentValue: CommentTypes) => {
 	const token = localStorage.getItem('token');
 	const config: AxiosRequestConfig = {
 		headers: {

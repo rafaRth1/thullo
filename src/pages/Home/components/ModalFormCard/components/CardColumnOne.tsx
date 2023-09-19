@@ -6,7 +6,7 @@ export const CardColumnOne = () => {
 			<SectionNameCard />
 
 			<p className='text-sm text-neutral-300'>
-				in list In
+				List In
 				<span className='ml-1 text-white'>Progress</span>
 			</p>
 

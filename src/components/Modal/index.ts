@@ -1,14 +1,11 @@
-import { Modal as ModalPattern } from './Modal';
+import Modal from './Modal';
+import ModalHeader from './ModalHeader';
+import ModalContent from './ModalContent';
+import ModalBody from './ModalBody';
 
-import { Content } from './Content';
-import { Trigger } from './Trigger';
+// export context
+export { ModalContext } from './ModalContext';
+export { ModalProvider } from './ModalProvider';
 
-export { Trigger } from './Trigger';
-export { Content } from './Content';
-
-export const Modal = Object.assign(ModalPattern, {
-	Trigger: Trigger,
-	Content: Content,
-});
-
-export default Modal;
+// export components
+export { Modal, ModalHeader, ModalContent, ModalBody };

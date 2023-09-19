@@ -1,14 +1,13 @@
 import { ImageProfile } from '@components/';
-import { TypeComment } from '@interfaces/index';
+import { CommentTypes } from '@interfaces/index';
 
 interface Props {
-	comment: TypeComment;
+	comment: CommentTypes;
 	authId: string;
 	creatorProject: string;
 	setValues: ({ _id, comment }: any) => void;
 	handleDeleteComment: (id: string) => Promise<void>;
 }
-
 
 export const Comments = ({ comment, authId, creatorProject, setValues, handleDeleteComment }: Props) => {
 	return (

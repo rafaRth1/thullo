@@ -8,4 +8,6 @@ export * from './Modal/Modal';
 export * from './Popover/Popover';
 export * from './Spinner/Spinner';
 export * from './OverlayImage/OverlayImage';
-export * from './ModalClassic/ModalClassic';
+export * from './Modal/Modal';
+export * from './Button/Button';
+export * from './InputThullo/InputThullo';

@@ -44,14 +44,16 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 	}, [project]);
 
 	return (
-		<div className='menu-project-content bg-neutral-800 overflow-x-hidden overflow-y-scroll w-full py-3 pl-3'>
+		<div
+			className='menu-project-content bg-neutral-800 overflow-x-hidden overflow-y-scroll p-4 rounded-lg w-full shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)]'
+			style={{ paddingRight: '-20px' }}>
 			{/* <span
 				className='text-white text-xs block bg-red-600 p-1 rounded-md cursor-pointer'
 				onClick={() => console.log('Eliminando Proyecto')}>
 				Eliminar Proyecto
 			</span> */}
 
-			<div className='flex justify-between p-2 border-b border-neutral-600'>
+			<div className='flex items-center justify-between p-2 border-b border-neutral-600'>
 				<input
 					type='text'
 					className='flex-1 text-white font-medium text-lg bg-transparent focus-visible:outline-0'
@@ -70,16 +72,16 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 				</span>
 			</div>
 
-			<div className='author-project'>
-				<div className='flex p-2'>
+			<div className='author-project my-3'>
+				<div className='flex'>
 					<IoPersonCircle
 						size={22}
 						className='mr-2 text-neutral-400'
 					/>
-					<span className='text-neutral-400 text-sm'>Made By</span>
+					<h3 className='text-neutral-400 text-sm'>Made By</h3>
 				</div>
 
-				<div className='flex p-2'>
+				<div className='flex items-center mt-3'>
 					<div className='photo-creator'>
 						<ImageProfile
 							name={auth.name}
@@ -115,7 +117,7 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 				<div className='description-body'>
 					<textarea
 						style={{ minHeight: '318px', maxHeight: '318px' }}
-						className='w-full p-2 mt-3 bg-transparent text-white'
+						className='w-full p-2 mt-3 bg-transparent text-white focus-visible:outline-none resize-none'
 						placeholder='Write a description...'
 						name='description'
 						value={values.description}
@@ -147,11 +149,12 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 											color={collaborator.colorImg}
 											className='mr-3'
 										/>
+
 										<span className='text-white font-medium flex-1'>{collaborator.name}</span>
 									</div>
 
 									<button
-										className='py-1 px-2 text-red-600 border border-red-600 rounded-lg'
+										className='text-sm text-[#f21261] border border-[#f21261] rounded-lg py-1 px-2 '
 										onClick={() => dispatch(deleteCollabrator(project?._id, collaborator._id))}>
 										Remove
 									</button>

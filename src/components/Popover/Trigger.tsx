@@ -1,5 +1,5 @@
-import { ReactElement, useContext, useRef, cloneElement } from 'react';
-import { PopoverContext } from './context/PopoverContext';
+import { ReactElement, useContext, useRef, cloneElement, useMemo, isValidElement, Children } from 'react';
+import { PopoverContext } from './PopoverContext';
 
 interface Props {
 	children: ReactElement;
@@ -8,6 +8,7 @@ interface Props {
 export const Trigger = ({ children }: Props) => {
 	const { setIsShow, setTriggerRect } = useContext(PopoverContext);
 	const ref = useRef<HTMLDivElement>(null);
+	const childrenRef = useRef(children);
 
 	const onClick = () => {
 		const element = ref.current;
@@ -22,12 +23,16 @@ export const Trigger = ({ children }: Props) => {
 		setIsShow((isShow) => !isShow);
 	};
 
-	const childrenTriggerModal = cloneElement(children, {
+	const child = useMemo(() => {
+		return Children.only(children);
+	}, [children]);
+
+	const childrenTriggerModal = cloneElement(child, {
 		onClick,
 		ref,
 	});
 
-	// console.log(childrenTriggerModal);
-
-	return <>{childrenTriggerModal}</>;
+	return childrenTriggerModal;
 };
+
+Trigger.displayName = 'Popover.Trigger';

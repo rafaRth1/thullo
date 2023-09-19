@@ -1,40 +1,34 @@
-import { useState, useEffect } from 'react';
-import { useProvider } from '@hooks/useProvider';
-import { useAppDispatch } from '@hooks/useRedux';
-import { editCardThunk } from '@redux/home/slices/listsSlice';
+import { useState } from 'react';
+import { useFormCardProvider } from '@hooks/';
+import { useEditTaskCardMutation } from '@redux/home/apis';
 
 export const SectionNameCard = () => {
-	const [name, setName] = useState('');
-	const { cardUpdate } = useProvider();
-	const dispatch = useAppDispatch();
+	const { cardUpdate, setCardUpdate } = useFormCardProvider();
+	const [name, setName] = useState<string>(cardUpdate.nameCard);
+	const [editTaskCard] = useEditTaskCardMutation();
 
 	const handleEditNameCard = async () => {
-		if (name === cardUpdate.nameCard) {
+		if (name === cardUpdate.nameCard || name.length <= 1) {
 			return;
 		}
 
-		dispatch(editCardThunk(name, cardUpdate.list, cardUpdate._id));
+		await editTaskCard({ idTaskCard: cardUpdate._id, nameCard: name });
+		setCardUpdate({ ...cardUpdate, nameCard: name });
 	};
 
-	useEffect(() => {
-		setName(cardUpdate.nameCard);
-
-		return () => {
-			setName('');
-		};
-	}, []);
-
 	return (
-		<div className='mb-5 flex items-center'>
-			<input
-				type='text'
-				placeholder='Name card example'
-				name='nameCard'
-				value={name}
-				onChange={(e) => setName(e.target.value)}
-				onBlur={handleEditNameCard}
-				className='bg-transparent focus-visible:outline-0 flex-1 w-full text-white'
-			/>
-		</div>
+		<>
+			<div className='mb-5 flex items-center'>
+				<input
+					type='text'
+					placeholder='Name card example'
+					name='nameCard'
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					onBlur={handleEditNameCard}
+					className='bg-transparent focus-visible:outline-0 flex-1 w-full text-white'
+				/>
+			</div>
+		</>
 	);
 };

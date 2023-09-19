@@ -1,11 +1,10 @@
 import { createContext } from 'react';
-import { ListTypes, ProjectTypes, CardStateProps } from '../../interfaces';
+import { ListTypes, ProjectTypes, TaskCardTypes } from '../../interfaces';
 
 export type DispatchStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export interface AppContextProps {
 	project: ProjectTypes;
-	setProject: DispatchStateAction<ProjectTypes>;
 	projects: ProjectTypes[];
 	setProjects: DispatchStateAction<ProjectTypes[]>;
 	listCurrent: ListTypes;
@@ -18,9 +17,8 @@ export interface AppContextProps {
 	setLoading: DispatchStateAction<boolean>;
 	isShowModalFormCard: boolean;
 	setIsShowModalFormCard: DispatchStateAction<boolean>;
-	cardUpdate: CardStateProps;
-	setCardUpdate: DispatchStateAction<CardStateProps>;
-	fetchProject: (controller: AbortController, idProject?: string) => Promise<void>;
+	cardUpdate: TaskCardTypes;
+	setCardUpdate: DispatchStateAction<TaskCardTypes>;
 }
 
 export const AppContext = createContext<AppContextProps>({} as AppContextProps);

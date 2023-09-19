@@ -1,9 +1,10 @@
-import { CardStateProps, ListTypes } from '@interfaces/index';
+import { TaskCardTypes, ListTypes } from '@interfaces/index';
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 interface ResultMoveDrag {
-	0: CardStateProps[];
-	1: CardStateProps[];
+	0: TaskCardTypes[];
+	1: TaskCardTypes[];
+	idCard: string | any;
 }
 
 export const moveDrag = (
@@ -17,10 +18,11 @@ export const moveDrag = (
 	const [removed] = sourceClone.splice(droppableSource.index, 1);
 	destinationClone.splice(droppableDestination.index, 0, removed);
 
-	const result = {} as ResultMoveDrag;
+	const result: ResultMoveDrag = {} as ResultMoveDrag;
 
-	result[parseInt(droppableSource.droppableId) as keyof typeof result] = sourceClone;
-	result[parseInt(droppableDestination.droppableId) as keyof typeof result] = destinationClone;
+	result[parseInt(droppableSource.droppableId) as keyof ResultMoveDrag] = sourceClone;
+	result[parseInt(droppableDestination.droppableId) as keyof ResultMoveDrag] = destinationClone;
+	result.idCard = removed._id!;
 
 	return result;
 };

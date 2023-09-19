@@ -1,62 +1,53 @@
-import axios from 'axios';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useCallback } from 'react';
+import { Outlet, useHref, useParams } from 'react-router-dom';
 import { BoardContext } from './BoardContext';
-import { CardStateProps, ListTypes } from '@interfaces/';
-import { fetchListsService } from '@pages/Home/services/list-service';
-import { useParams } from 'react-router-dom';
+import { useGetListsQuery } from '@redux/home/apis';
+import { TaskCardTypes, ListTypes } from '@interfaces/';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];
 }
 
+let card: TaskCardTypes = {
+	_id: '',
+	nameCard: '',
+	attachments: [],
+	comments: [],
+	description: '',
+	imgUlr: '',
+	labels: [],
+	members: [],
+};
+
 export const BoardProvider = ({ children }: Props) => {
 	const [lists, setLists] = useState([] as ListTypes[]);
-	const [taskCards, setTaskCards] = useState([] as CardStateProps[]);
+	const [cardUpdate, setCardUpdate] = useState(card);
+	const [listCurrent, setListCurrent] = useState({} as ListTypes);
 	const [loading, setLoading] = useState(false);
 	const { id } = useParams();
-
-	const fetchLists = async (controller: AbortController, idProject?: string) => {
-		setLoading(true);
-		try {
-			const { data } = await fetchListsService(controller, idProject);
-			setLists(data);
-			setTaskCards([...data[0].taskCards, ...data[1].taskCards, ...data[2].taskCards]);
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				// <== console.log('Request Canceled Clear');
-			} else {
-				// setAlertHigh({
-				// 	msg: 'Error obtener listas',
-				// 	error: true,
-				// });
-				console.log(error);
-			}
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		const controller = new AbortController();
-		fetchLists(controller, id);
-
-		return () => {
-			controller.abort();
-		};
-	}, []);
+	const { data: listsArray = [] } = useGetListsQuery(id!);
 
 	const contextValues = useMemo(
 		() => ({
+			listsArray,
 			lists,
 			setLists,
-			fetchLists,
 			loading,
 			setLoading,
-			taskCards,
-			setTaskCards,
+			listCurrent,
+			setListCurrent,
+			cardUpdate,
+			setCardUpdate,
 		}),
-		[lists, taskCards, loading]
+		[listsArray, lists, listCurrent, cardUpdate, loading]
 	);
 
-	return <BoardContext.Provider value={contextValues}>{children}</BoardContext.Provider>;
+	return (
+		<BoardContext.Provider value={contextValues}>
+			<>
+				{children}
+				<Outlet />
+			</>
+		</BoardContext.Provider>
+	);
 };

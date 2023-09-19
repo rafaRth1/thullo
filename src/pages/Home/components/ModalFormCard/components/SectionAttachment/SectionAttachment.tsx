@@ -1,5 +1,5 @@
 import { useRef, useState, useContext } from 'react';
-import { useDate, useProvider } from '@hooks/';
+import { useDate } from '@hooks/';
 import { FormCardContext } from '@context/';
 import { LabelElement } from '@components/';
 import { fileUpload } from '@utils/fileUpload';
@@ -8,8 +8,7 @@ import { IoAddSharp, IoDocumentTextOutline } from 'react-icons/io5';
 
 export const SectionAttachment = () => {
 	const [attachement, setAttachement] = useState({ name: '', file: '', name_img: '' });
-	const { formState } = useContext(FormCardContext);
-	const { setLists } = useProvider();
+	const { cardUpdate } = useContext(FormCardContext);
 	const { day, month, year } = useDate();
 	const fileInputRef: any = useRef(null);
 
@@ -43,7 +42,7 @@ export const SectionAttachment = () => {
 
 				<button
 					onClick={handleAddAttachment}
-					type='submit'>
+					type='button'>
 					<LabelElement
 						label='Add'
 						classname='border-solid border-neutral-700 border-2 hover:text-blue-300 mx-3'>
@@ -104,7 +103,7 @@ export const SectionAttachment = () => {
 				</div>
 			</div>
 
-			{formState?.attachments.map((attach: any) => (
+			{cardUpdate?.attachments.map((attach: any) => (
 				<Attachment
 					key={attach.id}
 					attach={attach}

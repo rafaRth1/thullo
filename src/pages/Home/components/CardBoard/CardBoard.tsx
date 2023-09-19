@@ -12,7 +12,7 @@ export const CardBoard = ({ project }: Props) => {
 
 	return (
 		<>
-			<div className='card-board-container bg-neutral-800 cursor-pointer rounded-lg p-2 mr-4 mb-4'>
+			<div className='card-board-container bg-neutral-800 cursor-pointer rounded-lg p-2 mr-4 mb-4 shadow-[10px_10px_10px_-5px_rgba(0,0,0,0.4)]'>
 				<Link to={`/board/${_id}`}>
 					<div className='card-board-image relative mb-3 w-72'>
 						{name_img ? (

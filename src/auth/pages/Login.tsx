@@ -1,44 +1,42 @@
+import { useEffect, useState } from 'react';
 import clientAxios from '../../utils/clientAxios';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Alerta, Logo } from '../../components';
-import { useForm } from '../../hooks';
 import { useAuthProvider } from '../../hooks/useAuthProvider';
-
-const formData = {
-	email: '',
-	password: '',
-};
-
-const formValidations = {
-	// email: [(value: string) => value.includes('@'), 'Email incorrecto'],
-	// password: [(value: string) => value.length >= 6, 'Name de la carta es negable'],
-};
+import { useAppDispatch } from '@hooks/useRedux';
+import { projectApi } from '@redux/home/apis';
 
 export const Login = () => {
-	const { formState, onInputChange } = useForm(formData, formValidations);
+	const [valueSession, setValueSession] = useState({ email: '', password: '' });
 	const [alerta, setAlerta] = useState({ msg: '', error: false });
 	const { setAuth } = useAuthProvider();
 	const navigate = useNavigate();
+	const location = useLocation();
+	const dispatch = useAppDispatch();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		try {
-			const { data } = await clientAxios.post('/user/login', formState);
+			const { data } = await clientAxios.post('/user/login', valueSession);
 			localStorage.setItem('token', data.token);
 			setAuth(data);
+			navigate('/');
 		} catch (error: any) {
 			setAlerta({
 				msg: error.response.data.msg,
 				error: true,
 			});
-		} finally {
-			navigate('/');
 		}
 	};
 
 	const { msg } = alerta;
+
+	useEffect(() => {
+		if (location.pathname === '/auth/login') {
+			dispatch(projectApi.util.resetApiState());
+		}
+	}, []);
 
 	return (
 		<div className='flex-1 w-full h-full flex justify-center items-center flex-col my-auto'>
@@ -62,26 +60,29 @@ export const Login = () => {
 							Email:
 						</label>
 						<input
+							id='email'
 							type='text'
-							name='email'
+							autoComplete='username'
 							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
-							value={formState.email}
-							onChange={onInputChange}
+							value={valueSession.email}
+							onChange={(e) => setValueSession({ ...valueSession, email: e.target.value })}
 						/>
 					</div>
 
 					<div className='mb-5'>
 						<label
-							htmlFor='password'
+							htmlFor='pass'
 							className='text-white block'>
 							Password:
 						</label>
 						<input
+							id='pass'
 							type='password'
-							name='password'
+							name='pass'
+							autoComplete='current-password'
 							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
-							value={formState.password}
-							onChange={onInputChange}
+							value={valueSession.password}
+							onChange={(e) => setValueSession({ ...valueSession, password: e.target.value })}
 						/>
 					</div>
 
