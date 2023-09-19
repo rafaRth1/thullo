@@ -1,5 +1,5 @@
-import { useState, ReactElement } from 'react';
-import { PopoverContext } from './context/PopoverContext';
+import { useState, ReactElement, memo } from 'react';
+import { PopoverContext } from './PopoverContext';
 import { Position } from '../../interfaces';
 
 interface PropsModal {

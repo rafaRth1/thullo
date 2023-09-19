@@ -1,14 +1,15 @@
-import axios from 'axios';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { AppContext } from './AppContext';
-import { ListTypes, ProjectTypes, CardStateProps } from '../../interfaces';
-import { fetchProjectService } from '@pages/Home/services/list-service';
+import { useObtainProjectQuery } from '@redux/home/apis';
+import { ListTypes, ProjectTypes, TaskCardTypes } from '../../interfaces';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];
 }
 
-let card: CardStateProps = {
+let card: TaskCardTypes = {
 	_id: '',
 	nameCard: '',
 	attachments: [],
@@ -20,7 +21,6 @@ let card: CardStateProps = {
 };
 
 export const AppProvider = ({ children }: Props): JSX.Element => {
-	const [project, setProject] = useState<ProjectTypes>({} as ProjectTypes);
 	const [projects, setProjects] = useState<ProjectTypes[]>([]);
 	const [listCurrent, setListCurrent] = useState({} as ListTypes);
 	const [cardUpdate, setCardUpdate] = useState(card);
@@ -28,28 +28,12 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 	const [isShowMenuProject, setIsShowMenuProject] = useState(false);
 	const [alertHigh, setAlertHigh] = useState({ msg: '', error: false });
 	const [loading, setLoading] = useState(true);
-
-	const fetchProject = async (controller: AbortController, idProject?: string) => {
-		try {
-			const { data } = await fetchProjectService(controller, idProject);
-			setProject(data);
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				// <== console.log('Request Canceled Clear');
-			} else {
-				// setAlertHigh({
-				// 	msg: 'Error obtener listas',
-				// 	error: true,
-				// });
-				console.log(error);
-			}
-		}
-	};
+	const { id } = useParams();
+	const { data: project = {} as ProjectTypes } = useObtainProjectQuery(id ?? skipToken);
 
 	const contextValue = useMemo(
 		() => ({
 			project,
-			setProject,
 			projects,
 			setProjects,
 			listCurrent,
@@ -64,9 +48,8 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 			setCardUpdate,
 			isShowMenuProject,
 			setIsShowMenuProject,
-			fetchProject,
 		}),
-		[project, listCurrent, isShowMenuProject, loading, isShowModalFormCard, cardUpdate]
+		[listCurrent, isShowMenuProject, loading, isShowModalFormCard, cardUpdate, project]
 	);
 
 	return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;

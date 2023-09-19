@@ -1,53 +1,41 @@
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuthProvider } from '@hooks/';
+import { useAppDispatch, useAuthProvider } from '@hooks/';
 import { ImageProfile, LabelElement, Logo } from '@components/';
+import Popover from '@components/Popover';
 import { Search } from '@pages/Home/components/';
 import { ProjectTypes } from '@interfaces/';
 import { IoApps } from 'react-icons/io5';
+import { projectApi } from '@redux/home/apis';
 
 interface Props {
 	project: ProjectTypes;
-	projects: ProjectTypes[];
 }
 
-export const HeaderContent = memo(({ projects, project }: Props) => {
-	const [isShowMenuUser, setIsShowMenuUser] = useState(false);
-
+export const HeaderContent = memo(({ project }: Props) => {
 	const { auth, setAuth } = useAuthProvider();
+	const dispatch = useAppDispatch();
 
 	const handleLogout = () => {
-		// setAuth({
-		// 	_id: '',
-		// 	name: '',
-		// 	email: '',
-		// 	confirm: false,
-		// 	colorImg: '',
-		// });
+		setAuth({
+			_id: '',
+			name: '',
+			email: '',
+			confirm: false,
+			colorImg: '',
+		});
+
+		dispatch(projectApi.util.resetApiState());
 
 		localStorage.setItem('token', '');
 	};
 
-	// const handleResetProject = () => {
-	// 	setProject({
-	// 		_id: '',
-	// 		name: '',
-	// 		name_img: '',
-	// 		description: '',
-	// 		collaborators: [],
-	// 		creator: '',
-	// 		type: '',
-	// 	});
-
-	// 	setLists({ lists: [] });
-	// };
-
 	return (
-		<header>
-			<div className='border-b-neutral-700 relative flex items-center border-b mx-auto p-4'>
+		<header className='shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)]'>
+			<div className='border-b-neutral-700 relative flex items-center  mx-auto p-4'>
 				<Link
 					to='/'
-					// onClick={handleResetProject}
+					// onClick={handleLogout}
 				>
 					<Logo
 						width={100}
@@ -77,25 +65,49 @@ export const HeaderContent = memo(({ projects, project }: Props) => {
 					</>
 				)}
 
-				<Search projects={projects} />
+				<Search />
 
-				<div className='user-session relative flex items-center cursor-pointer'>
-					<div onClick={() => setIsShowMenuUser(!isShowMenuUser)}>
-						<ImageProfile
-							name={auth.name}
-							color={auth.colorImg}
-						/>
-					</div>
+				<div className={`user-session relative flex items-center cursor-pointer`}>
+					<Popover preferredPosition='bottom-center'>
+						<Popover.PopoverContent>
+							{(onClose) => (
+								<>
+									<Popover.Trigger>
+										<div>
+											<ImageProfile
+												name={auth.name}
+												color={auth.colorImg}
+											/>
+										</div>
+									</Popover.Trigger>
 
-					{isShowMenuUser && (
-						<div className='border-neutral-600 bg-neutral-800 flex flex-col border rounded-md transition-opacity absolute top-10 right-0 p-1 z-40 w-24'>
+									<Popover.Body>
+										<div
+											className={`border-neutral-600 bg-neutral-800 flex flex-col border rounded-md transition-opacity z-40 w-24 absolute -left-16`}>
+											<span
+												className='text-white hover:bg-red-600 transition-colors cursor-pointer p-2 rounded'
+												onClick={handleLogout}>
+												Logout
+											</span>
+										</div>
+									</Popover.Body>
+								</>
+							)}
+						</Popover.PopoverContent>
+					</Popover>
+
+					{/* {isShowMenuUser && (
+						<div
+							className={`border-neutral-600 bg-neutral-800 flex flex-col border ${
+								isShowMenuUser ? 'opacity-100' : 'opacity-0'
+							} rounded-md transition-opacity absolute top-10 right-0 p-1 z-40 w-24`}>
 							<span
 								className='text-white hover:bg-red-600 transition-colors cursor-pointer p-2 rounded'
 								onClick={handleLogout}>
 								Logout
 							</span>
 						</div>
-					)}
+					)} */}
 				</div>
 			</div>
 		</header>

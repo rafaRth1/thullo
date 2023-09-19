@@ -1,32 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LabelElement } from '@components/';
+import { useFormCardProvider } from '@hooks/';
+import { useEditDescriptionTaskCardMutation } from '@redux/home/apis';
 import { IoDocumentTextOutline, IoPencilSharp } from 'react-icons/io5';
-import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
-import { editDesciptionTaskCardThunk } from '@redux/home/slices/listsSlice';
-import { useProvider } from '@hooks/useProvider';
 
 export const SectionDescription = () => {
-	const [description, setDescription] = useState('');
-	const { cardUpdate } = useProvider();
-	const dispatch = useAppDispatch();
-	const { lists } = useAppSelector((state) => state.lists);
+	const { cardUpdate, setCardUpdate } = useFormCardProvider();
+	const [description, setDescription] = useState<string>(cardUpdate.description);
+	const [editDescriptionTaskCard] = useEditDescriptionTaskCardMutation();
 
-	const handleEditDescription = () => {
+	const handleEditDescription = async () => {
 		if (description === cardUpdate.description) {
 			return;
 		}
 
-		setDescription(description);
-		dispatch(editDesciptionTaskCardThunk(description, cardUpdate.list, cardUpdate._id));
+		try {
+			await editDescriptionTaskCard({ idTaskCard: cardUpdate._id, description });
+			setCardUpdate({ ...cardUpdate, description });
+		} catch (error) {
+			// FIX: Add handle message error
+			console.log(error, 'Section Description');
+		}
 	};
-
-	useEffect(() => {
-		setDescription(cardUpdate.description);
-
-		return () => {
-			setDescription('');
-		};
-	}, []);
 
 	return (
 		<div className='description-card-content'>
@@ -47,7 +42,7 @@ export const SectionDescription = () => {
 			</div>
 
 			<textarea
-				className='w-full p-2 mt-3 bg-transparent text-white'
+				className='border-neutral-700 focus-visible:border-neutral-500 resize-none text-white bg-neutral-800 focus-visible:outline-none border-2 rounded-xl w-full p-3 mt-3'
 				placeholder='Write a description...'
 				name='description'
 				value={description}
@@ -57,3 +52,23 @@ export const SectionDescription = () => {
 		</div>
 	);
 };
+
+// const listsUdpate = lists.map((list) => {
+// 	if (list._id === cardUpdate.list) {
+// 		return {
+// 			...list,
+// 			taskCards: list.taskCards.map((taskCard) => {
+// 				if (taskCard._id === cardUpdate._id) {
+// 					return {
+// 						...taskCard,
+// 						description: data.description,
+// 					};
+// 				}
+
+// 				return taskCard;
+// 			}),
+// 		};
+// 	}
+
+// 	return list;
+// });

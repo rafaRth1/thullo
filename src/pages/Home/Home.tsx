@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { Spinner } from '@components/';
-import { AppProvider, BoardProvider } from '@context/';
+import { AppProvider } from '@context/';
 import { useAuthProvider } from '@hooks/useAuthProvider';
 import { Header, SubHeader } from '@pages/Home/views/';
 
@@ -21,10 +21,7 @@ export const Home = () => {
 					<AppProvider>
 						<Header />
 						<SubHeader />
-
-						<BoardProvider>
-							<Outlet />
-						</BoardProvider>
+						<Outlet />
 					</AppProvider>
 				</>
 			) : (

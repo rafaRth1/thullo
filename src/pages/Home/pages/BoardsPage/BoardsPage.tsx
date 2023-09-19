@@ -1,32 +1,31 @@
-import { useEffect, useState } from 'react';
-import { fetchGetProjects } from '@redux/home/slices/projectslice';
-import { useAppDispatch, useAppSelector } from '@hooks/';
 import { CardBoard, ModalFormProject } from '@pages/Home/components/';
-import { Modal, Spinner } from '@components/';
+import { useToggle } from '@hooks/';
+import { Button, Modal, Spinner } from '@components/';
+import { useGetProjectsQuery } from '@redux/home/apis/project-api';
 import { IoAdd } from 'react-icons/io5';
 
 export const BoardsPage = () => {
-	const [showModal, setShowModal] = useState(false);
-	const { projects, loading } = useAppSelector((state) => state.projects);
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		dispatch(fetchGetProjects());
-	}, []);
+	const [isOpenFormProject, onOpenFormProject] = useToggle();
+	const { data: projects = [], isLoading } = useGetProjectsQuery();
 
 	return (
 		<div className='content-list-board container mx-auto mt-10 p-4'>
 			<div className='header-list flex justify-between items-center w-full mb-10'>
 				<span className='text-white text-lg'>All Boards</span>
-				<button
-					className='text-white flex items-center bg-blue-600 py-1 px-3 rounded-lg '
-					onClick={() => setShowModal(!showModal)}>
-					<IoAdd size={20} />
-					<span>Add</span>
-				</button>
+
+				<Button
+					className='flex'
+					colorCustom='bg-blue-600'
+					onClick={onOpenFormProject}>
+					<IoAdd
+						size={20}
+						className='text-white'
+					/>
+					<span className='text-white ml-2'>Add</span>
+				</Button>
 			</div>
 
-			{loading ? (
+			{isLoading ? (
 				<Spinner />
 			) : (
 				<div className='list-board flex flex-wrap justify-center sm:justify-start'>
@@ -39,8 +38,10 @@ export const BoardsPage = () => {
 				</div>
 			)}
 
-			<Modal isShow={showModal}>
-				<ModalFormProject setShowModal={setShowModal} />
+			<Modal
+				show={isOpenFormProject}
+				onOpenChange={onOpenFormProject}>
+				<ModalFormProject />
 			</Modal>
 		</div>
 	);

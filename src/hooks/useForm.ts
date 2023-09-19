@@ -5,10 +5,11 @@ interface ReturnValuesTyped<T> {
 	setFormState: React.Dispatch<T>;
 	onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	onResetForm: () => void;
+	formValidation: any;
 }
 
-export const useForm = <T>(initialForm = {}, formValidations: any): ReturnValuesTyped<T> => {
-	const [formState, setFormState] = useState<any>(initialForm);
+export const useForm = <T>(initialForm = {} as T, formValidations: any): ReturnValuesTyped<T> => {
+	const [formState, setFormState] = useState<T>(initialForm);
 	const [formValidation, setFormValidation] = useState<any>({});
 
 	useEffect(() => {
@@ -45,7 +46,9 @@ export const useForm = <T>(initialForm = {}, formValidations: any): ReturnValues
 		for (const formField of Object.keys(formValidations)) {
 			const [fn, errorMessage = 'Este campo es requerido'] = formValidations[formField];
 
-			formCheckedValues[`${formField}Valid`] = fn(formState[formField]) ? null : errorMessage;
+			formCheckedValues[`${formField}Valid`] = fn(formState[formField as keyof typeof formState])
+				? false
+				: true;
 
 			setFormValidation(formCheckedValues);
 		}
@@ -53,11 +56,11 @@ export const useForm = <T>(initialForm = {}, formValidations: any): ReturnValues
 
 	return {
 		...formState,
+		...formValidation,
 		formState,
 		setFormState,
 		onInputChange,
 		onResetForm,
-		...formValidation,
 		formValidation,
 		isFormValid,
 	};

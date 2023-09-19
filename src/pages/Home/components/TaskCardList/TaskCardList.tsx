@@ -1,55 +1,45 @@
 import { memo, useCallback } from 'react';
 import { Draggable, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
-import { useAppDispatch, useBoardProvider, useProvider } from '@hooks/';
-import { AddElementLabel } from '@components/';
+import { useBoardProvider } from '@hooks/';
+import { Button } from '@components/';
 import Popover from '@components/Popover';
 import { TaskCard } from '@pages/Home/components/';
-import { CardStateProps, ListTypes } from '@interfaces/';
-import { deleteListThunk } from '@redux/home/slices/listsSlice';
-import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
+import { TaskCardTypes, ListTypes } from '@interfaces/';
+import { IoAddOutline, IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
 interface Props {
 	list: ListTypes;
 	provided: DroppableProvided;
 	snapshot: DroppableStateSnapshot;
-	setIsShowModalCreateCard?: React.Dispatch<React.SetStateAction<boolean>>;
+	onOpenFormCreateCard: () => void;
 	setIsShowModalFormCard: React.Dispatch<React.SetStateAction<boolean>>;
-	setIsShowModalFormList?: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsShowModalFormList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const card: CardStateProps = {
-	_id: '',
-	nameCard: '',
-	description: '',
-	imgUlr: '',
-	members: [],
-	attachments: [],
-	comments: [],
-	labels: [],
-};
-
 export const TaskCardList = memo(
-	({
-		list,
-		provided,
-		snapshot,
-		setIsShowModalCreateCard,
-		setIsShowModalFormCard,
-		setIsShowModalFormList,
-	}: Props) => {
-		const { setListCurrent, setCardUpdate } = useProvider();
-		const { taskCards } = useBoardProvider();
-		const dispatch = useAppDispatch();
+	({ list, provided, onOpenFormCreateCard, setIsShowModalFormCard, setIsShowModalFormList }: Props) => {
+		const { setListCurrent, setCardUpdate, lists, setLists } = useBoardProvider();
 
-		const handleEditList = () => {
-			setIsShowModalFormList!(true);
-			setListCurrent(list);
-		};
-
-		const handlerOpenFormEditCard = useCallback((card: CardStateProps) => {
-			setIsShowModalFormCard(true);
+		const handlerOpenFormEditCard = useCallback((card: TaskCardTypes) => {
 			setCardUpdate(card);
+			setIsShowModalFormCard(true);
 		}, []);
+
+		const handleEditList = useCallback(() => {
+			setListCurrent(list);
+			setIsShowModalFormList(true);
+		}, []);
+
+		const handleDeleteList = async () => {
+			try {
+				// const { data } = await deleteListService(list._id);
+				// const listsUpdate = lists.filter((listState) => listState._id !== list._id);
+				// setLists(listsUpdate);
+				// FIX: manage  return value removed
+			} catch (error) {
+				console.log(error);
+			}
+		};
 
 		const getItemStyle = (isDragging: any, draggableStyle: any) => ({
 			userSelect: 'none',
@@ -63,72 +53,80 @@ export const TaskCardList = memo(
 						<div className='flex-1 text-white'>{list.name}</div>
 
 						<Popover preferredPosition='bottom-center'>
-							<Popover.Trigger>
-								<span>
-									<IoEllipsisHorizontalSharp className='text-white cursor-pointer' />
-								</span>
-							</Popover.Trigger>
+							<Popover.PopoverContent>
+								{(onClose, onOpenClose) => (
+									<>
+										<Popover.Trigger>
+											<span>
+												<IoEllipsisHorizontalSharp className='text-white cursor-pointer' />
+											</span>
+										</Popover.Trigger>
 
-							<Popover.Content>
-								<div
-									className={`flex flex-col bottom-auto right-auto z-40 w-32 bg-neutral-700 rounded transition-opacity `}>
-									<span
-										className='text-yellow-500 hover:text-yellow-600 cursor-pointer text-md p-2'
-										onClick={handleEditList}>
-										Rename
-									</span>
+										<Popover.Body>
+											<div
+												className={`flex flex-col bottom-auto right-auto w-32 bg-neutral-700 rounded transition-opacity `}>
+												<span
+													className='text-yellow-500 hover:text-yellow-600 cursor-pointer text-md p-2'
+													onClick={() => {
+														handleEditList();
+														onOpenClose();
+													}}
+													// onClick={() => console.log('handleEditList')}
+												>
+													Rename
+												</span>
 
-									<span className='w-10/12 h-px bg-neutral-500 block mx-2'></span>
+												<span className='w-10/12 h-px bg-neutral-500 block mx-2'></span>
 
-									<span
-										className='text-red-500 hover:text-red-600 cursor-pointer text-md p-2'
-										onClick={() => dispatch(deleteListThunk(list._id))}>
-										Delete this list
-									</span>
-								</div>
-							</Popover.Content>
+												<span
+													className='text-red-500 hover:text-red-600 cursor-pointer text-md p-2'
+													// onClick={handleDeleteList}
+													onClick={() => console.log('handleDeleteList')}>
+													Delete this list
+												</span>
+											</div>
+										</Popover.Body>
+									</>
+								)}
+							</Popover.PopoverContent>
 						</Popover>
 					</div>
 				</div>
 
-				{taskCards.map((taskCard, index) => {
-					if (taskCard.list === list._id) {
-						return (
-							<Draggable
-								key={taskCard._id}
-								draggableId={taskCard._id!}
-								index={index}>
-								{(provided, snapshot) => (
-									<div
-										ref={provided.innerRef}
-										{...provided.draggableProps}
-										{...provided.dragHandleProps}
-										style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-										<TaskCard
-											key={taskCard._id}
-											taskCard={taskCard}
-											handlerOpenFormEditCard={handlerOpenFormEditCard}
-											snapshot={snapshot}
-										/>
-									</div>
-								)}
-							</Draggable>
-						);
-					} else {
-						return;
-					}
-				})}
+				{list.taskCards.map((taskCard, index) => (
+					<Draggable
+						key={taskCard._id}
+						draggableId={taskCard._id!}
+						index={index}>
+						{(provided, snapshot) => (
+							<div
+								ref={provided.innerRef}
+								{...provided.draggableProps}
+								{...provided.dragHandleProps}
+								style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+								<TaskCard
+									key={taskCard._id}
+									taskCard={taskCard}
+									handlerOpenFormEditCard={handlerOpenFormEditCard}
+									snapshot={snapshot}
+								/>
+							</div>
+						)}
+					</Draggable>
+				))}
 
 				{provided.placeholder}
 
-				<div className='mt-2'>
-					<AddElementLabel
-						text='Add Another Card'
-						handleDispatch={() => {
-							setIsShowModalCreateCard!(true), setCardUpdate(card), setListCurrent(list);
-						}}
-					/>
-				</div>
+				<Button
+					colorCustom='bg-neutral-800'
+					className='flex justify-between items-center py-2 px-4 mt-2 active:bg-[#212121]'
+					type='button'
+					onClick={() => {
+						onOpenFormCreateCard(), setListCurrent(list);
+					}}>
+					<span className='text-blue-500'>Add Another Card</span>
+					<IoAddOutline color='blue' />
+				</Button>
 			</div>
 		);
 	}

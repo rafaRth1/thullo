@@ -2,17 +2,15 @@ import clientAxios from '../../../../utils/clientAxios';
 import { useEffect, useState, useRef, useCallback, memo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ProjectTypes } from '../../../../interfaces';
+import { projectApi } from '@redux/home/apis';
 
-interface Props {
-	projects: ProjectTypes[];
-}
-
-export const Search = memo(({ projects }: Props) => {
+export const Search = memo(() => {
 	const [search, setSearch] = useState('');
 	const [isActiveFocus, setIsActiveFocus] = useState(false);
 	const [isPointerLeave, setIsPointerLeave] = useState(false);
 	const { id } = useParams();
 	const refInput = useRef<HTMLInputElement>(null);
+	const { data: projects = [] } = projectApi.endpoints.getProjects.useQuery();
 
 	const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -61,6 +59,10 @@ export const Search = memo(({ projects }: Props) => {
 		refInput.current?.blur();
 		setIsPointerLeave(false);
 		setIsActiveFocus(false);
+
+		return () => {
+			console.log('clear');
+		};
 	}, [id]);
 
 	return (

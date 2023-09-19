@@ -10,8 +10,8 @@ interface Props {
 
 export const ImageProfile = ({
 	imageProfile,
-	width = '38',
-	height = '38',
+	width = '36',
+	height = '36',
 	name,
 	style,
 	color,
@@ -19,7 +19,7 @@ export const ImageProfile = ({
 }: Props): JSX.Element => {
 	return (
 		<div
-			className={`user-image ${className}`}
+			className={`user-image ${className} mr-2`}
 			style={{ width: `${width}px`, height: `${height}px` }}>
 			{!imageProfile ? (
 				<div

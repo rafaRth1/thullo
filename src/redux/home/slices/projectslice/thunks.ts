@@ -57,7 +57,7 @@ export const destroyImage = (public_id: string): Appthunk => {
 	return async (dispatch) => {
 		try {
 			const { data } = await destroyImageService(public_id);
-			console.log(data); // FIX: handle response
+			console.log(data); // FIX: manage the data
 		} catch (error) {
 			dispatch(loadingError('Failed to detroy image'));
 			console.log(error);

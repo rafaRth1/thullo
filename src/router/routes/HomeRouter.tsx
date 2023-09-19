@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Home } from '@pages/Home/Home';
 import { BoardsPage, BoardPage } from '@pages/Home/pages';
+import { BoardProvider } from '@context/';
 
 export const HomeRouter = () => {
 	return (
@@ -15,8 +16,16 @@ export const HomeRouter = () => {
 
 				<Route
 					path='board/:id'
-					element={<BoardPage />}
-				/>
+					element={
+						<BoardProvider>
+							<BoardPage />
+						</BoardProvider>
+					}>
+					<Route
+						path='card/:idCard'
+						element={null}
+					/>
+				</Route>
 			</Route>
 
 			<Route

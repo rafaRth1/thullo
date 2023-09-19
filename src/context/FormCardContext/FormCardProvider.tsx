@@ -1,15 +1,13 @@
-import { ReactElement, useEffect } from 'react';
-import { useForm, useProvider } from '../../hooks';
-import { FormCardContext, ValueLabelTypes } from './FormCardContext';
-import { fileUpload } from '@utils/fileUpload';
-import clientAxios from '@utils/clientAxios';
-import { CardStateProps } from '../../interfaces';
+import { ReactElement, useState, useMemo, useEffect } from 'react';
+import { FormCardContext } from './FormCardContext';
+import { TaskCardTypes } from '@interfaces/';
 
 interface Props {
 	children: ReactElement;
+	cardUpdateState: TaskCardTypes;
 }
 
-const formData = {
+const card: TaskCardTypes = {
 	_id: '',
 	nameCard: '',
 	imgUlr: '',
@@ -17,193 +15,67 @@ const formData = {
 	attachments: [],
 	comments: [],
 	labels: [],
+	members: [],
 };
 
-const formValidations = {
-	// url_image: [(value: string) => value.length >= 6, 'Name de la Imagen es negable'],
-	// name_card: [(value: string) => value.length >= 6, 'Name de la carta es negable'],
-	// description: [(value) => value.length >= 1, 'Nombre de la descripcion es negable'],
-	// comments: [(value) => value.length >= 0, 'Seccion de Comentarios'],
-	// attachments: [(value: string) => value.length >= 0, 'Name de los archivos es negable'],
-	// labels: [(value) => value.length >= 0, 'Name de los labels es negable'],
-};
+export const FormCardProvider = ({ children, cardUpdateState }: Props) => {
+	const [cardUpdate, setCardUpdate] = useState(card);
 
-export const FormCardProvider = ({ children }: Props) => {
-	const { formState, setFormState, onInputChange, onResetForm } = useForm<CardStateProps>(
-		formData,
-		formValidations
+	// console.log(cardUpdateState)
+
+	const value = useMemo(
+		() => ({
+			cardUpdate,
+			setCardUpdate,
+		}),
+		[cardUpdate]
 	);
-	const { project, cardUpdate, setIsShowModalFormCard } = useProvider();
 
-	const handleAddLabel = async (
-		value: ValueLabelTypes,
-		setValue: React.Dispatch<React.SetStateAction<ValueLabelTypes>>
-	) => {
-		// if (!formState._id || value.nameLabel.length <= 2) {
-		// 	return;
-		// }
-		// const listUpdate = lists;
-		// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
-		// const columnIndex = listUpdate.indexOf(column);
-		// const newColumn = column;
-		// try {
-		// 	const { data } = await clientAxios.post(`/taskCard/label/${formState._id}`, {
-		// 		nameLabel: value.nameLabel,
-		// 		nameColor: value.palet.name,
-		// 		color: value.palet.color,
-		// 		colorLight: value.palet.colorLight,
-		// 	});
-		// 	const formStateUpdate = { ...formState };
-		// 	formStateUpdate.labels = [...formStateUpdate.labels, data];
-		// 	setFormState(formStateUpdate);
-		// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
-		// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
-		// 	);
-		// 	newColumn.taskCards = [...taskCardUpdate];
-		// 	listUpdate.splice(columnIndex, 1, newColumn);
-		// 	setLists(listUpdate);
-		// 	setValue({
-		// 		nameLabel: '',
-		// 		palet: {
-		// 			name: 'green',
-		// 			color: '#16a34a',
-		// 			colorLight: '#86efac',
-		// 		},
-		// 	});
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
+	useEffect(() => {
+		setCardUpdate(cardUpdateState);
+	}, [cardUpdateState]);
 
-	const deleteLabel = async (id: string) => {
-		// const listUpdate = lists;
-		// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
-		// const columnIndex = listUpdate.indexOf(column);
-		// const newColumn = column;
-		// try {
-		// 	const { data } = await clientAxios.post(`/taskCard/label-delete/${formState._id}`, {
-		// 		idLabel: id,
-		// 	});
-		// 	console.log(data);
-		// 	const formStateUpdate = { ...formState };
-		// 	formStateUpdate.labels = formStateUpdate.labels.filter(
-		// 		(labels: { _id: string }) => labels._id !== id
-		// 	);
-		// 	setFormState(formStateUpdate);
-		// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
-		// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
-		// 	);
-		// 	newColumn.taskCards = [...taskCardUpdate];
-		// 	listUpdate.splice(columnIndex, 1, newColumn);
-		// 	setLists(listUpdate);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
-
-	const handleSelectImage = async (image: any) => {
-		// const listUpdate = lists;
-		// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
-		// const columnIndex = listUpdate.indexOf(column);
-		// const newColumn = column;
-		// try {
-		// 	const { data } = await clientAxios.put(`/taskCard/${formState._id}`, {
-		// 		imgUlr: image.urls.regular,
-		// 	});
-		// 	const formStateUpdate = { ...formState };
-		// 	formStateUpdate.imgUlr = data.imgUlr;
-		// 	setFormState(formStateUpdate);
-		// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
-		// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
-		// 	);
-		// 	newColumn.taskCards = [...taskCardUpdate];
-		// 	listUpdate.splice(columnIndex, 1, newColumn);
-		// 	setLists(listUpdate);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
-
-	const handleDeleteImage = async () => {
-		// const listUpdate = lists;
-		// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
-		// const columnIndex = listUpdate.indexOf(column);
-		// const newColumn = column;
-		// try {
-		// 	const { data } = await clientAxios.put(`/taskCard/${formState._id}`, {
-		// 		imgUlr: '',
-		// 	});
-		// 	const formStateUpdate = { ...formState };
-		// 	formStateUpdate.imgUlr = data.imgUlr;
-		// 	setFormState(formStateUpdate);
-		// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
-		// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
-		// 	);
-		// 	newColumn.taskCards = [...taskCardUpdate];
-		// 	listUpdate.splice(columnIndex, 1, newColumn);
-		// 	setLists(listUpdate);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
-
-	const handleAssignMember = async (pickMembers: any) => {
-		// if (!formState._id) {
-		// 	return;
-		// }
-		// const listUpdate = lists;
-		// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
-		// const columnIndex = listUpdate.indexOf(column);
-		// const newColumn = column;
-		// try {
-		// 	const { data } = await clientAxios.post(`/taskCard/member/${formState._id}`, {
-		// 		members: pickMembers,
-		// 	});
-		// 	const formStateUpdate = { ...formState };
-		// 	formStateUpdate.members = data;
-		// 	setFormState(formStateUpdate);
-		// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
-		// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
-		// 	);
-		// 	newColumn.taskCards = [...taskCardUpdate];
-		// 	listUpdate.splice(columnIndex, 1, newColumn);
-		// 	setLists(listUpdate);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
-
-	const handleSearchUser = async (
-		setValueSearch: React.Dispatch<React.SetStateAction<any[]>>,
-		setValue: React.Dispatch<React.SetStateAction<string>>
-	) => {
-		// if (!formState._id) {
-		// 	return;
-		// }
-		// try {
-		// 	const { data } = await clientAxios.get(`/taskCard/member/${project._id}`);
-		// 	setValueSearch(data);
-		// 	setValue('');
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-	};
-
-	return (
-		<FormCardContext.Provider
-			value={{
-				formState,
-				setFormState,
-				onInputChange,
-				onResetForm,
-				handleAddLabel,
-				deleteLabel,
-				handleDeleteImage,
-				handleSelectImage,
-				handleAssignMember,
-				handleSearchUser,
-			}}>
-			{children}
-		</FormCardContext.Provider>
-	);
+	return <FormCardContext.Provider value={value}>{children}</FormCardContext.Provider>;
 };
+
+// const handleAssignMember = async (pickMembers: any) => {
+// 	// if (!formState._id) {
+// 	// 	return;
+// 	// }
+// 	// const listUpdate = lists;
+// 	// const [column] = listUpdate.filter((list) => list._id === cardUpdate.list);
+// 	// const columnIndex = listUpdate.indexOf(column);
+// 	// const newColumn = column;
+// 	// try {
+// 	// 	const { data } = await clientAxios.post(`/taskCard/member/${formState._id}`, {
+// 	// 		members: pickMembers,
+// 	// 	});
+// 	// 	const formStateUpdate = { ...formState };
+// 	// 	formStateUpdate.members = data;
+// 	// 	setFormState(formStateUpdate);
+// 	// 	const taskCardUpdate = newColumn.taskCards.map((taskCard) =>
+// 	// 		taskCard._id === formStateUpdate._id ? formStateUpdate : taskCard
+// 	// 	);
+// 	// 	newColumn.taskCards = [...taskCardUpdate];
+// 	// 	listUpdate.splice(columnIndex, 1, newColumn);
+// 	// 	setLists(listUpdate);
+// 	// } catch (error) {
+// 	// 	console.log(error);
+// 	// }
+// };
+
+// const handleSearchUser = async (
+// 	setValueSearch: React.Dispatch<React.SetStateAction<any[]>>,
+// 	setValue: React.Dispatch<React.SetStateAction<string>>
+// ) => {
+// 	// if (!formState._id) {
+// 	// 	return;
+// 	// }
+// 	// try {
+// 	// 	const { data } = await clientAxios.get(`/taskCard/member/${project._id}`);
+// 	// 	setValueSearch(data);
+// 	// 	setValue('');
+// 	// } catch (error) {
+// 	// 	console.log(error);
+// 	// }
+// };

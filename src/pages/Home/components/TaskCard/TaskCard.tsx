@@ -2,13 +2,13 @@ import { memo } from 'react';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ImageProfile, OverlayImage } from '@components/';
 import { TaskcardProvider } from '@context/';
-import { CardStateProps } from '@interfaces/';
+import { TaskCardTypes } from '@interfaces/';
 import { IoAddOutline, IoAttach, IoChatboxSharp } from 'react-icons/io5';
 
 interface Props {
-	taskCard: CardStateProps;
-	handlerOpenFormEditCard: (card: CardStateProps) => void;
+	taskCard: TaskCardTypes;
 	snapshot: DraggableStateSnapshot;
+	handlerOpenFormEditCard: (card: TaskCardTypes) => void;
 }
 
 export const TaskCard = memo(({ taskCard, handlerOpenFormEditCard, snapshot }: Props) => {
@@ -21,7 +21,7 @@ export const TaskCard = memo(({ taskCard, handlerOpenFormEditCard, snapshot }: P
 				onClick={() => {
 					handlerOpenFormEditCard(taskCard);
 				}}>
-				<div className='card-content bg-neutral-800 p-2 shadow-xl rounded-2xl cursor-grab'>
+				<div className='card-content bg-neutral-800 p-3 shadow-xl rounded-2xl cursor-grab'>
 					{taskCard.imgUlr && (
 						<div className='card-image relative h-[130px] mb-2'>
 							{taskCard.imgUlr && (

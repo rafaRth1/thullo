@@ -2,12 +2,7 @@ import { useProvider } from '@hooks/';
 import { HeaderContent } from './HeaderContent';
 
 export const Header = () => {
-	const { project, projects } = useProvider();
+	const { project } = useProvider();
 
-	return (
-		<HeaderContent
-			project={project}
-			projects={projects}
-		/>
-	);
+	return <HeaderContent project={project} />;
 };

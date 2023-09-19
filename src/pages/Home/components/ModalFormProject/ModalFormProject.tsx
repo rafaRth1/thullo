@@ -1,44 +1,45 @@
 import { useState, useRef } from 'react';
-import { useAppDispatch } from '@hooks/';
-import { LabelElement } from '@components/';
+import { Button, InputThullo } from '@components/';
+import { useAppDispatch, useForm } from '@hooks/';
 import { fileUpload } from '@utils/';
-import { IoClose, IoImage } from 'react-icons/io5';
-
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@components/Modal';
+import { useAddProjectMutation } from '@redux/home/apis/project-api';
+import { destroyImage } from '@redux/home/slices/projectslice';
+import { IoImage, IoLockClosed, IoLockOpen } from 'react-icons/io5';
 import './ModalFormProject.css';
-import { createProject, destroyImage } from '@redux/home/slices/projectslice';
 
-interface Props {
-	showModal?: boolean;
-	setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const valuesProject = {
-	name: '',
+const formData = {
+	name_board: '',
 	name_img: '',
-	type: '',
 	public_id: '',
+	type: 'public',
 };
 
-export const ModalFormProject = ({ setShowModal }: Props) => {
-	const [value, setValue] = useState(valuesProject);
+const formValidations = {
+	name_board: [(value: string) => value.length > 0, 'Name is void.'],
+};
+
+export const ModalFormProject = () => {
+	const { formState, setFormState, formValidation, onInputChange } = useForm(formData, formValidations);
+	const [formSubmitted, setFormSubmitted] = useState(false);
+	const [isPrivate, setIsPrivate] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const [addProject] = useAddProjectMutation();
 	const dispatch = useAppDispatch();
 
-	const handleCreateProject = () => {
-		if (value.name.length <= 2 || value.type === '') {
-			console.log('Elige el tipo');
-			return;
-		}
+	const handleCreateProject = (onOpenChange: () => void) => {
+		if (formValidation.name_boardValid) return setFormSubmitted(true);
 
-		dispatch(createProject(value));
-		setValue(valuesProject);
-		setShowModal!(false);
+		setFormSubmitted(false);
+		addProject(formState);
+		setFormState(formData);
+		onOpenChange();
 	};
 
 	const handleFileUploadImage = async (image: FileList) => {
 		const respFileUpload = await fileUpload(image[0]);
-		setValue({
-			...value,
+		setFormState({
+			...formState,
 			name_img: respFileUpload.url,
 			public_id: respFileUpload?.public_id,
 			type: respFileUpload.resource_type,
@@ -46,105 +47,109 @@ export const ModalFormProject = ({ setShowModal }: Props) => {
 	};
 
 	const handleDestroyImage = async () => {
-		if (!value.public_id) {
-			setShowModal!(false);
+		if (!formState.public_id) {
 			return;
 		}
 
-		await dispatch(destroyImage(value.public_id));
-		setValue(value);
-		setShowModal!(false);
+		await dispatch(destroyImage(formState.public_id));
+		setFormState(formState);
 	};
 
-	const closeModal = () => {
+	const handleChangeTypeProject = () => {
+		setIsPrivate(!isPrivate);
+		setFormState({ ...formState, type: !isPrivate ? 'private' : 'public' });
+	};
+
+	const closeModal = (onOpenChange: () => void) => {
 		handleDestroyImage();
-		setShowModal!(false);
+		onOpenChange();
 	};
 
 	return (
-		<div className='modal-container-board z-50'>
-			<div className='modal-card-board relative'>
-				<div
-					className='close-modal-form-card absolute right-2 top-2 z-40 cursor-pointer bg-blue-600 rounded-lg'
-					onClick={closeModal}>
-					<IoClose
-						className='text-white'
-						size={30}
-					/>
-				</div>
-
-				<div className='bg-neutral-800 p-4 rounded-lg'>
-					<div className='image-board mb-5'>
-						{!!value.name_img ? (
-							<img
-								src={value.name_img}
-								alt='Image Board'
-								className='w-full object-cover rounded-lg h-[120px]'
-							/>
-						) : (
-							<img
-								src='https://static.vecteezy.com/system/resources/previews/002/058/031/non_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg'
-								alt='Image Board'
-								className='w-full object-cover rounded-lg h-[120px]'
-							/>
-						)}
-					</div>
-
-					<div className='form-create-board'>
-						<input
-							type='text'
-							placeholder='Add Board Title'
-							className='w-full mb-6 text-sm text-white p-2 bg-neutral-700 rounded-lg focus-visible:outline-none'
-							value={value.name}
-							onChange={(e) => setValue({ ...value, name: e.target.value })}
-							onBlur={() => console.log('onBlur')}
-						/>
-
-						<div className='labels-actions relative flex gap-2 justify-center mb-4'>
-							<div className='w-full mr-2'>
-								<LabelElement
-									label='Cover'
-									classname='bg-neutral-600 w-full mx-0'
-									handleFunction={() => fileInputRef.current?.click()}>
-									<IoImage className='text-white mr-2' />
-								</LabelElement>
-
-								<input
-									type='file'
-									onChange={(e: any) => handleFileUploadImage(e.target.files)}
-									className='hidden'
-									ref={fileInputRef}
-								/>
+		<ModalContent>
+			{(onOpenChange) => (
+				<>
+					<ModalHeader className='font-medium text-white'>Modal Form Project</ModalHeader>
+					<ModalBody>
+						<div className='relative w-[310px]'>
+							<div className='image-board mb-5'>
+								{!!formState.name_img ? (
+									<img
+										src={formState.name_img}
+										alt='Image Board'
+										className='w-full object-cover rounded-lg h-[80px]'
+									/>
+								) : (
+									<></>
+								)}
 							</div>
 
-							<select
-								name='select-status'
-								className='bg-neutral-600 text-white rounded-md block w-full text-xs py-1 px-3'
-								onChange={(e) => setValue({ ...value, type: e.target.value })}>
-								<option value=''>-- Type --</option>
-								<option value='public'> Public </option>
-								<option value='private'> Private </option>
-							</select>
-						</div>
+							<div className='form-create-board'>
+								<InputThullo
+									type='text'
+									name='name_board'
+									placeholder='Add Board Title'
+									value={formState.name_board}
+									onChangeValue={onInputChange}
+									isvalid={formValidation.name_boardValid}
+									isvalidform={formSubmitted.toString()}
+									autocomplete='off'
+								/>
 
-						<div className='buttons-accions flex justify-end'>
-							<button
-								type='button'
-								className='py-1 px-3 text-white text-sm rounded-lg'
-								onClick={handleDestroyImage}>
-								Cancel
-							</button>
+								<div className='labels-actions relative flex gap-2 justify-center mb-4'>
+									<div className='w-full mr-2'>
+										<Button
+											className='flex items-center w-full'
+											onClick={() => fileInputRef.current?.click()}>
+											<IoImage className='text-white mr-2' />
+											<span className='text-white text-xs'>Cover</span>
+										</Button>
 
-							<button
-								type='button'
-								className='py-1 px-3 bg-blue-600 text-white text-sm rounded-lg'
-								onClick={handleCreateProject}>
-								Create
-							</button>
+										<input
+											type='file'
+											onChange={(e: any) => handleFileUploadImage(e.target.files)}
+											className='hidden'
+											ref={fileInputRef}
+										/>
+									</div>
+
+									{isPrivate ? (
+										<Button
+											className='flex items-center w-full'
+											onClick={handleChangeTypeProject}>
+											<IoLockClosed className='text-white mr-2' />
+											<span className='text-white text-xs'>Private</span>
+										</Button>
+									) : (
+										<Button
+											className='flex items-center w-full'
+											onClick={handleChangeTypeProject}>
+											<IoLockOpen className='text-white mr-2' />
+											<span className='text-white text-xs'>Public</span>
+										</Button>
+									)}
+								</div>
+
+								<div className='buttons-accions flex justify-end'>
+									<Button
+										className='text-white mr-2 px-5'
+										type='button'
+										onClick={() => closeModal(onOpenChange)}>
+										Cancel
+									</Button>
+									<Button
+										colorCustom='bg-blue-600'
+										type='button'
+										className='text-white text-sm rounded-lg px-5'
+										onClick={() => handleCreateProject(onOpenChange)}>
+										Create
+									</Button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+					</ModalBody>
+				</>
+			)}
+		</ModalContent>
 	);
 };

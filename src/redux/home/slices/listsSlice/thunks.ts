@@ -2,7 +2,12 @@ import axios, { AxiosRequestConfig } from 'axios';
 import clientAxios from '@utils/clientAxios';
 import { Appthunk } from '@redux/store';
 import { deleteCollaboratorService, editProjectService } from '@pages/Home/services/project-service';
-import { addListService, deleteListService, editListService } from '@pages/Home/services/list-service';
+import {
+	addListService,
+	deleteListService,
+	editListService,
+	fetchProjectService,
+} from '@pages/Home/services/list-service';
 import {
 	addComment,
 	addList,
@@ -11,6 +16,7 @@ import {
 	deleteTaskCard,
 	editList,
 	editTaskCard,
+	getProject,
 	getProjectUdpate,
 	loadingStart,
 	startGetProjectAndLists,
@@ -22,7 +28,28 @@ import {
 	editDescriptionTaskCardService,
 	editTaskCardService,
 } from '@pages/Home/services/taskcard-service';
-import { ListTypes, CardStateProps, TypeComment } from '@interfaces/';
+import { ListTypes, TaskCardTypes, CommentTypes } from '@interfaces/';
+
+export const fetchProject = (controller: AbortController, idProject?: string): Appthunk => {
+	return async (dispatch) => {
+		dispatch(loadingStart());
+
+		try {
+			const project = await fetchProjectService(controller, idProject);
+			dispatch(getProject(project.data));
+		} catch (error) {
+			// if (axios.isCancel(error)) {
+			// 	// <== console.log('Request Canceled Clear');
+			// } else {
+			// 	// setAlertHigh({
+			// 	// 	msg: 'Error obtener listas',
+			// 	// 	error: true,
+			// 	// });
+			// 	console.log(error);
+			// }
+		}
+	};
+};
 
 export const fetchProjectAndLists = (controller: AbortController, idProject?: string): Appthunk => {
 	return async (dispatch) => {
@@ -96,7 +123,7 @@ export const deleteListThunk = (idList: string): Appthunk => {
 	};
 };
 
-export const addCardThunk = (card: CardStateProps, listCurrent: ListTypes): Appthunk => {
+export const addCardThunk = (card: TaskCardTypes, listCurrent: ListTypes): Appthunk => {
 	return async (dispatch, getState) => {
 		const listIndex = getState().lists.lists.indexOf(listCurrent);
 
@@ -148,11 +175,10 @@ export const editDesciptionTaskCardThunk = (
 };
 
 export const addCommentThunk = (
-	commentValue: TypeComment,
+	commentValue: CommentTypes,
 	listId?: string,
 	idTaskCard?: string
 ): Appthunk => {
-
 	return async (dispatch) => {
 		try {
 			const { data } = await addCommentService(commentValue);

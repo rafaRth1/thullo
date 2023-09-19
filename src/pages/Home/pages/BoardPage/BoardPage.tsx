@@ -1,55 +1,49 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { FormCardProvider } from '@context/';
-import { useBoardProvider, useProvider } from '@hooks/';
-import { Spinner, ModalClassic } from '@components/';
+import { useBoardProvider, useToggle } from '@hooks/';
+import { Modal, Spinner } from '@components/';
 import { Board } from '@pages/Home/views/';
 import { ModalCreateCard, ModalFormList, ModalFormCard } from '@pages/Home/components';
 import './BoardPage.css';
 
 export const BoardPage = (): JSX.Element => {
-	const [isShowModalFormList, setIsShowModalFormList] = useState(false);
-	const [isShowModalCreateCard, setIsShowModalCreateCard] = useState(false);
-	const [isShowModalFormCard, setIsShowModalFormCard] = useState(false);
-	const { fetchProject } = useProvider();
-	const { loading } = useBoardProvider();
-	const { id } = useParams();
-
-	useEffect(() => {
-		const controller = new AbortController();
-		fetchProject(controller, id);
-
-		return () => {
-			controller.abort();
-		};
-	}, [id]);
+	const [isOpenFormList, onOpenFormList] = useToggle();
+	const [isOpenFormCreateCard, onOpenFormCreateCard] = useToggle();
+	const [isOpenFormCard, onOpenFormCard] = useToggle();
+	const { loading, cardUpdate } = useBoardProvider();
+	const [isOpen, onOpen] = useToggle();
 
 	return (
-		<div className='flex flex-col flex-1'>
-			<main className='relative grow'>
+		<div className='flex flex-1'>
+			{/* <div className='flex flex-col flex-1'> */}
+			<main className='relative grow overflow-hidden'>
 				{loading ? (
 					<Spinner className='h-28' />
 				) : (
 					<>
 						<Board
-							setIsShowModalCreateCard={setIsShowModalCreateCard}
-							setIsShowModalFormCard={setIsShowModalFormCard}
-							setIsShowModalFormList={setIsShowModalFormList}
+							onOpenFormCreateCard={onOpenFormCreateCard}
+							setIsShowModalFormCard={onOpenFormCard}
+							setIsShowModalFormList={onOpenFormList}
 						/>
 
-						<ModalClassic isShow={isShowModalFormList}>
-							<ModalFormList setIsShowModalFormList={setIsShowModalFormList} />
-						</ModalClassic>
-
-						<ModalClassic isShow={isShowModalCreateCard}>
-							<ModalCreateCard setIsShowModalCreateCard={setIsShowModalCreateCard} />
-						</ModalClassic>
-
-						<ModalClassic isShow={isShowModalFormCard}>
-							<FormCardProvider>
-								<ModalFormCard setIsShowModalFormCard={setIsShowModalFormCard} />
+						<Modal
+							show={isOpenFormList}
+							onOpenChange={onOpenFormList}>
+							<ModalFormList />
+						</Modal>
+						<Modal
+							show={isOpenFormCreateCard}
+							onOpenChange={onOpenFormCreateCard}>
+							<ModalCreateCard />
+						</Modal>
+						<Modal
+							show={isOpenFormCard}
+							onOpenChange={onOpenFormCard}>
+							<FormCardProvider cardUpdateState={cardUpdate}>
+								<ModalFormCard />
 							</FormCardProvider>
-						</ModalClassic>
+						</Modal>
 					</>
 				)}
 			</main>

@@ -17,6 +17,10 @@ export const listSlice = createSlice({
 			state.loading = true;
 		},
 
+		getProject: (state: InitialStateListSlice, action: FulfilledAction<any>) => {
+			state.project = action.payload;
+		},
+
 		startGetProjectAndLists: (
 			state: InitialStateListSlice,
 			action: FulfilledAction<{ project: any; lists: any }>
@@ -125,6 +129,7 @@ export const listSlice = createSlice({
 export const {
 	loadingStart,
 	startGetProjectAndLists,
+	getProject,
 	addList,
 	editList,
 	deleteList,

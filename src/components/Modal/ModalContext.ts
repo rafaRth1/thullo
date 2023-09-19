@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-interface ModalContextProps {
-	isShow: boolean;
-	setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
+export interface ModalContextProps {
+	open: boolean;
+	onOpenChange: () => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>({} as ModalContextProps);

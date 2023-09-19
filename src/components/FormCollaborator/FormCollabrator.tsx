@@ -1,57 +1,41 @@
-import clientAxios from '../../utils/clientAxios';
 import { useState } from 'react';
 import { ImageProfile } from '../';
-import { useAppSelector } from '../../hooks';
+import { useProvider } from '../../hooks';
 import { IoSearchSharp } from 'react-icons/io5';
+import { useSearchUserMutation, useAddCollaboratorProjectMutation } from '@redux/home/apis';
+import { MemberType } from '@interfaces/';
 
-export const FormCollabrator = ({ collaborator, setCollaborator }: any) => {
+interface Props {
+	collaborator: MemberType;
+	setCollaborator: React.Dispatch<React.SetStateAction<MemberType>>;
+}
+
+export const FormCollabrator = ({ collaborator, setCollaborator }: Props) => {
 	const [email, setEmail] = useState('');
-	const { project } = useAppSelector(state => state.lists);
+	const { project } = useProvider();
+	const [searchUser] = useSearchUserMutation();
+	const [addCollaboratorProject] = useAddCollaboratorProjectMutation();
 
 	const handleSearchUser = async () => {
 		if (!email.includes('@') || !email.includes('.com')) {
 			return;
 		}
 
-		try {
-			const { data } = await clientAxios.post('/projects/collaborator', { email: email });
-			setCollaborator(data);
-			setEmail('');
-		} catch (error) {
-			console.log(error);
-		}
+		await searchUser({ email })
+			.unwrap()
+			.then((response) => {
+				setCollaborator(response);
+				setEmail('');
+			})
+			.catch((error) => console.log(error));
 	};
 
 	const handleAddCollaborator = async () => {
-		try {
-			const token = localStorage.getItem('token');
-
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			};
-
-			const { data } = await clientAxios.post(
-				`/projects/collaborator/${project._id}`,
-				{
-					email: collaborator.email,
-				},
-				config
-			);
-
-			console.log(data);
-
-			// setProject(data);
-			setCollaborator({ name: '', email: '', _id: '', colorImg: '' });
-		} catch (error) {
-			console.log(error);
-		}
+		await addCollaboratorProject({ idProject: project._id, email: collaborator.email });
 	};
 
 	return (
-		<div className='add-collaborator bg-neutral-700 transition-opacity mt-3 p-3 w-80 rounded-xl z-40'>
+		<div className='relative z-50 add-collaborator bg-neutral-700 transition-opacity mt-3 p-3 w-80 rounded-xl'>
 			<div className='add-collaborator-header mb-2'>
 				<span className='text-white font-medium'>Invite to Board</span>
 
@@ -89,7 +73,7 @@ export const FormCollabrator = ({ collaborator, setCollaborator }: any) => {
 							color={collaborator.colorImg}
 							className='mr-3'
 						/>
-						<span className='text-white font-medium flex-1 text-lg'>{collaborator.name}</span>
+						<span className='text-white font-medium flex-1 text-base'>{collaborator.name}</span>
 					</div>
 				)}
 			</div>
