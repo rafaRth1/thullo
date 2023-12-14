@@ -25,7 +25,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
 		<button
 			type={type}
 			style={style}
-			className={`${className} transition-colors rounded-lg active:scale-95 text-sm ${colorCustom} ${paddingCustom} `}
+			className={`${className} transition-colors rounded-md active:scale-95 text-sm ${colorCustom} ${paddingCustom} `}
 			onClick={onClick}
 			ref={ref}>
 			{children}

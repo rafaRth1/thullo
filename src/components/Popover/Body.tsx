@@ -11,21 +11,21 @@ interface Props {
 	unMountAnimation?: PropertyIndexedKeyframes;
 }
 
-export const Body = ({
+const Body = ({
 	children,
 	from = { opacity: '0' },
 	to = { opacity: '1' },
 	options = { duration: 150, fill: 'forwards' },
 	unMountAnimation,
 }: Props) => {
-	const { isShow, setIsShow } = useContext(PopoverContext);
-	const [removeState, setRemove] = useState(!isShow);
+	const { isMounted, setIsMounted } = useContext(PopoverContext);
+	const [removeState, setRemove] = useState(!isMounted);
 	const elementRef = useRef<HTMLDivElement>(null);
 
 	useLayoutEffect(() => {
 		const childElement = elementRef.current;
 
-		if (isShow) {
+		if (isMounted) {
 			setRemove(false);
 			if (!childElement) return;
 
@@ -37,7 +37,7 @@ export const Body = ({
 				setRemove(true);
 			};
 		}
-	}, [isShow, removeState]);
+	}, [isMounted, removeState]);
 
 	return createPortal(
 		!removeState && (
@@ -46,7 +46,7 @@ export const Body = ({
 				ref={elementRef}>
 				<div
 					className='fixed inset-0 w-screen h-screen'
-					onClick={() => setIsShow(false)}
+					onClick={() => setIsMounted(false)}
 					// style={{ backgroundColor: 'hsl(0 0% 0%/.5)' }}
 				/>
 
@@ -58,3 +58,5 @@ export const Body = ({
 };
 
 Body.displayName = 'Popover.Body';
+
+export default Body;

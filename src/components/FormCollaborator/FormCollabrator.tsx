@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { ImageProfile } from '../';
-import { useProvider } from '../../hooks';
-import { IoSearchSharp } from 'react-icons/io5';
 import { useSearchUserMutation, useAddCollaboratorProjectMutation } from '@redux/home/apis';
+import { ImageProfile } from '@components/';
+import { useProvider } from '@hooks/';
 import { MemberType } from '@interfaces/';
+import { IoSearchSharp } from 'react-icons/io5';
 
 interface Props {
 	collaborator: MemberType;
@@ -35,7 +35,7 @@ export const FormCollabrator = ({ collaborator, setCollaborator }: Props) => {
 	};
 
 	return (
-		<div className='relative z-50 add-collaborator bg-neutral-700 transition-opacity mt-3 p-3 w-80 rounded-xl'>
+		<div className='relative z-50 add-collaborator bg-neutral-700 transition-opacity p-3 w-80 rounded-md'>
 			<div className='add-collaborator-header mb-2'>
 				<span className='text-white font-medium'>Invite to Board</span>
 

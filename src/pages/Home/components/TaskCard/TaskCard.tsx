@@ -21,7 +21,7 @@ export const TaskCard = memo(({ taskCard, handlerOpenFormEditCard, snapshot }: P
 				onClick={() => {
 					handlerOpenFormEditCard(taskCard);
 				}}>
-				<div className='card-content bg-neutral-800 p-3 shadow-xl rounded-2xl cursor-grab'>
+				<div className='card-content bg-[#262627] p-3 shadow-xl rounded-2xl cursor-grab'>
 					{taskCard.imgUlr && (
 						<div className='card-image relative h-[130px] mb-2'>
 							{taskCard.imgUlr && (

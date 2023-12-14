@@ -2,7 +2,7 @@ import { useDeleteTaskCardMutation } from '@redux/home/apis';
 import { SectionCovers, SectionLabels, SectionMembers } from './';
 import { IoImage, IoPeopleSharp, IoPersonCircleOutline, IoPricetag } from 'react-icons/io5';
 import { useFormCardProvider } from '@hooks/useFormCardProvider';
-import { Popover } from '@components/Popover';
+import { PopoverCustom } from '@components/PopoverCustom/';
 
 interface Props {
 	onOpenFormCard: () => void;
@@ -33,68 +33,71 @@ export const CardColumnTwo = ({ onOpenFormCard }: Props) => {
 				<span>Actions</span>
 			</div>
 
-			<div className='actions-labels'>
-				<Popover preferredPosition='bottom-center'>
-					<Popover.PopoverContent>
-						{(open, onOpenClose) => (
-							<>
-								<Popover.Trigger>
-									<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
-										<span className='pl-2'>
-											<IoPricetag className='text-white mr-2 text-xs' />
-										</span>
-										<span className='text-neutral-200 capitalize text-xs'>Labels</span>
-									</div>
-								</Popover.Trigger>
+			<PopoverCustom preferredPosition='bottom'>
+				<PopoverCustom.PopoverContent>
+					{(open, onOpenClose) => (
+						<>
+							<PopoverCustom.Trigger>
+								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2 flex-1'>
+									<span className='pl-2'>
+										<IoPricetag className='text-white mr-2 text-xs' />
+									</span>
+									<span className='text-neutral-200 capitalize text-xs'>Labels</span>
+								</div>
+							</PopoverCustom.Trigger>
 
-								<Popover.Body>{open ? <SectionLabels /> : null}</Popover.Body>
-							</>
-						)}
-					</Popover.PopoverContent>
-				</Popover>
+							<PopoverCustom.Body>
+								<SectionLabels />
+							</PopoverCustom.Body>
+						</>
+					)}
+				</PopoverCustom.PopoverContent>
+			</PopoverCustom>
 
-				<Popover preferredPosition='bottom-center'>
-					<Popover.PopoverContent>
-						{(open, onOpenClose) => (
-							<>
-								<Popover.Trigger>
-									<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
-										<span className='pl-2'>
-											<IoImage className='text-white mr-2 text-xs' />
-										</span>
-										<span className='text-neutral-200 capitalize text-xs'>Covers</span>
-									</div>
-								</Popover.Trigger>
+			<PopoverCustom preferredPosition='bottom'>
+				<PopoverCustom.PopoverContent>
+					{(open, onOpenClose) => (
+						<>
+							<PopoverCustom.Trigger>
+								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
+									<span className='pl-2'>
+										<IoImage className='text-white mr-2 text-xs' />
+									</span>
+									<span className='text-neutral-200 capitalize text-xs'>Covers</span>
+								</div>
+							</PopoverCustom.Trigger>
 
-								<Popover.Body>{open ? <SectionCovers /> : null}</Popover.Body>
-							</>
-						)}
-					</Popover.PopoverContent>
-				</Popover>
+							<PopoverCustom.Body>
+								<SectionCovers />
+							</PopoverCustom.Body>
+						</>
+					)}
+				</PopoverCustom.PopoverContent>
+			</PopoverCustom>
+			<PopoverCustom preferredPosition='bottom'>
+				<PopoverCustom.PopoverContent>
+					{(open, onOpenClose) => (
+						<>
+							<PopoverCustom.Trigger>
+								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
+									<span className='pl-2'>
+										<IoPeopleSharp className='text-white mr-2 text-xs' />
+									</span>
+									<span className='text-neutral-200 capitalize text-xs'>Members</span>
+								</div>
+							</PopoverCustom.Trigger>
+							<PopoverCustom.Body>
+								<SectionMembers />
+							</PopoverCustom.Body>
+						</>
+					)}
+				</PopoverCustom.PopoverContent>
+			</PopoverCustom>
 
-				<Popover preferredPosition='bottom-center'>
-					<Popover.PopoverContent>
-						{(open, onOpenClose) => (
-							<>
-								<Popover.Trigger>
-									<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
-										<span className='pl-2'>
-											<IoPeopleSharp className='text-white mr-2 text-xs' />
-										</span>
-										<span className='text-neutral-200 capitalize text-xs'>Members</span>
-									</div>
-								</Popover.Trigger>
-								<Popover.Body>{open ? <SectionMembers /> : null}</Popover.Body>
-							</>
-						)}
-					</Popover.PopoverContent>
-				</Popover>
-
-				<div
-					className='bg-red-600 hover:bg-red-700 transition-colors rounded p-1 text-center cursor-pointer mt-2'
-					onClick={handleDeleteCard}>
-					<span className='text-white text-sm'>Delete Card</span>
-				</div>
+			<div
+				className='bg-red-600 hover:bg-red-700 transition-colors rounded p-1 text-center cursor-pointer mt-2'
+				onClick={handleDeleteCard}>
+				<span className='text-white text-sm'>Delete Card</span>
 			</div>
 		</div>
 	);

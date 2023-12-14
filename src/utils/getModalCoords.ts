@@ -1,7 +1,7 @@
 import { Position, Rect } from '../interfaces';
 
 export const getModalCoords = (
-	triggerRect: Rect,
+	triggerRect: any,
 	modalRect: Rect,
 	position: Position
 ):
@@ -13,10 +13,12 @@ export const getModalCoords = (
 	let top = 0;
 	let left = 0;
 
+	// console.log('triggerRect', triggerRect);
+
 	switch (position) {
 		case 'bottom-center':
-			top = triggerRect.top + triggerRect.height + 10;
-			left = Math.max(triggerRect.left + triggerRect.width / 2 - modalRect.width / 2, 10);
+			top = triggerRect.bottom + 10;
+			left = Math.max(triggerRect.left + triggerRect.width / 2 - modalRect.right / 2, 10);
 
 			if (top + modalRect.height > window.innerHeight - 10) {
 				top = triggerRect.top - 10 - modalRect.height;

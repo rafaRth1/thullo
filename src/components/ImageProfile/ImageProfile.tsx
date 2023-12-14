@@ -10,8 +10,8 @@ interface Props {
 
 export const ImageProfile = ({
 	imageProfile,
-	width = '36',
-	height = '36',
+	width = '40',
+	height = '40',
 	name,
 	style,
 	color,
@@ -23,7 +23,7 @@ export const ImageProfile = ({
 			style={{ width: `${width}px`, height: `${height}px` }}>
 			{!imageProfile ? (
 				<div
-					className='uppercase p-2 rounded-lg text-sm text-center font-medium text-white'
+					className='flex justify-center items-center uppercase p-2 rounded-lg text-sm font-medium text-white h-full'
 					style={{ backgroundColor: `${color}` }}>
 					<span>{name?.slice(0, 2)}</span>
 				</div>

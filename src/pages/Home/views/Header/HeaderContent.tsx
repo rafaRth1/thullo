@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import { Search } from '@pages/Home/components/';
 import { useAppDispatch, useAuthProvider } from '@hooks/';
 import { ImageProfile, LabelElement, Logo } from '@components/';
-import Popover from '@components/Popover';
-import { Search } from '@pages/Home/components/';
+import { PopoverCustom } from '@components/PopoverCustom';
+import { projectApi } from '@redux/home/apis';
 import { ProjectTypes } from '@interfaces/';
 import { IoApps } from 'react-icons/io5';
-import { projectApi } from '@redux/home/apis';
 
 interface Props {
 	project: ProjectTypes;
@@ -32,7 +32,7 @@ export const HeaderContent = memo(({ project }: Props) => {
 
 	return (
 		<header className='shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)]'>
-			<div className='border-b-neutral-700 relative flex items-center  mx-auto p-4'>
+			<div className='relative flex items-center  mx-auto p-4'>
 				<Link
 					to='/'
 					// onClick={handleLogout}
@@ -68,33 +68,34 @@ export const HeaderContent = memo(({ project }: Props) => {
 				<Search />
 
 				<div className={`user-session relative flex items-center cursor-pointer`}>
-					<Popover preferredPosition='bottom-center'>
-						<Popover.PopoverContent>
-							{(onClose) => (
+					<PopoverCustom preferredPosition='bottom-end'>
+						<PopoverCustom.PopoverContent>
+							{() => (
 								<>
-									<Popover.Trigger>
+									<PopoverCustom.Trigger>
 										<div>
 											<ImageProfile
 												name={auth.name}
 												color={auth.colorImg}
 											/>
 										</div>
-									</Popover.Trigger>
+									</PopoverCustom.Trigger>
 
-									<Popover.Body>
+									<PopoverCustom.Body>
 										<div
-											className={`border-neutral-600 bg-neutral-800 flex flex-col border rounded-md transition-opacity z-40 w-24 absolute -left-16`}>
+											className={`border-neutral-600 bg-neutral-800 flex flex-col border rounded-md transition-opacity z-40 w-44`}>
 											<span
 												className='text-white hover:bg-red-600 transition-colors cursor-pointer p-2 rounded'
+												// onClick={handleLogout}
 												onClick={handleLogout}>
 												Logout
 											</span>
 										</div>
-									</Popover.Body>
+									</PopoverCustom.Body>
 								</>
 							)}
-						</Popover.PopoverContent>
-					</Popover>
+						</PopoverCustom.PopoverContent>
+					</PopoverCustom>
 
 					{/* {isShowMenuUser && (
 						<div
