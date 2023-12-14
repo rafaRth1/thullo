@@ -1,7 +1,6 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import { PopoverContext } from './PopoverContext';
 import { getCoordsPositionStatic } from '@utils/getCoordsPositionStatic';
-import { getModalCoords } from '@utils/getModalCoords';
 
 export const PopoverInternal = ({ children }: { children: ReactElement | ReactElement[] | null }) => {
 	const { isMounted, triggerRect, preferredPosition } = useContext(PopoverContext);
