@@ -1,5 +1,3 @@
-export * from './ModalContextProps';
-
 export interface ProjectTypes {
 	_id: string;
 	name: string;

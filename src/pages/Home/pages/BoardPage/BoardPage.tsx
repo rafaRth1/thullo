@@ -32,11 +32,13 @@ export const BoardPage = (): JSX.Element => {
 							onOpenChange={onOpenFormList}>
 							<ModalFormList />
 						</Modal>
+
 						<Modal
 							show={isOpenFormCreateCard}
 							onOpenChange={onOpenFormCreateCard}>
 							<ModalCreateCard />
 						</Modal>
+						
 						<Modal
 							show={isOpenFormCard}
 							onOpenChange={onOpenFormCard}>

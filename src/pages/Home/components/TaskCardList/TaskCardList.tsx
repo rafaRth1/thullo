@@ -2,8 +2,8 @@ import { memo, useCallback } from 'react';
 import { Draggable, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import { useBoardProvider } from '@hooks/';
 import { Button } from '@components/';
-import Popover from '@components/Popover';
 import { TaskCard } from '@pages/Home/components/';
+import { PopoverCustom } from '@components/PopoverCustom';
 import { TaskCardTypes, ListTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
@@ -52,17 +52,17 @@ export const TaskCardList = memo(
 					<div className='header-list px-2 flex justify-between items-center'>
 						<div className='flex-1 text-white'>{list.name}</div>
 
-						<Popover preferredPosition='bottom-center'>
-							<Popover.PopoverContent>
+						<PopoverCustom preferredPosition='bottom'>
+							<PopoverCustom.PopoverContent>
 								{(onClose, onOpenClose) => (
 									<>
-										<Popover.Trigger>
+										<PopoverCustom.Trigger>
 											<span>
 												<IoEllipsisHorizontalSharp className='text-white cursor-pointer' />
 											</span>
-										</Popover.Trigger>
+										</PopoverCustom.Trigger>
 
-										<Popover.Body>
+										<PopoverCustom.Body>
 											<div
 												className={`flex flex-col bottom-auto right-auto w-32 bg-neutral-700 rounded transition-opacity `}>
 												<span
@@ -85,11 +85,11 @@ export const TaskCardList = memo(
 													Delete this list
 												</span>
 											</div>
-										</Popover.Body>
+										</PopoverCustom.Body>
 									</>
 								)}
-							</Popover.PopoverContent>
-						</Popover>
+							</PopoverCustom.PopoverContent>
+						</PopoverCustom>
 					</div>
 				</div>
 

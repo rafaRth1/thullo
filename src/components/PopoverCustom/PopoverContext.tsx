@@ -14,6 +14,7 @@ export type Position =
 	| 'top-start'
 	| 'top-end'
 	| 'static';
+
 export type Rect = Pick<DOMRect, 'left' | 'top' | 'right' | 'width' | 'height' | 'bottom' | 'x' | 'y'>;
 
 export interface PopoverContextProps {
@@ -22,6 +23,7 @@ export interface PopoverContextProps {
 	triggerRect: Rect;
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>;
 	preferredPosition: Position;
+	shouldRenderChild: boolean;
 }
 
 export const PopoverContext = createContext<PopoverContextProps>({} as PopoverContextProps);

@@ -24,7 +24,6 @@ export const ContentInternal = ({ children }: Props) => {
 
 		const rect = element.getBoundingClientRect();
 		const valueCoords = getModalCoords(triggerRect, rect, preferredPosition);
-		// console.log(triggerRect);
 
 		if (valueCoords?.top === undefined) {
 			return;

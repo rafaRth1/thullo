@@ -1,6 +1,7 @@
-import { useState, memo } from 'react';
-import Popover from '@components/Popover';
-import { LabelElement, ImageProfile, FormCollabrator, Button } from '@components/';
+import { useState, memo, useRef, useEffect, createRef } from 'react';
+import { Popover } from '@components/Popover';
+import { ImageProfile, FormCollabrator, Button } from '@components/';
+import { PopoverCustom } from '@components/PopoverCustom';
 import { MenuProject } from '@pages/Home/components/';
 import { MemberType, ProjectTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed } from 'react-icons/io5';
@@ -18,26 +19,26 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 		<div className='sub-header-top flex items-center justify-between p-4'>
 			<div className='flex items-center'>
 				{!!project.type && (
-					<Popover preferredPosition='right'>
-						<Popover.PopoverContent>
+					<PopoverCustom preferredPosition='bottom-start'>
+						<PopoverCustom.PopoverContent>
 							{(onClose) => (
 								<>
-									<Popover.Trigger>
+									<PopoverCustom.Trigger>
 										<Button className='flex items-center mr-3'>
 											<IoLockClosed className='text-neutral-200 mr-2' />
 											<span className='text-neutral-200 capitalize mr-1'>{project.type}</span>
 										</Button>
-									</Popover.Trigger>
+									</PopoverCustom.Trigger>
 
-									<Popover.Body>
+									<PopoverCustom.Body>
 										<div className='bg-neutral-700 p-3 rounded-md'>
-											<p className='text-white text-sm'>This is a project private</p>
+											<p className='text-white text-sm'>This is a project {project.type}</p>
 										</div>
-									</Popover.Body>
+									</PopoverCustom.Body>
 								</>
 							)}
-						</Popover.PopoverContent>
-					</Popover>
+						</PopoverCustom.PopoverContent>
+					</PopoverCustom>
 				)}
 
 				<div className='allowed-group flex'>
@@ -51,14 +52,14 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 						/>
 					))}
 
-					<div className='add-user flex'>
-						<Popover preferredPosition='right'>
-							<Popover.PopoverContent>
+					<div className='add-user'>
+						<PopoverCustom preferredPosition='bottom'>
+							<PopoverCustom.PopoverContent>
 								{(onClose) => (
 									<>
-										<Popover.Trigger>
+										<PopoverCustom.Trigger>
 											<Button
-												className='flex items-center'
+												className='h-full'
 												colorCustom='bg-blue-500'
 												paddingCustom='px-2 py-[6px]'>
 												<IoAddOutline
@@ -66,18 +67,18 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 													size={20}
 												/>
 											</Button>
-										</Popover.Trigger>
+										</PopoverCustom.Trigger>
 
-										<Popover.Body>
+										<PopoverCustom.Body>
 											<FormCollabrator
 												collaborator={collaborator}
 												setCollaborator={setCollaborator}
 											/>
-										</Popover.Body>
+										</PopoverCustom.Body>
 									</>
 								)}
-							</Popover.PopoverContent>
-						</Popover>
+							</PopoverCustom.PopoverContent>
+						</PopoverCustom>
 					</div>
 				</div>
 			</div>
@@ -98,9 +99,7 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 
 			<div
 				className={`top-[70px] z-40 min-w-[300px] w-[380px] transition-all duration-200 h-[100vh] fixed right-0 flex ${
-					isShowMenuProject
-						? 'translate-x-0 pointer-events-auto'
-						: 'translate-x-full pointer-events-none'
+					isShowMenuProject ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
 				}`}>
 				<MenuProject
 					project={project}

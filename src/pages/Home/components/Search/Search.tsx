@@ -1,8 +1,7 @@
-import clientAxios from '../../../../utils/clientAxios';
 import { useEffect, useState, useRef, useCallback, memo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ProjectTypes } from '../../../../interfaces';
 import { projectApi } from '@redux/home/apis';
+import { clientAxios } from '@utils/';
 
 export const Search = memo(() => {
 	const [search, setSearch] = useState('');
@@ -60,9 +59,7 @@ export const Search = memo(() => {
 		setIsPointerLeave(false);
 		setIsActiveFocus(false);
 
-		return () => {
-			console.log('clear');
-		};
+		return () => {};
 	}, [id]);
 
 	return (
@@ -75,9 +72,10 @@ export const Search = memo(() => {
 					ref={refInput}
 					autoComplete='off'
 					placeholder='Search'
-					name='search'
-					className={`bg-neutral-700 text-white focus-visible:outline-blue-700 h-11 ${
-						isActiveFocus ? 'w-full lg:w-[500px] 2xl:w-1/3' : 'w-[220.234px]'
+					id='search'
+					type='search'
+					className={`bg-transparent border border-neutral-700 text-white focus-visible:outline-blue-700 h-11 ${
+						isActiveFocus ? 'w-full lg:w-[500px] 2xl:w-1/3' : 'w-[300px]'
 					} rounded-md py-1 px-3 mr-2`}
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}

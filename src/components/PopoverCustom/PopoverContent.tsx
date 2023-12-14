@@ -1,4 +1,4 @@
-import { useContext, ReactNode } from 'react';
+import { useContext } from 'react';
 import { PopoverContext } from './PopoverContext';
 
 interface Props {
@@ -15,6 +15,6 @@ const PopoverContent = ({ children }: Props) => {
 	return children(isMounted, onClose);
 };
 
-PopoverContent.displayName = 'PopoverCustom.PopoverContent';
+PopoverContent.displayName = 'Popover.PopoverContent';
 
 export default PopoverContent;
