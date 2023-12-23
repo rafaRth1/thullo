@@ -58,12 +58,7 @@ export const Board = memo(
 				// ** reorder list request <== it can improve
 				ordenPositionTaskCards({ idList, items, action: 'REODER_POS' });
 			} else {
-				const result = moveDrag(
-					listsArray[sourceIndex],
-					listsArray[destinationIndex],
-					source,
-					destination
-				);
+				const result = moveDrag(listsArray[sourceIndex], listsArray[destinationIndex], source, destination);
 
 				const idListSource = listsArray[sourceIndex]._id;
 				const idListDestination = listsArray[destinationIndex]._id;
@@ -85,7 +80,7 @@ export const Board = memo(
 		};
 
 		return (
-			<div className='board-main absolute inset-0 flex p-4 overflow-y-hidden overflow-x-auto'>
+			<div className='board-main absolute inset-0 flex p-4 overflow-x-auto'>
 				<DragDropContext onDragEnd={onDragEnd}>
 					{listsArray.map((list, index) => (
 						<StrictModeDroppable
@@ -111,10 +106,10 @@ export const Board = memo(
 					))}
 				</DragDropContext>
 
-				<div className='contenedor-list'>
+				<div className='min-w-[250px] max-w-[250px]'>
 					<Button
 						colorCustom='bg-neutral-800'
-						className='flex justify-between items-center py-2 px-4 transition-colors active:bg-[#212121]'
+						className='flex justify-between items-center py-2 px-4 transition-colors active:bg-[#212121] w-full	'
 						type='button'
 						onClick={() => {
 							setIsShowModalFormList(true);

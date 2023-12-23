@@ -15,7 +15,7 @@ export const TaskCard = memo(({ taskCard, handlerOpenFormEditCard, snapshot }: P
 	return (
 		<TaskcardProvider>
 			<div
-				className={`card-container rounded-2xl z-0 transition-colors relative touch-none select-none mb-3 ${
+				className={`card-container rounded-2xl z-0 transition-colors relative select-none mb-3 ${
 					snapshot.isDragging ? 'rotate-3 border-blue-500 border-2 border-dashed' : ''
 				}`}
 				onClick={() => {

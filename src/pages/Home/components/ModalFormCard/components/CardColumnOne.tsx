@@ -2,14 +2,8 @@ import { SectionComments, SectionAttachment, SectionDescription, SectionNameCard
 
 export const CardColumnOne = () => {
 	return (
-		<div className='card-column-one mr-3'>
+		<div className='card-column-one mr-3 md:w-[480px]'>
 			<SectionNameCard />
-
-			<p className='text-sm text-neutral-300'>
-				List In
-				<span className='ml-1 text-white'>Progress</span>
-			</p>
-
 			<SectionDescription />
 			<SectionAttachment />
 			<SectionComments />

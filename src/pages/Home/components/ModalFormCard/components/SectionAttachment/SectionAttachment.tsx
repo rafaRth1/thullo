@@ -52,11 +52,9 @@ export const SectionAttachment = () => {
 			</div>
 
 			<div className='body-attachments-card'>
-				<div className='body-attachments-card-items items-center flex m-3'>
+				<div className='body-attachments-card-items flex items-center m-3'>
 					{!!attachement.name_img ? (
-						<div
-							className='image-attachments '
-							style={{ width: '80px', height: '53px' }}>
+						<div className='image-attachments min-w-[80px] h-[53px]'>
 							<img
 								src={attachement.name_img}
 								alt='Imagen Attachments'
@@ -65,21 +63,20 @@ export const SectionAttachment = () => {
 						</div>
 					) : (
 						<div
-							className='image-attachments border-dashed border-2 border-neutral-500 cursor-pointer bg-neutral-700 rounded-xl flex items-center justify-center'
-							style={{ width: '80px', height: '53px' }}
+							className='image-attachments border-dashed border-2 border-neutral-500 cursor-pointer bg-neutral-700 rounded-xl flex items-center justify-center min-w-[80px] h-[53px]'
 							onClick={() => fileInputRef.current.click()}>
 							<span className='text-xs text-white'>Add Image</span>
 						</div>
 					)}
 
-					<div className='ml-3'>
+					<div className='ml-3 flex-1'>
 						<div className='date-add mb-1'>
 							<span className='text-xs text-neutral-500 pl-1'>{`Added ${month} ${day},${year}`}</span>
 
 							<input
 								type='text'
 								name='attachment'
-								className='text-sm block w-80 p-1 pr-2 bg-transparent text-white'
+								className='text-sm block w-full p-1 pr-2 bg-transparent text-white'
 								placeholder='Write name attachments'
 								value={attachement.name}
 								onChange={(e) => setAttachement({ ...attachement, name: e.target.value })}

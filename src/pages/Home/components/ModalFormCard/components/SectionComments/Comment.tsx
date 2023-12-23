@@ -12,12 +12,11 @@ interface Props {
 export const Comments = ({ comment, authId, creatorProject, setValues, handleDeleteComment }: Props) => {
 	return (
 		<div className='card-comment mb-4 ml-2'>
-			<div className='flex  justify-between'>
-				<div className='profile-author flex'>
+			<div className='flex justify-between'>
+				<div className='profile-author flex gap-2'>
 					<ImageProfile
 						color={comment.colorImg}
 						name={comment.name}
-						className='mr-2'
 					/>
 					<div className='flex flex-col'>
 						<div className='name-author-comment text-white'>{comment.name}</div>
@@ -26,17 +25,17 @@ export const Comments = ({ comment, authId, creatorProject, setValues, handleDel
 				</div>
 
 				{comment.author === authId || creatorProject === authId ? (
-					<div className='actions-comments cursor-pointer text-neutral-500'>
+					<div className='actions-comments cursor-pointer text-yellow-500 flex gap-3'>
 						<button
 							type='button'
-							className='px-2 text-sm hover:text-orange-500'
+							className='text-sm hover:text-orange-500'
 							onClick={() => setValues(comment)}>
 							Edit
 						</button>
-						-
+
 						<button
 							type='button'
-							className='px-2 text-sm hover:text-red-500'
+							className='text-sm text-rose-600 hover:text-rose-700'
 							onClick={() => handleDeleteComment(comment._id!)}>
 							Delete
 						</button>

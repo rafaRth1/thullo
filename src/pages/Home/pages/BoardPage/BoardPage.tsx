@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
 import { FormCardProvider } from '@context/';
-import { useBoardProvider, useToggle } from '@hooks/';
-import { Modal, Spinner } from '@components/';
 import { Board } from '@pages/Home/views/';
 import { ModalCreateCard, ModalFormList, ModalFormCard } from '@pages/Home/components';
+import { useBoardProvider, useToggle } from '@hooks/';
+import { Spinner } from '@components/';
 import './BoardPage.css';
 
 export const BoardPage = (): JSX.Element => {
@@ -27,25 +26,22 @@ export const BoardPage = (): JSX.Element => {
 							setIsShowModalFormList={onOpenFormList}
 						/>
 
-						<Modal
-							show={isOpenFormList}
-							onOpenChange={onOpenFormList}>
-							<ModalFormList />
-						</Modal>
+						<ModalFormList
+							isOpenFormList={isOpenFormList}
+							onOpenFormList={onOpenFormList}
+						/>
 
-						<Modal
-							show={isOpenFormCreateCard}
-							onOpenChange={onOpenFormCreateCard}>
-							<ModalCreateCard />
-						</Modal>
-						
-						<Modal
-							show={isOpenFormCard}
-							onOpenChange={onOpenFormCard}>
-							<FormCardProvider cardUpdateState={cardUpdate}>
-								<ModalFormCard />
-							</FormCardProvider>
-						</Modal>
+						<ModalCreateCard
+							isOpenFormCreateCard={isOpenFormCreateCard}
+							onOpenFormCreateCard={onOpenFormCreateCard}
+						/>
+
+						<FormCardProvider cardUpdateState={cardUpdate}>
+							<ModalFormCard
+								isOpenFormCard={isOpenFormCard}
+								onOpenFormCard={onOpenFormCard}
+							/>
+						</FormCardProvider>
 					</>
 				)}
 			</main>

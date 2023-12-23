@@ -4,6 +4,11 @@ import { PopoverContext, Position, Rect } from './PopoverContext';
 interface PropsModal {
 	children: ReactElement | ReactElement[];
 	preferredPosition: Position;
+	/**
+	 * True or false if you want the width to be equal to the trigger starting from 480px
+	 * @default false
+	 */
+	widthEqualTrigger?: boolean;
 }
 
 const defaultRect: Rect = {
@@ -37,7 +42,7 @@ function useDelayUnmount(isMounted: boolean, delayTime: number) {
 	return shouldRender;
 }
 
-const PopoverCustom = ({ children, preferredPosition = 'bottom' }: PropsModal) => {
+const PopoverCustom = ({ children, preferredPosition = 'bottom', widthEqualTrigger = false }: PropsModal) => {
 	const [isMounted, setIsMounted] = useState(false);
 	const [triggerRect, setTriggerRect] = useState(defaultRect);
 	const shouldRenderChild = useDelayUnmount(isMounted, 100);
@@ -49,6 +54,7 @@ const PopoverCustom = ({ children, preferredPosition = 'bottom' }: PropsModal) =
 		setTriggerRect,
 		preferredPosition,
 		shouldRenderChild,
+		widthEqualTrigger,
 	};
 
 	return <PopoverContext.Provider value={contextValues}>{children}</PopoverContext.Provider>;

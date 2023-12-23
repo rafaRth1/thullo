@@ -1,10 +1,9 @@
-import { useState, memo, useRef, useEffect, createRef } from 'react';
-import { Popover } from '@components/Popover';
+import { useState, memo } from 'react';
 import { ImageProfile, FormCollabrator, Button } from '@components/';
 import { PopoverCustom } from '@components/PopoverCustom';
 import { MenuProject } from '@pages/Home/components/';
 import { MemberType, ProjectTypes } from '@interfaces/';
-import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed } from 'react-icons/io5';
+import { IoAddOutline, IoApps, IoEllipsisHorizontalSharp, IoLockClosed } from 'react-icons/io5';
 
 interface Props {
 	project: ProjectTypes;
@@ -16,29 +15,14 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 	const [collaborator, setCollaborator] = useState({} as MemberType);
 
 	return (
-		<div className='sub-header-top flex items-center justify-between p-4'>
-			<div className='flex items-center'>
-				{!!project.type && (
-					<PopoverCustom preferredPosition='bottom-start'>
-						<PopoverCustom.PopoverContent>
-							{(onClose) => (
-								<>
-									<PopoverCustom.Trigger>
-										<Button className='flex items-center mr-3'>
-											<IoLockClosed className='text-neutral-200 mr-2' />
-											<span className='text-neutral-200 capitalize mr-1'>{project.type}</span>
-										</Button>
-									</PopoverCustom.Trigger>
-
-									<PopoverCustom.Body>
-										<div className='bg-neutral-700 p-3 rounded-md'>
-											<p className='text-white text-sm'>This is a project {project.type}</p>
-										</div>
-									</PopoverCustom.Body>
-								</>
-							)}
-						</PopoverCustom.PopoverContent>
-					</PopoverCustom>
+		<div className='sub-header-top flex justify-between gap-4 p-4'>
+			<div className='flex flex-col md:flex-row w-full min-[460px]:w-auto gap-4'>
+				{location.pathname !== '/' && (
+					<>
+						<span className='border-neutral-700 h-[40px] flex items-center justify-center'>
+							<p className='text-white font-medium capitalize'>{project.name}</p>
+						</span>
+					</>
 				)}
 
 				<div className='allowed-group flex'>
@@ -59,7 +43,7 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 									<>
 										<PopoverCustom.Trigger>
 											<Button
-												className='h-full'
+												className='h-full '
 												colorCustom='bg-blue-500'
 												paddingCustom='px-2 py-[6px]'>
 												<IoAddOutline
@@ -83,29 +67,41 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 				</div>
 			</div>
 
-			{/* <LabelElement
-				label='Show Menu'
-				classname='bg-neutral-600'
-				handleFunction={() => setIsShowMenuProject(true)}>
-				<IoEllipsisHorizontalSharp className='text-neutral-200' />
-			</LabelElement> */}
+			<div className='flex flex-col md:flex-row w-full min-[460px]:w-auto gap-4'>
+				<PopoverCustom preferredPosition='bottom-end'>
+					<PopoverCustom.PopoverContent>
+						{(onClose) => (
+							<>
+								<PopoverCustom.Trigger>
+									<Button className='flex items-center'>
+										<IoLockClosed className='text-neutral-200 mr-2' />
+										<span className='text-neutral-200 capitalize mr-1'>{project.type}</span>
+									</Button>
+								</PopoverCustom.Trigger>
 
-			<Button
-				className='flex items-center'
-				onClick={() => setIsShowMenuProject(true)}>
-				<IoEllipsisHorizontalSharp className='text-neutral-200 mr-2' />
-				<span className='text-neutral-200'>Show Menu</span>
-			</Button>
+								<PopoverCustom.Body>
+									<div className='bg-neutral-700 p-3 rounded-md'>
+										<p className='text-white text-sm'>This is a project {project.type}</p>
+									</div>
+								</PopoverCustom.Body>
+							</>
+						)}
+					</PopoverCustom.PopoverContent>
+				</PopoverCustom>
 
-			<div
-				className={`top-[70px] z-40 min-w-[300px] w-[380px] transition-all duration-200 h-[100vh] fixed right-0 flex ${
-					isShowMenuProject ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
-				}`}>
-				<MenuProject
-					project={project}
-					setIsShowMenuProject={setIsShowMenuProject}
-				/>
+				<Button
+					className='flex items-center'
+					onClick={() => setIsShowMenuProject(true)}>
+					<IoEllipsisHorizontalSharp className='text-neutral-200 mr-2' />
+					<span className='text-neutral-200 w-max'>Show Menu</span>
+				</Button>
 			</div>
+
+			<MenuProject
+				project={project}
+				isShowMenuProject={isShowMenuProject}
+				setIsShowMenuProject={setIsShowMenuProject}
+			/>
 		</div>
 	);
 });

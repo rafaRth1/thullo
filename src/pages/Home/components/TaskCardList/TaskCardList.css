@@ -1,0 +1,35 @@
+.content-cards::-webkit-scrollbar {
+	background: #1c2015;
+	border-radius: 10px;
+	width: 5px;
+}
+
+.content-cards::-webkit-scrollbar-thumb {
+	background: #333a35;
+	border-radius: 10px;
+	margin-left: 10px;
+}
+
+/* .content-cards::-webkit-scrollbar-thumb:hover {
+	background: #b3b3b3;
+	box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+} */
+
+/* .content-cards::-webkit-scrollbar-thumb:active {
+	background-color: #999999;
+} */
+
+/* .content-cards::-webkit-scrollbar-track {
+	background: #e1e1e1;
+	border-radius: 4px;
+} */
+
+/* Cambiamos el fondo cuando esté en active o hover */
+/* .content-cards::-webkit-scrollbar-track:hover,
+.content-cards::-webkit-scrollbar-track:active {
+	background: #d4d4d4;
+} */
+
+/* .content-cards::-webkit-scrollbar-button {
+	background: blue;
+} */

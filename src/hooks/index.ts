@@ -9,3 +9,4 @@ export * from './useModal';
 export * from './useBoardProvider';
 export * from './useFormCardProvider';
 export * from './useToggle';
+export * from './useMediaQuery';

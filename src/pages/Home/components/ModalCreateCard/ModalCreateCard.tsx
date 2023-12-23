@@ -5,7 +5,13 @@ import { TaskCardTypes } from '@interfaces/';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { useAddTaskCardMutation } from '@redux/home/apis';
 
-export const ModalCreateCard = () => {
+export const ModalCreateCard = ({
+	isOpenFormCreateCard,
+	onOpenFormCreateCard,
+}: {
+	isOpenFormCreateCard: boolean;
+	onOpenFormCreateCard: () => void;
+}) => {
 	const [nameCard, setNameCard] = useState('');
 	const { listCurrent } = useBoardProvider();
 	const [addTaskCard] = useAddTaskCardMutation();
@@ -29,32 +35,36 @@ export const ModalCreateCard = () => {
 	};
 
 	return (
-		<ModalContent>
-			{(onOpenChange) => (
-				<>
-					<ModalHeader className='text-white'>Form Create Card</ModalHeader>
-					<ModalBody>
-						<form
-							onSubmit={(e) => onSubmit(e, onOpenChange)}
-							className='flex flex-col w-80'>
-							<input
-								type='text'
-								name='name-card'
-								placeholder='Add Card'
-								className='bg-neutral-600 text-white outline-none rounded-xl mb-5 p-3'
-								value={nameCard}
-								onChange={(e) => setNameCard(e.target.value)}
-							/>
+		<Modal
+			show={isOpenFormCreateCard}
+			onOpenChange={onOpenFormCreateCard}>
+			<ModalContent>
+				{(onOpenChange) => (
+					<>
+						<ModalHeader className='text-white'>Form Create Card</ModalHeader>
+						<ModalBody>
+							<form
+								onSubmit={(e) => onSubmit(e, onOpenChange)}
+								className='flex flex-col'>
+								<input
+									type='text'
+									name='name-card'
+									placeholder='Add Card'
+									className='bg-neutral-600 text-white outline-none rounded-xl mb-5 p-3'
+									value={nameCard}
+									onChange={(e) => setNameCard(e.target.value)}
+								/>
 
-							<button
-								type='submit'
-								className='text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg p-2'>
-								Create Card
-							</button>
-						</form>
-					</ModalBody>
-				</>
-			)}
-		</ModalContent>
+								<button
+									type='submit'
+									className='text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg p-2'>
+									Create Card
+								</button>
+							</form>
+						</ModalBody>
+					</>
+				)}
+			</ModalContent>
+		</Modal>
 	);
 };

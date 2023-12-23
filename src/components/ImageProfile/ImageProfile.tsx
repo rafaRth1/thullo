@@ -19,11 +19,11 @@ export const ImageProfile = ({
 }: Props): JSX.Element => {
 	return (
 		<div
-			className={`user-image ${className} mr-2`}
+			className={`user-image ${className}`}
 			style={{ width: `${width}px`, height: `${height}px` }}>
 			{!imageProfile ? (
 				<div
-					className='flex justify-center items-center uppercase p-2 rounded-lg text-sm font-medium text-white h-full'
+					className='flex justify-center items-center uppercase p-2 rounded-md text-sm font-medium text-white h-full'
 					style={{ backgroundColor: `${color}` }}>
 					<span>{name?.slice(0, 2)}</span>
 				</div>

@@ -1,9 +1,10 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import { PopoverContext } from './PopoverContext';
 import { getCoordsPositionStatic } from '@utils/getCoordsPositionStatic';
+import { useMediaQueryNew } from '@hooks/useMediaQuery';
 
 export const PopoverInternal = ({ children }: { children: ReactElement | ReactElement[] | null }) => {
-	const { isMounted, triggerRect, preferredPosition } = useContext(PopoverContext);
+	const { isMounted, triggerRect, preferredPosition, widthEqualTrigger } = useContext(PopoverContext);
 	const [coords, setCoords] = useState({
 		top: 0,
 		left: 0,
@@ -12,6 +13,7 @@ export const PopoverInternal = ({ children }: { children: ReactElement | ReactEl
 	const mountedStyle = { animation: 'inAnimation 100ms ease-in' };
 	const unmountedStyle = { animation: 'outAnimation 110ms ease-in' };
 	const ref = useRef<HTMLDivElement>(null);
+	const match = useMediaQueryNew('(min-width:480px)', true, matchMedia, null, false);
 
 	useEffect(() => {
 		const element = ref.current;
@@ -40,6 +42,7 @@ export const PopoverInternal = ({ children }: { children: ReactElement | ReactEl
 				top: `${coords.top}px`,
 				zIndex: 70,
 				transformOrigin: `${coords.transform}`,
+				width: widthEqualTrigger && match ? `${triggerRect.width}px` : `auto`,
 			}}>
 			{children}
 		</div>

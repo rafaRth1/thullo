@@ -61,7 +61,7 @@ export const SectionLabels = () => {
 	};
 
 	return (
-		<div className='popup-labels bg-neutral-700 rounded-lg flex flex-col w-[240px] z-30 p-2 -mt-[3px]'>
+		<div className='popup-labels bg-neutral-700 rounded-md flex flex-col z-30 p-3'>
 			<div className='header-popup-labels'>
 				<span className='text-white text-base font-medium'>Label</span>
 				<p className='text-neutral-400 text-sm'>Select a name and a color</p>
@@ -78,12 +78,12 @@ export const SectionLabels = () => {
 				/>
 			</div>
 
-			<div className='palet-colors flex flex-wrap'>
+			<div className='palet-colors grid grid-cols-3 gap-2'>
 				{pickColors.map((palet, index) => (
 					<div
 						key={index}
-						style={{ width: '50px', height: '27px', background: `${palet.color}` }}
-						className={`palet-colors-item m-1 rounded-lg cursor-pointer ${
+						style={{ background: `${palet.color}` }}
+						className={`palet-colors-item rounded-lg cursor-pointer w-full h-[27px] ${
 							index === stateToggle ? 'border-[2px] border-white border-dashed' : null
 						}`}
 						onClick={() => handleSelectColor(palet, index)}></div>

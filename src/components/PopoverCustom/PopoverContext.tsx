@@ -24,6 +24,7 @@ export interface PopoverContextProps {
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>;
 	preferredPosition: Position;
 	shouldRenderChild: boolean;
+	widthEqualTrigger: boolean;
 }
 
 export const PopoverContext = createContext<PopoverContextProps>({} as PopoverContextProps);

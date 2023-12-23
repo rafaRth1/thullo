@@ -40,8 +40,8 @@ export const SectionMembers = () => {
 	};
 
 	return (
-		<div className='list-members bg-neutral-700 rounded-lg w-[240px] z-30 -mt-[3px]'>
-			<ul className='pt-2'>
+		<div className='list-members bg-neutral-700 rounded-md z-30 p-3'>
+			<ul>
 				{cardUpdate.members?.map((member: any) => (
 					<Member
 						member={member}
@@ -50,7 +50,7 @@ export const SectionMembers = () => {
 				))}
 			</ul>
 
-			<div className='popup-members bg-neutral-700 rounded-xl left-0 flex flex-col p-2'>
+			<div className='popup-members bg-neutral-700 rounded-xl left-0 flex flex-col'>
 				<div className='header-popup-members'>
 					<span className='text-white text-sm'>Members</span>
 					<p className='text-neutral-400 text-sm'>Assign members to this card</p>
@@ -66,14 +66,14 @@ export const SectionMembers = () => {
 					/>
 					<button
 						type='button'
-						className='bg-blue-600 p-2 rounded absolute right-0'
+						className='bg-blue-600 p-[9px] rounded absolute right-0'
 						// onClick={() => handleSearchUser(setValueSearch, setValue)}
 						onClick={() => console.log('Search user')}>
 						<IoSearch className='text-white text-sm' />
 					</button>
 				</div>
 
-				<div className='members-all border-neutral-600 border rounded-xl mb-2 p-1'>
+				<div className='members-all mb-2'>
 					{isLoading ? (
 						<Spinner
 							width='30'
@@ -83,14 +83,13 @@ export const SectionMembers = () => {
 						users.map((value) => (
 							<li
 								key={value._id}
-								className={`list-inside-members flex items-center p-1 mb-1 cursor-pointer`}
+								className={`list-inside-members flex items-center gap-1 p-1 mb-1 cursor-pointer`}
 								onClick={(e) => handlePickMember(value, e)}>
 								<ImageProfile
 									name={value.name}
 									color={value.colorImg}
-									className='mr-2'
 								/>
-								<p className='flex-1 text-sm text-white'>{value?.name.slice(0, 12).concat('.')}</p>
+								<p className='flex-1 text-sm text-white'>{value?.name}</p>
 							</li>
 						))
 					)}

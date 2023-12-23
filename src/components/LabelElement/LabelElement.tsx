@@ -13,7 +13,7 @@ export const LabelElement = memo(({ children, label, classname, handleFunction }
 			onClick={handleFunction}
 			className={`all-board inline-flex items-center cursor-pointer rounded-md py-1 px-3 text-xs h-6 ${classname} `}>
 			{children}
-			<span className='ml-1 text-neutral-200 capitalize'>{label}</span>
+			<span className='ml-1 text-neutral-200 capitalize w-max'>{label}</span>
 		</div>
 	);
 });

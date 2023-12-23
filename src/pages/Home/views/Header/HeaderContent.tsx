@@ -31,8 +31,8 @@ export const HeaderContent = memo(({ project }: Props) => {
 	};
 
 	return (
-		<header className='shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)]'>
-			<div className='relative flex items-center  mx-auto p-4'>
+		<header className='shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] '>
+			<div className='relative flex items-center mx-auto p-4'>
 				<Link
 					to='/'
 					// onClick={handleLogout}
@@ -45,17 +45,13 @@ export const HeaderContent = memo(({ project }: Props) => {
 
 				{location.pathname !== '/' && (
 					<>
-						<span className='px-2 border-r-2 border-neutral-700'>
-							<p className='text-white font-medium capitalize'>{project.name}</p>
-						</span>
-
 						<Link
 							to='/board'
 							// onClick={handleResetProject}
 						>
 							<LabelElement
 								label='All Board'
-								classname='bg-neutral-700 mx-3'>
+								classname='bg-neutral-700'>
 								<IoApps
 									className='text-neutral-200'
 									size={15}
@@ -96,19 +92,6 @@ export const HeaderContent = memo(({ project }: Props) => {
 							)}
 						</PopoverCustom.PopoverContent>
 					</PopoverCustom>
-
-					{/* {isShowMenuUser && (
-						<div
-							className={`border-neutral-600 bg-neutral-800 flex flex-col border ${
-								isShowMenuUser ? 'opacity-100' : 'opacity-0'
-							} rounded-md transition-opacity absolute top-10 right-0 p-1 z-40 w-24`}>
-							<span
-								className='text-white hover:bg-red-600 transition-colors cursor-pointer p-2 rounded'
-								onClick={handleLogout}>
-								Logout
-							</span>
-						</div>
-					)} */}
 				</div>
 			</div>
 		</header>

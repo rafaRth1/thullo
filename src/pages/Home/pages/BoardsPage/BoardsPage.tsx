@@ -1,6 +1,6 @@
 import { CardBoard, ModalFormProject } from '@pages/Home/components/';
 import { useToggle } from '@hooks/';
-import { Button, Modal, Spinner } from '@components/';
+import { Button, Spinner } from '@components/';
 import { useGetProjectsQuery } from '@redux/home/apis/project-api';
 import { IoAdd } from 'react-icons/io5';
 
@@ -38,11 +38,10 @@ export const BoardsPage = () => {
 				</div>
 			)}
 
-			<Modal
-				show={isOpenFormProject}
-				onOpenChange={onOpenFormProject}>
-				<ModalFormProject />
-			</Modal>
+			<ModalFormProject
+				isOpenFormProject={isOpenFormProject}
+				onOpenFormProject={onOpenFormProject}
+			/>
 		</div>
 	);
 };

@@ -31,14 +31,6 @@ function Body({ children }: Props) {
 	const { isMounted } = useContext(PopoverContext);
 	const shouldRenderChild = useDelayUnmount(isMounted, 100);
 
-	// return shouldRenderChild ? (
-	// 	<div tabIndex={-1}>
-	// 		<PopoverInternal>{children}</PopoverInternal>
-	// 	</div>
-	// ) : (
-	// 	<></>
-	// );
-
 	return createPortal(
 		shouldRenderChild && (
 			<div tabIndex={-1}>

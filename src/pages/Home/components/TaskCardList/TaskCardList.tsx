@@ -6,6 +6,7 @@ import { TaskCard } from '@pages/Home/components/';
 import { PopoverCustom } from '@components/PopoverCustom';
 import { TaskCardTypes, ListTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp } from 'react-icons/io5';
+import './TaskCardList.css';
 
 interface Props {
 	list: ListTypes;
@@ -47,7 +48,7 @@ export const TaskCardList = memo(
 		});
 
 		return (
-			<div className='contenedor-list'>
+			<div className='flex flex-col w-100 min-w-[250px] max-w-[250px] max-h-full'>
 				<div className='content-list mb-5'>
 					<div className='header-list px-2 flex justify-between items-center'>
 						<div className='flex-1 text-white'>{list.name}</div>
@@ -93,27 +94,29 @@ export const TaskCardList = memo(
 					</div>
 				</div>
 
-				{list.taskCards.map((taskCard, index) => (
-					<Draggable
-						key={taskCard._id}
-						draggableId={taskCard._id!}
-						index={index}>
-						{(provided, snapshot) => (
-							<div
-								ref={provided.innerRef}
-								{...provided.draggableProps}
-								{...provided.dragHandleProps}
-								style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-								<TaskCard
-									key={taskCard._id}
-									taskCard={taskCard}
-									handlerOpenFormEditCard={handlerOpenFormEditCard}
-									snapshot={snapshot}
-								/>
-							</div>
-						)}
-					</Draggable>
-				))}
+				<div className='content-cards flex flex-col overflow-y-auto pr-1'>
+					{list.taskCards.map((taskCard, index) => (
+						<Draggable
+							key={taskCard._id}
+							draggableId={taskCard._id!}
+							index={index}>
+							{(provided, snapshot) => (
+								<div
+									ref={provided.innerRef}
+									{...provided.draggableProps}
+									{...provided.dragHandleProps}
+									style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+									<TaskCard
+										key={taskCard._id}
+										taskCard={taskCard}
+										handlerOpenFormEditCard={handlerOpenFormEditCard}
+										snapshot={snapshot}
+									/>
+								</div>
+							)}
+						</Draggable>
+					))}
+				</div>
 
 				{provided.placeholder}
 

@@ -32,7 +32,7 @@ export const CardBoard = ({ project }: Props) => {
 
 					<p className='card-board-name text-white text-xl mb-3'>{name}</p>
 
-					<div className='list-users flex items-center'>
+					<div className='list-users flex items-center gap-3'>
 						{collaborators.length === 0 ? (
 							<span className='bg-blue-500 inline-flex items-center justify-center cursor-pointer object-cover rounded-md text-3xl w-9 h-9 '>
 								<IoAddOutline

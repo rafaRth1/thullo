@@ -108,7 +108,7 @@ export const SectionComments = () => {
 				</div>
 
 				<textarea
-					className='text-white bg-neutral-800 border-neutral-700 leading-4 resize-none focus-visible:border-neutral-500 focus-visible:outline-none w-full h-28 p-2 rounded-xl my-3 pl-16 pt-6 border-2'
+					className='text-white bg-neutral-800 border-neutral-700 leading-4 focus-visible:border-neutral-500 focus-visible:outline-none w-full h-28 p-2 rounded-xl my-3 pl-16 pt-6 border-2'
 					placeholder='Write a comment...'
 					name='comments'
 					value={comment}

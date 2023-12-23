@@ -9,7 +9,7 @@ interface Props {
 
 export const Member = ({ member }: Props) => {
 	return (
-		<li className='list-inside-members flex items-center p-2'>
+		<li className='list-inside-members flex items-center py-2'>
 			<ImageProfile
 				name={member.name}
 				color={member.colorImg}

@@ -1,43 +1,49 @@
-import { OverlayImage, Spinner } from '@components/';
+import { Modal, OverlayImage, Spinner } from '@components/';
 import { ModalBody, ModalContent, ModalHeader } from '@components/Modal';
 import { useFormCardProvider } from '@hooks/';
-import { CardColumnOne, CardColumnTwo } from './components';
+import { CardColumnOne, CardColumnTwo, SectionNameCard } from './components';
 import './ModalFormCard.css';
 
-export const ModalFormCard = (): JSX.Element => {
+export const ModalFormCard = ({
+	isOpenFormCard,
+	onOpenFormCard,
+}: {
+	isOpenFormCard: boolean;
+	onOpenFormCard: () => void;
+}): JSX.Element => {
 	const { cardUpdate } = useFormCardProvider();
 
 	return cardUpdate._id ? (
-		<ModalContent>
-			{(onOpenChange) => (
-				<>
-					<ModalHeader>
-						<></>
-					</ModalHeader>
+		<Modal
+			show={isOpenFormCard}
+			onOpenChange={onOpenFormCard}>
+			<ModalContent size='sm:max-w-xl md:max-w-3xl'>
+				{(onOpenChange) => (
+					<>
+						<ModalHeader>
+							<></>
+						</ModalHeader>
 
-					<ModalBody>
-						<div>
-							<form className='modal-form-create-card-content relative'>
-								{cardUpdate.imgUlr && (
-									<div className='relative w-full rounded-xl mb-3 h-[130px]'>
-										<OverlayImage
-											src={cardUpdate.imgUlr}
-											alt='Image Card'
-											className='w-full h-full object-cover'
-										/>
-									</div>
-								)}
-
-								<div className='flex'>
-									<CardColumnOne />
-									<CardColumnTwo onOpenFormCard={onOpenChange} />
+						<ModalBody>
+							{cardUpdate.imgUlr && (
+								<div className='relative w-full rounded-xl mb-3 h-[130px]'>
+									<OverlayImage
+										src={cardUpdate.imgUlr}
+										alt='Image Card'
+										className='w-full h-full object-cover'
+									/>
 								</div>
-							</form>
-						</div>
-					</ModalBody>
-				</>
-			)}
-		</ModalContent>
+							)}
+
+							<div className='flex flex-col-reverse md:flex-row'>
+								<CardColumnOne />
+								<CardColumnTwo onOpenFormCard={onOpenChange} />
+							</div>
+						</ModalBody>
+					</>
+				)}
+			</ModalContent>
+		</Modal>
 	) : (
 		<></>
 	);

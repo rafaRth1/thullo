@@ -4,9 +4,14 @@ import { ModalContext } from './ModalContext';
 interface Props {
 	children: (onClose: () => void) => React.ReactNode | React.ReactNode[];
 	className?: string;
+	/**
+	 * Choose size
+	 * @example 'sm:w-sm md:w-md'
+	 */
+	size?: string;
 }
 
-const ModalContent = ({ children, className }: Props) => {
+const ModalContent = ({ children, className, size = 'max-w-md' }: Props) => {
 	const { onOpenChange } = useContext(ModalContext);
 
 	return (
@@ -17,11 +22,11 @@ const ModalContent = ({ children, className }: Props) => {
 				style={{ backgroundColor: 'hsl(0 0% 0%/.5)' }}
 			/>
 
-			<div
-				className={`relative z-50 ${className ? className : ''}`}
+			<section
+				className={`flex flex-col bg-neutral-900 rounded-lg relative z-50 w-full ${size} max-h-[calc(100%_-_7.5rem)] m-1`}
 				data-modal='modal-content'>
 				{children(onOpenChange)}
-			</div>
+			</section>
 		</>
 	);
 };

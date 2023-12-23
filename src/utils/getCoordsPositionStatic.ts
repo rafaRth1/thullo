@@ -15,8 +15,8 @@ export const getCoordsPositionStatic = (
 	let left = 0;
 	let transform = '';
 
-	console.log('triggerRect', triggerRect);
-	console.log('modalRect', modalRect);
+	// console.log('triggerRect', triggerRect);
+	// console.log('modalRect', modalRect);
 
 	/** Will multiply by 10 because the scale animation is 0.1 */
 	const widthBody = modalRect.width * 10;
@@ -46,6 +46,10 @@ export const getCoordsPositionStatic = (
 			top = triggerRect.bottom + 10;
 			left = triggerRect.left + triggerRect.width / 2 - widthBody / 2;
 			transform = '50% 0% 0px';
+
+			if (left < 0) {
+				left = 0;
+			}
 
 			// if (top + modalRect.height > window.innerHeight - 10) {
 			// 	top = triggerRect.top - 10 - modalRect.height;

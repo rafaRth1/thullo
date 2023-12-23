@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ModalHeader, ModalContent, ModalBody } from '@components/Modal';
+import { ModalHeader, ModalContent, ModalBody, Modal } from '@components/Modal';
 import { useBoardProvider } from '@hooks/';
 import { useAddListMutation, useEditListMutation } from '@redux/home/apis';
 import './ModalFormList.css';
 
-export const ModalFormList = () => {
+export const ModalFormList = ({
+	isOpenFormList,
+	onOpenFormList,
+}: {
+	isOpenFormList: boolean;
+	onOpenFormList: () => void;
+}) => {
 	const [nameList, setNameList] = useState('');
 	const { listCurrent, setListCurrent, listsArray } = useBoardProvider();
 	const [addList] = useAddListMutation();
@@ -58,43 +64,40 @@ export const ModalFormList = () => {
 		return () => {
 			setNameList('');
 		};
-	}, []);
+	}, [isOpenFormList]);
 
 	return (
-		<ModalContent>
-			{(onOpenChange) => (
-				<>
-					<ModalHeader className='text-white font-medium'>Form Create List</ModalHeader>
+		<Modal
+			show={isOpenFormList}
+			onOpenChange={onOpenFormList}>
+			<ModalContent>
+				{(onOpenChange) => (
+					<>
+						<ModalHeader className='text-white font-medium'>Form Create List</ModalHeader>
 
-					<ModalBody>
-						<form
-							onSubmit={(e) => handleSubmit(e, onOpenChange)}
-							className='flex flex-col w-80'>
-							<input
-								type='text'
-								name='nameList'
-								placeholder='Add Name List'
-								className='bg-neutral-600 text-white outline-none rounded-xl mb-5 p-3'
-								value={nameList}
-								onChange={(e) => setNameList(e.target.value)}
-							/>
+						<ModalBody>
+							<form
+								onSubmit={(e) => handleSubmit(e, onOpenChange)}
+								className='flex flex-col'>
+								<input
+									type='text'
+									name='nameList'
+									placeholder='Add Name List'
+									className='bg-neutral-600 text-white outline-none rounded-xl mb-5 p-3'
+									value={nameList}
+									onChange={(e) => setNameList(e.target.value)}
+								/>
 
-							<button
-								type='submit'
-								className='text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg p-2'>
-								{!listCurrent._id ? 'Create List' : 'Update List'}
-							</button>
-						</form>
-					</ModalBody>
-				</>
-			)}
-		</ModalContent>
+								<button
+									type='submit'
+									className='text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg p-2'>
+									{!listCurrent._id ? 'Create List' : 'Update List'}
+								</button>
+							</form>
+						</ModalBody>
+					</>
+				)}
+			</ModalContent>
+		</Modal>
 	);
 };
-
-{
-	/* <div
-	className='fixed top-0 left-0 w-full h-full z-20'
-	onClick={() => console.log('Desde ModalFormList')}
-/> */
-}

@@ -19,7 +19,13 @@ const formValidations = {
 	name_board: [(value: string) => value.length > 0, 'Name is void.'],
 };
 
-export const ModalFormProject = () => {
+export const ModalFormProject = ({
+	isOpenFormProject,
+	onOpenFormProject,
+}: {
+	isOpenFormProject: boolean;
+	onOpenFormProject: () => void;
+}) => {
 	const { formState, setFormState, formValidation, onInputChange } = useForm(formData, formValidations);
 	const [formSubmitted, setFormSubmitted] = useState(false);
 	const [isPrivate, setIsPrivate] = useState(false);
@@ -66,12 +72,14 @@ export const ModalFormProject = () => {
 	};
 
 	return (
-		<ModalContent>
-			{(onOpenChange) => (
-				<>
-					<ModalHeader className='font-medium text-white'>Modal Form Project</ModalHeader>
-					<ModalBody>
-						<div className='relative w-[310px]'>
+		<Modal
+			show={isOpenFormProject}
+			onOpenChange={onOpenFormProject}>
+			<ModalContent>
+				{(onOpenChange) => (
+					<>
+						<ModalHeader className='font-medium text-white'>Modal Form Project</ModalHeader>
+						<ModalBody>
 							<div className='image-board mb-5'>
 								{!!formState.name_img ? (
 									<img
@@ -146,10 +154,10 @@ export const ModalFormProject = () => {
 									</Button>
 								</div>
 							</div>
-						</div>
-					</ModalBody>
-				</>
-			)}
-		</ModalContent>
+						</ModalBody>
+					</>
+				)}
+			</ModalContent>
+		</Modal>
 	);
 };

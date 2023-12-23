@@ -5,19 +5,23 @@ import { ImageProfile, LabelElement } from '@components/';
 import { ProjectTypes } from '@interfaces/';
 import {
 	IoClose,
+	IoCloseOutline,
 	IoDocumentText,
 	IoDocumentTextOutline,
 	IoPencilSharp,
+	IoPeopleOutline,
 	IoPersonCircle,
+	IoPersonOutline,
 } from 'react-icons/io5';
 import './MenuProject.css';
 
 interface Props {
 	project: ProjectTypes;
+	isShowMenuProject: boolean;
 	setIsShowMenuProject: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
+export const MenuProject = ({ project, isShowMenuProject, setIsShowMenuProject }: Props) => {
 	const [values, setValues] = useState({
 		name: '',
 		description: '',
@@ -45,8 +49,9 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 
 	return (
 		<div
-			className='menu-project-content bg-neutral-800 overflow-x-hidden overflow-y-scroll p-4 rounded-lg w-full shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)]'
-			style={{ paddingRight: '-20px' }}>
+			className={`fixed right-0 top-[70px] z-40 transition-all duration-200 h-[90vh] bg-neutral-800 p-4 rounded-lg w-full min-[420px]:max-w-sm shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] flex flex-col ${
+				isShowMenuProject ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
+			}`}>
 			{/* <span
 				className='text-white text-xs block bg-red-600 p-1 rounded-md cursor-pointer'
 				onClick={() => console.log('Eliminando Proyecto')}>
@@ -62,31 +67,30 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 					onBlur={handleSubmitChanges}
 				/>
 
-				<span
-					onClick={() => setIsShowMenuProject(false)}
-					className='cursor-pointer'>
-					<IoClose
-						size={25}
-						color='white'
+				<button
+					className='cursor-pointer p-1 bg-transparent rounded-3xl hover:bg-neutral-700'
+					onClick={() => setIsShowMenuProject(false)}>
+					<IoCloseOutline
+						className='text-white '
+						size={24}
 					/>
-				</span>
+				</button>
 			</div>
 
-			<div className='author-project my-3'>
-				<div className='flex'>
-					<IoPersonCircle
+			<div className='author-project flex flex-col overflow-y-auto h-full my-3'>
+				<div className='flex items-center gap-3'>
+					<IoPersonOutline
 						size={22}
-						className='mr-2 text-neutral-400'
+						className='text-neutral-400'
 					/>
 					<h3 className='text-neutral-400 text-sm'>Made By</h3>
 				</div>
 
-				<div className='flex items-center mt-3'>
+				<div className='flex items-center gap-3 mt-3'>
 					<div className='photo-creator'>
 						<ImageProfile
 							name={auth.name}
 							color={auth.colorImg}
-							className='mr-3'
 						/>
 					</div>
 
@@ -100,23 +104,17 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 					<div className='header-description flex mt-5'>
 						<div className='flex items-center text-neutral-400 text-sm'>
 							<IoDocumentTextOutline
-								size={17}
+								size={22}
 								className='mr-3'
 							/>
 							<span>Description</span>
 						</div>
-
-						<LabelElement
-							label='Edit'
-							classname='border-solid border-neutral-700 border-2 ml-2'>
-							<IoPencilSharp className='text-white' />
-						</LabelElement>
 					</div>
 				</div>
 
 				<div className='description-body'>
 					<textarea
-						style={{ minHeight: '318px', maxHeight: '318px' }}
+						style={{ minHeight: '300px', maxHeight: '300px' }}
 						className='w-full p-2 mt-3 bg-transparent text-white focus-visible:outline-none resize-none'
 						placeholder='Write a description...'
 						name='description'
@@ -128,11 +126,8 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 
 				<div className='team-members'>
 					<div className='header-members'>
-						<div className='flex items-center text-neutral-400 text-sm'>
-							<IoDocumentText
-								size={17}
-								className='mr-3'
-							/>
+						<div className='flex items-center gap-3 text-neutral-400 text-sm'>
+							<IoPeopleOutline size={22} />
 							<span>Team</span>
 						</div>
 					</div>
@@ -141,7 +136,7 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 						{!!project.collaborators &&
 							project?.collaborators.map((collaborator) => (
 								<li
-									className='py-3 flex justify-between'
+									className='mt-3 flex justify-between'
 									key={collaborator._id}>
 									<div className='members flex items-center cursor-pointer  flex-1'>
 										<ImageProfile
@@ -154,7 +149,7 @@ export const MenuProject = ({ project, setIsShowMenuProject }: Props) => {
 									</div>
 
 									<button
-										className='text-sm text-[#f21261] border border-[#f21261] rounded-lg py-1 px-2 '
+										className='text-[#f21261] font-medium border border-[#f21261] rounded-lg py-1 px-2 '
 										onClick={() => dispatch(deleteCollabrator(project?._id, collaborator._id))}>
 										Remove
 									</button>

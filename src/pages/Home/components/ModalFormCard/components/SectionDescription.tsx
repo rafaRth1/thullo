@@ -42,7 +42,7 @@ export const SectionDescription = () => {
 			</div>
 
 			<textarea
-				className='border-neutral-700 focus-visible:border-neutral-500 resize-none text-white bg-neutral-800 focus-visible:outline-none border-2 rounded-xl w-full p-3 mt-3'
+				className='border-neutral-700 focus-visible:border-neutral-500 text-white bg-neutral-800 focus-visible:outline-none border-2 rounded-xl w-full p-3 mt-3'
 				placeholder='Write a description...'
 				name='description'
 				value={description}

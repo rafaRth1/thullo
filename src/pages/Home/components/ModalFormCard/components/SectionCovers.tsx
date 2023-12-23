@@ -38,7 +38,7 @@ export const SectionCovers = (): JSX.Element => {
 	};
 
 	return (
-		<div className='popup-cover bg-neutral-700 rounded-lg w-[240px] z-30 p-2 -mt-[3px]'>
+		<div className='popup-cover bg-neutral-700 rounded-md z-30 p-3'>
 			<div className='header-popup-cover'>
 				<span className='text-white text-sm'>Photo Search</span>
 				<p className='text-neutral-400 text-sm'>Search Unplash for photos</p>
@@ -55,7 +55,7 @@ export const SectionCovers = (): JSX.Element => {
 				/>
 				<button
 					type='button'
-					className='bg-blue-600 p-2 rounded absolute right-0'
+					className='bg-blue-600 p-[9px] rounded absolute right-0'
 					onClick={handleSearchImage}>
 					<IoSearch className='text-white text-sm' />
 				</button>
@@ -65,7 +65,7 @@ export const SectionCovers = (): JSX.Element => {
 				<div className='delete-image mb-1'>
 					<button
 						type='button'
-						className='text-white text-center rounded bg-red-600 hover:bg-red-700 w-full p-1 text-sm '
+						className='text-white text-center rounded bg-rose-600 hover:bg-rose-700 w-full p-2 text-sm '
 						onClick={handleDeleteImage}>
 						Eliminar Imagen
 					</button>

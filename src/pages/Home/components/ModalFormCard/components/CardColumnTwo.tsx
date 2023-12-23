@@ -33,71 +33,80 @@ export const CardColumnTwo = ({ onOpenFormCard }: Props) => {
 				<span>Actions</span>
 			</div>
 
-			<PopoverCustom preferredPosition='bottom'>
-				<PopoverCustom.PopoverContent>
-					{(open, onOpenClose) => (
-						<>
-							<PopoverCustom.Trigger>
-								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2 flex-1'>
-									<span className='pl-2'>
-										<IoPricetag className='text-white mr-2 text-xs' />
-									</span>
-									<span className='text-neutral-200 capitalize text-xs'>Labels</span>
-								</div>
-							</PopoverCustom.Trigger>
+			<div className='flex md:flex-col gap-3 my-3'>
+				<div className='flex flex-col basis-1/2 gap-3'>
+					<PopoverCustom
+						preferredPosition='bottom'
+						widthEqualTrigger={true}>
+						<PopoverCustom.PopoverContent>
+							{(open, onOpenClose) => (
+								<>
+									<PopoverCustom.Trigger>
+										<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2'>
+											<span className='pl-2'>
+												<IoPricetag className='text-white mr-2 text-xs' />
+											</span>
+											<span className='text-neutral-200 capitalize text-xs'>Labels</span>
+										</div>
+									</PopoverCustom.Trigger>
 
-							<PopoverCustom.Body>
-								<SectionLabels />
-							</PopoverCustom.Body>
-						</>
-					)}
-				</PopoverCustom.PopoverContent>
-			</PopoverCustom>
+									<PopoverCustom.Body>
+										<SectionLabels />
+									</PopoverCustom.Body>
+								</>
+							)}
+						</PopoverCustom.PopoverContent>
+					</PopoverCustom>
 
-			<PopoverCustom preferredPosition='bottom'>
-				<PopoverCustom.PopoverContent>
-					{(open, onOpenClose) => (
-						<>
-							<PopoverCustom.Trigger>
-								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
-									<span className='pl-2'>
-										<IoImage className='text-white mr-2 text-xs' />
-									</span>
-									<span className='text-neutral-200 capitalize text-xs'>Covers</span>
-								</div>
-							</PopoverCustom.Trigger>
+					<PopoverCustom preferredPosition='bottom'>
+						<PopoverCustom.PopoverContent>
+							{(open, onOpenClose) => (
+								<>
+									<PopoverCustom.Trigger>
+										<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2'>
+											<span className='pl-2'>
+												<IoImage className='text-white mr-2 text-xs' />
+											</span>
+											<span className='text-neutral-200 capitalize text-xs'>Covers</span>
+										</div>
+									</PopoverCustom.Trigger>
 
-							<PopoverCustom.Body>
-								<SectionCovers />
-							</PopoverCustom.Body>
-						</>
-					)}
-				</PopoverCustom.PopoverContent>
-			</PopoverCustom>
-			<PopoverCustom preferredPosition='bottom'>
-				<PopoverCustom.PopoverContent>
-					{(open, onOpenClose) => (
-						<>
-							<PopoverCustom.Trigger>
-								<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2 mt-2'>
-									<span className='pl-2'>
-										<IoPeopleSharp className='text-white mr-2 text-xs' />
-									</span>
-									<span className='text-neutral-200 capitalize text-xs'>Members</span>
-								</div>
-							</PopoverCustom.Trigger>
-							<PopoverCustom.Body>
-								<SectionMembers />
-							</PopoverCustom.Body>
-						</>
-					)}
-				</PopoverCustom.PopoverContent>
-			</PopoverCustom>
+									<PopoverCustom.Body>
+										<SectionCovers />
+									</PopoverCustom.Body>
+								</>
+							)}
+						</PopoverCustom.PopoverContent>
+					</PopoverCustom>
+				</div>
 
-			<div
-				className='bg-red-600 hover:bg-red-700 transition-colors rounded p-1 text-center cursor-pointer mt-2'
-				onClick={handleDeleteCard}>
-				<span className='text-white text-sm'>Delete Card</span>
+				<div className='flex flex-col basis-1/2 gap-3'>
+					<PopoverCustom preferredPosition='bottom'>
+						<PopoverCustom.PopoverContent>
+							{(open, onOpenClose) => (
+								<>
+									<PopoverCustom.Trigger>
+										<div className='bg-neutral-700 rounded cursor-pointer flex items-center p-2'>
+											<span className='pl-2'>
+												<IoPeopleSharp className='text-white mr-2 text-xs' />
+											</span>
+											<span className='text-neutral-200 capitalize text-xs'>Members</span>
+										</div>
+									</PopoverCustom.Trigger>
+									<PopoverCustom.Body>
+										<SectionMembers />
+									</PopoverCustom.Body>
+								</>
+							)}
+						</PopoverCustom.PopoverContent>
+					</PopoverCustom>
+
+					<div
+						className='bg-rose-600 hover:bg-rose-700 transition-colors rounded p-1 text-center cursor-pointer'
+						onClick={handleDeleteCard}>
+						<span className='text-white text-sm'>Delete Card</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

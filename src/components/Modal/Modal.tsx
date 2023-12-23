@@ -49,9 +49,8 @@ export const Modal = ({
 				<div
 					tabIndex={-1}
 					ref={elementRef}>
-					{/* <div className='flex justify-center items-center fixed inset-0 w-screen h-[100vh] transition-opacity z-50'> */}
-					<div className='flex justify-center items-center fixed inset-0 w-screen transition-opacity z-50'>
-						<section className='bg-neutral-700 rounded-lg relative z-50'>{children}</section>
+					<div className='flex justify-center items-center fixed inset-0 w-screen h-[100dvh] transition-opacity z-50'>
+						{children}
 					</div>
 				</div>
 			</ModalProvider>
