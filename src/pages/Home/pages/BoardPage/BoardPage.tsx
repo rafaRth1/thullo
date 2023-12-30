@@ -9,15 +9,15 @@ export const BoardPage = (): JSX.Element => {
 	const [isOpenFormList, onOpenFormList] = useToggle();
 	const [isOpenFormCreateCard, onOpenFormCreateCard] = useToggle();
 	const [isOpenFormCard, onOpenFormCard] = useToggle();
-	const { loading, cardUpdate } = useBoardProvider();
+	const { loading, cardUpdate, isLoadingLists } = useBoardProvider();
 	const [isOpen, onOpen] = useToggle();
 
 	return (
 		<div className='flex flex-1'>
 			{/* <div className='flex flex-col flex-1'> */}
 			<main className='relative grow overflow-hidden'>
-				{loading ? (
-					<Spinner className='h-28' />
+				{isLoadingLists ? (
+					<Spinner className='h-full' />
 				) : (
 					<>
 						<Board

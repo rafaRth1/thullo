@@ -25,13 +25,14 @@ export const BoardProvider = ({ children }: Props) => {
 	const [listCurrent, setListCurrent] = useState({} as ListTypes);
 	const [loading, setLoading] = useState(false);
 	const { id } = useParams();
-	const { data: listsArray = [] } = useGetListsQuery(id!);
+	const { data: listsArray = [], isLoading: isLoadingLists } = useGetListsQuery(id!);
 
 	const contextValues = useMemo(
 		() => ({
 			listsArray,
 			lists,
 			setLists,
+			isLoadingLists,
 			loading,
 			setLoading,
 			listCurrent,

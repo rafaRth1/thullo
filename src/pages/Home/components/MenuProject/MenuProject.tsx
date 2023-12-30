@@ -49,7 +49,7 @@ export const MenuProject = ({ project, isShowMenuProject, setIsShowMenuProject }
 
 	return (
 		<div
-			className={`fixed right-0 top-[70px] z-40 transition-all duration-200 h-[90vh] bg-neutral-800 p-4 rounded-lg w-full min-[420px]:max-w-sm shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] flex flex-col ${
+			className={`fixed right-0 top-[70px] z-40 transition-all duration-200 h-[90vh] bg-neutral-800 rounded-lg w-full min-[420px]:max-w-sm shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] flex flex-col ${
 				isShowMenuProject ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
 			}`}>
 			{/* <span
@@ -58,26 +58,26 @@ export const MenuProject = ({ project, isShowMenuProject, setIsShowMenuProject }
 				Eliminar Proyecto
 			</span> */}
 
-			<div className='flex items-center justify-between p-2 border-b border-neutral-600'>
+			<div className='flex items-center p-4 border-b border-neutral-600'>
 				<input
 					type='text'
-					className='flex-1 text-white font-medium text-lg bg-transparent focus-visible:outline-0'
+					className='text-white font-medium text-lg bg-transparent focus-visible:outline-0 block flex-1'
 					value={values.name}
 					onChange={(e) => setValues({ ...values, name: e.target.value })}
 					onBlur={handleSubmitChanges}
 				/>
 
 				<button
-					className='cursor-pointer p-1 bg-transparent rounded-3xl hover:bg-neutral-700'
+					className='cursor-pointer absolute right-3 p-1 bg-transparent rounded-3xl hover:bg-neutral-700'
 					onClick={() => setIsShowMenuProject(false)}>
 					<IoCloseOutline
-						className='text-white '
+						className='text-white'
 						size={24}
 					/>
 				</button>
 			</div>
 
-			<div className='author-project flex flex-col overflow-y-auto h-full my-3'>
+			<div className='author-project flex flex-col overflow-y-auto h-full  p-4'>
 				<div className='flex items-center gap-3'>
 					<IoPersonOutline
 						size={22}

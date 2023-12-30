@@ -66,7 +66,7 @@ export const Search = memo(() => {
 	}, [id]);
 
 	return (
-		<div className='flex justify-end flex-1 w-full'>
+		<div className='flex justify-end w-full mr-4'>
 			{match ? (
 				<div
 					className='search-container relative'
@@ -79,7 +79,7 @@ export const Search = memo(() => {
 						id='search'
 						type='search'
 						className={`bg-transparent border border-neutral-700 text-white focus-visible:outline-blue-700 h-11 ${
-							isActiveFocus ? 'w-full lg:w-[500px] 2xl:w-1/3' : 'w-[300px]'
+							isActiveFocus ? 'w-full lg:w-[500px]' : 'w-[300px]'
 						} rounded-md py-1 px-3 mr-2`}
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
@@ -123,11 +123,13 @@ export const Search = memo(() => {
 					) : null}
 				</div>
 			) : (
-				<IoSearchOutline
-					size={25}
-					className='text-neutral-100 mx-4 cursor-pointer'
-					onClick={() => console.log('redirigiendo seccion search')}
-				/>
+				<Link to={'/search'}>
+					<IoSearchOutline
+						size={25}
+						className='text-neutral-100 mx-4 cursor-pointer'
+						onClick={() => console.log('redirigiendo seccion search')}
+					/>
+				</Link>
 			)}
 		</div>
 	);

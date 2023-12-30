@@ -30,7 +30,6 @@ export const Register = () => {
 		try {
 			const { data } = await clientAxios.post('/user', formState);
 			onResetForm();
-			console.log(data);
 			navigate('/');
 		} catch (error) {
 			console.log(error);
@@ -93,9 +92,7 @@ export const Register = () => {
 						/>
 					</div>
 
-					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 mt-4'>
-						Register
-					</button>
+					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 mt-4'>Register</button>
 
 					<div className='mt-10'>
 						<Link

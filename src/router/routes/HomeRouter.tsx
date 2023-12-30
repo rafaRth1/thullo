@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Home } from '@pages/Home/Home';
-import { BoardsPage, BoardPage } from '@pages/Home/pages';
+import { BoardsPage, BoardPage, SearchPage } from '@pages/Home/pages';
 import { BoardProvider } from '@context/';
 
 export const HomeRouter = () => {
@@ -26,6 +26,11 @@ export const HomeRouter = () => {
 						element={null}
 					/>
 				</Route>
+
+				<Route
+					path='search'
+					element={<SearchPage />}
+				/>
 			</Route>
 
 			<Route

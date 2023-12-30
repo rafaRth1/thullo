@@ -19,10 +19,24 @@ export const Login = () => {
 
 		try {
 			const { data } = await clientAxios.post('/user/login', valueSession);
+
+			// const response = await fetch('http://localhost:4000/user/login', {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 	},
+			// 	body: JSON.stringify(valueSession),
+			// });
+
+			// const data = await response.json();
+
+			// console.log(data);
+
 			localStorage.setItem('token', data.token);
 			setAuth(data);
 			navigate('/');
 		} catch (error: any) {
+			console.log(error);
 			setAlerta({
 				msg: error.response.data.msg,
 				error: true,
@@ -52,7 +66,6 @@ export const Login = () => {
 					className='flex flex-col mx-auto p-5'
 					onSubmit={handleSubmit}>
 					<h1 className='text-white font-medium text-2xl text-center mb-10'>Iniciar sesión en Thullo</h1>
-
 					<div className='mb-5'>
 						<label
 							htmlFor='email'
@@ -68,7 +81,6 @@ export const Login = () => {
 							onChange={(e) => setValueSession({ ...valueSession, email: e.target.value })}
 						/>
 					</div>
-
 					<div className='mb-5'>
 						<label
 							htmlFor='pass'
@@ -85,9 +97,11 @@ export const Login = () => {
 							onChange={(e) => setValueSession({ ...valueSession, password: e.target.value })}
 						/>
 					</div>
-
-					<button className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700'>Login</button>
-
+					<button
+						type='submit'
+						className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700'>
+						Login
+					</button>
 					<div className='mt-10'>
 						{/* <Link
 							to='/auth/forget-password'

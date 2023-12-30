@@ -19,6 +19,7 @@ export interface AppContextProps {
 	setIsShowModalFormCard: DispatchStateAction<boolean>;
 	cardUpdate: TaskCardTypes;
 	setCardUpdate: DispatchStateAction<TaskCardTypes>;
+	isLoadingProject: boolean;
 }
 
 export const AppContext = createContext<AppContextProps>({} as AppContextProps);

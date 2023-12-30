@@ -9,7 +9,7 @@ export const BoardsPage = () => {
 	const { data: projects = [], isLoading } = useGetProjectsQuery();
 
 	return (
-		<div className='content-list-board container mx-auto mt-10 p-4'>
+		<div className='content-list-board container mx-auto mt-10 p-4 overflow-y-auto'>
 			<div className='header-list flex justify-between items-center w-full mb-10'>
 				<span className='text-white text-lg'>All Boards</span>
 
@@ -26,7 +26,7 @@ export const BoardsPage = () => {
 			</div>
 
 			{isLoading ? (
-				<Spinner />
+				<Spinner className='h-72' />
 			) : (
 				<div className='list-board flex flex-wrap justify-center sm:justify-start'>
 					{projects?.map((project) => (

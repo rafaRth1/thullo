@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Search } from '@pages/Home/components/';
 import { useAppDispatch, useAuthProvider } from '@hooks/';
 import { ImageProfile, LabelElement, Logo } from '@components/';
@@ -15,6 +15,7 @@ interface Props {
 export const HeaderContent = memo(({ project }: Props) => {
 	const { auth, setAuth } = useAuthProvider();
 	const dispatch = useAppDispatch();
+	const location = useLocation();
 
 	const handleLogout = () => {
 		setAuth({
@@ -61,7 +62,9 @@ export const HeaderContent = memo(({ project }: Props) => {
 					</>
 				)}
 
-				<Search />
+				<div className='flex-1' />
+
+				{location.pathname !== '/search' ? <Search /> : null}
 
 				<div className={`user-session relative flex items-center cursor-pointer`}>
 					<PopoverCustom preferredPosition='bottom-end'>
@@ -81,7 +84,7 @@ export const HeaderContent = memo(({ project }: Props) => {
 										<div
 											className={`border-neutral-600 bg-neutral-800 flex flex-col border rounded-md transition-opacity z-40 w-44`}>
 											<span
-												className='text-white hover:bg-red-600 transition-colors cursor-pointer p-2 rounded'
+												className='text-white hover:bg-red-600 transition-colors cursor-pointer p-3 rounded'
 												// onClick={handleLogout}
 												onClick={handleLogout}>
 												Logout

@@ -29,7 +29,9 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 	const [alertHigh, setAlertHigh] = useState({ msg: '', error: false });
 	const [loading, setLoading] = useState(true);
 	const { id } = useParams();
-	const { data: project = {} as ProjectTypes } = useObtainProjectQuery(id ?? skipToken);
+	const { data: project = {} as ProjectTypes, isLoading: isLoadingProject } = useObtainProjectQuery(
+		id ?? skipToken
+	);
 
 	const contextValue = useMemo(
 		() => ({
@@ -48,6 +50,7 @@ export const AppProvider = ({ children }: Props): JSX.Element => {
 			setCardUpdate,
 			isShowMenuProject,
 			setIsShowMenuProject,
+			isLoadingProject,
 		}),
 		[listCurrent, isShowMenuProject, loading, isShowModalFormCard, cardUpdate, project]
 	);

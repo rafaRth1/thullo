@@ -7,6 +7,7 @@ export interface BoardContextProps {
 	listsArray: ListTypes[];
 	lists: ListTypes[];
 	setLists: DispatchStateAction<ListTypes[]>;
+	isLoadingLists: boolean;
 	listCurrent: ListTypes;
 	setListCurrent: DispatchStateAction<ListTypes>;
 	cardUpdate: TaskCardTypes;

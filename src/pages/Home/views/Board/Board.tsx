@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 import { useAppDispatch, useBoardProvider } from '@hooks/';
-import { Button } from '@components/';
+import { Button, Spinner } from '@components/';
 import { moveDrag, reorder } from '@utils/';
 import { StrictModeDroppable, TaskCardList } from '@pages/Home/components';
 import {
@@ -21,7 +21,7 @@ interface Props {
 
 export const Board = memo(
 	({ onOpenFormCreateCard, setIsShowModalFormCard, setIsShowModalFormList }: Props) => {
-		const { listsArray, setListCurrent, listCurrent, cardUpdate } = useBoardProvider();
+		const { listsArray, setListCurrent, listCurrent, isLoadingLists } = useBoardProvider();
 		const [ordenPositionTaskCards] = useOrdenPositionTaskCardsMutation();
 		const [orderTaskCardsOndrag] = useOrderTaskCardsOndragMutation();
 		const dispatch = useAppDispatch();
@@ -105,7 +105,6 @@ export const Board = memo(
 						</StrictModeDroppable>
 					))}
 				</DragDropContext>
-
 				<div className='min-w-[250px] max-w-[250px]'>
 					<Button
 						colorCustom='bg-neutral-800'
