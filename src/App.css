@@ -1,5 +1,3 @@
-@import './style/MediaQueries.css';
-
 html {
 	font-family: 'Poppins', sans-serif;
 	touch-action: none;
@@ -87,4 +85,13 @@ html {
 	border-radius: 10px;
 	background-color: #525252;
 	margin-block: 10px;
+}
+
+.list-comments::-webkit-scrollbar {
+	width: 5px;
+}
+
+.list-comments::-webkit-scrollbar-thumb {
+	background-color: #404040;
+	border-radius: 5rem;
 }

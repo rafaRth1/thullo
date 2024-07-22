@@ -27,15 +27,15 @@ export const projectApi = createApi({
 		}),
 
 		addProject: builder.mutation({
-			query: (data) => {
+			query: (formValues) => {
 				return {
 					url: `/projects`,
 					method: 'POST',
 					body: {
-						name: data.name_board,
-						name_img: '',
-						public_id: '',
-						type: 'public',
+						name_board: formValues.name_board,
+						name_img: formValues.name_img,
+						public_id: formValues.public_id,
+						type: formValues.type ? 'private' : 'public',
 					},
 				};
 			},
@@ -60,9 +60,5 @@ export const projectApi = createApi({
 	}),
 });
 
-export const {
-	useGetProjectsQuery,
-	useObtainProjectQuery,
-	useAddProjectMutation,
-	useAddCollaboratorProjectMutation,
-} = projectApi;
+export const { useGetProjectsQuery, useObtainProjectQuery, useAddProjectMutation, useAddCollaboratorProjectMutation } =
+	projectApi;

@@ -1,4 +1,4 @@
-import clientAxios from '../../utils/clientAxios';
+import clientAxios from '../../utils/client-axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Alerta } from '../../components';

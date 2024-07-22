@@ -1,6 +1,6 @@
 export interface ProjectTypes {
 	_id: string;
-	name: string;
+	name_board: string;
 	name_img: string;
 	description?: string;
 	collaborators: MemberType[];
@@ -12,6 +12,10 @@ export interface ListTypes {
 	_id: string;
 	name: string;
 	taskCards: TaskCardTypes[];
+	color_header: {
+		primary_color: string;
+		secondary_color: string;
+	};
 }
 
 export interface TaskCardTypes {

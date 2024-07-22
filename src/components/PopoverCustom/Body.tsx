@@ -1,6 +1,6 @@
 import { useState, useContext, ReactElement, useLayoutEffect } from 'react';
-import { PopoverContext } from './PopoverContext';
-import { PopoverInternal } from './PopoverInternal';
+import { PopoverContext } from './popover-context';
+import { PopoverInternal } from './popover-internal';
 import { createPortal } from 'react-dom';
 
 interface Props {

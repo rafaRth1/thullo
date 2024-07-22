@@ -1,10 +1,10 @@
-import PopoverPattern from './PopoverCustom';
+import PopoverPattern from './popover-custom';
 
-import Trigger from './Trigger';
-import Body from './Body';
-import PopoverContent from './PopoverContent';
+import Trigger from './trigger';
+import Body from './body';
+import PopoverContent from './popover-content';
 
-import './PopoverCustom.css';
+import './popover-custom.css';
 
 const PopoverCustom = Object.assign(PopoverPattern, {
 	Trigger: Trigger,
