@@ -18,7 +18,7 @@ export const Description = () => {
 			setCardUpdate({ ...cardUpdate, description });
 		} catch (error) {
 			// FIX: Add handle message error
-			console.log(error, 'Section Description');
+			// console.log(error, 'Section Description');
 		}
 	};
 

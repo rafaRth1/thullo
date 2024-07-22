@@ -23,8 +23,8 @@ export const SectionLabels = () => {
 
 	const handleAddLabel = async () => {
 		if (value.nameLabel.trim() === '') {
-			// FIX: Manage error data
-			return console.log('Esta vacio');
+			// FIX: Manage error data Esta vacio
+			return;
 		}
 
 		const labelValues = {

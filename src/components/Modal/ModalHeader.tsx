@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { Button } from '../';
 import { ModalContext } from './ModalContext';
 import { IoCloseOutline } from 'react-icons/io5';
 

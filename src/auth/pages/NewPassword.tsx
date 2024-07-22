@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Alerta, Logo } from '../../components';
+import { Alerta, Logo } from '@components/';
 import clientAxios from '../../utils/client-axios';
 
 export const NewPassword = () => {
@@ -57,13 +57,13 @@ export const NewPassword = () => {
 					error: true,
 				});
 
-				console.log(error);
+				// console.log(error);
 			}
 		};
 		checkToken();
 
 		return () => {
-			console.log('Limpiando');
+			// console.log('Limpiando');
 		};
 	}, []);
 

@@ -22,7 +22,7 @@ export const Register = () => {
 			const { data } = await clientAxios.post('/user', value);
 			navigate('/');
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 

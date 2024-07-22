@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { Draggable, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import { useBoardProvider } from '@hooks/';
-import { TaskCard } from '@pages/home12/components';
+import { TaskCard } from '@pages/home/components';
 import { TaskCardTypes, ListTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp } from 'react-icons/io5';
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';

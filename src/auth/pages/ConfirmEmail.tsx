@@ -23,7 +23,7 @@ export const ConfirmEmail = () => {
 				setAccountConfirm(true);
 			} catch (error: any) {
 				if (axios.isCancel(error)) {
-					console.log('Cancelled');
+					// console.log('Cancelled');
 				}
 
 				setAlerta({

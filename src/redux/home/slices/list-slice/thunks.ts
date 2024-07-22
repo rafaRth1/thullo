@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import clientAxios from '@utils/client-axios';
 import { Appthunk } from '@redux/store';
-import { deleteCollaboratorService, editProjectService } from '@pages/home12/services/project-service';
-import { addListService, deleteListService, editListService, fetchProjectService } from '@pages/home12/services/list-service';
+import { deleteCollaboratorService, editProjectService } from '@pages/home/services/project-service';
+import { addListService, deleteListService, editListService, fetchProjectService } from '@pages/home/services/list-service';
 import {
 	addComment,
 	addList,
@@ -22,7 +22,7 @@ import {
 	deleteTaskCardService,
 	editDescriptionTaskCardService,
 	editTaskCardService,
-} from '@pages/home12/services/taskcard-service';
+} from '@pages/home/services/taskcard-service';
 import { ListTypes, TaskCardTypes, CommentTypes } from '@interfaces/';
 
 export const fetchProject = (controller: AbortController, idProject?: string): Appthunk => {

@@ -22,7 +22,7 @@ export const useFetch = <T>(query: string): { data: T; isLoading: boolean } => {
 				const { data } = await clientAxios(query, config);
 				setData(data);
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 			} finally {
 				setIsLoading(false);
 			}

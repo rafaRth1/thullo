@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Alerta, Logo } from '../../components';
-import clientAxios from '../../utils/client-axios';
+import { Alerta, Logo } from '@components/';
+import { clientAxios } from '@utils/';
 
 export const ForgetPassword = (): JSX.Element => {
 	const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export const ForgetPassword = (): JSX.Element => {
 		try {
 			const { data } = await clientAxios.post('/user/forget-password', { email });
 
-			console.log(data);
+			// console.log(data);
 
 			// setAlerta({
 			// 	msg: data.msg,
@@ -21,7 +21,7 @@ export const ForgetPassword = (): JSX.Element => {
 
 			// setEmail('');
 		} catch (error: any) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 

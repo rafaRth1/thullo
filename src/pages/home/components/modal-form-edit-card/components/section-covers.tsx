@@ -35,7 +35,7 @@ export const SectionCovers = (): JSX.Element => {
 	};
 
 	const handleDeleteImage = () => {
-		console.log('Eliminando imagen');
+		// console.log('Eliminando imagen');
 	};
 
 	return (

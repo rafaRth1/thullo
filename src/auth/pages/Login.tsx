@@ -26,7 +26,7 @@ export const Login = () => {
 			setAuth(data);
 			navigate('/');
 		} catch (error: any) {
-			console.log(error);
+			// console.log(error);
 			setAlerta({
 				msg: error.response.data.msg,
 				error: true,

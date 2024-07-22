@@ -19,7 +19,6 @@ export const taskcardApi = createApi({
 		addTaskCard: builder.mutation({
 			query: (data) => {
 				const { card } = data;
-				console.log(card);
 				return {
 					url: `/taskCard`,
 					method: 'POST',

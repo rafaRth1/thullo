@@ -3,7 +3,7 @@ import { Avatar } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { Button } from '@nextui-org/button';
 import { FormCollabrator } from '@components/';
-import { MenuProject } from '@pages/home12/components';
+import { MenuProject } from '@pages/home/components';
 import { MemberType, ProjectTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed } from 'react-icons/io5';
 
@@ -30,9 +30,11 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 			</div>
 		</div>
 	) : (
-		<div className='sub-header-top flex justify-between gap-4 p-4'>
-			<div className='flex flex-col items-center md:flex-row w-full min-[460px]:w-auto gap-4'>
-				{location.pathname !== '/' && <p className='text-white font-medium capitalize'>{project.name_board}</p>}
+		<div className='sub-header-top flex flex-col min-[632px]:flex-row justify-between p-4'>
+			<div className='flex flex-col items-center md:flex-row w-full min-[460px]:w-auto mb-4 md:mb-0'>
+				{location.pathname !== '/' && (
+					<p className='text-white font-medium capitalize mb-3 md:mb-0 md:mr-3'>{project.name_board}</p>
+				)}
 
 				<div className='allowed-group flex'>
 					{project.collaborators?.map((collaborator) => (
@@ -67,11 +69,11 @@ export const SubHeaderContent = memo(({ project, setIsShowMenuProject, isShowMen
 				</div>
 			</div>
 
-			<div className='flex flex-col md:flex-row w-full min-[460px]:w-auto gap-4'>
+			<div className='flex justify-center gap-2 items-center md:flex-row w-full min-[460px]:w-auto'>
 				<Popover placement='bottom'>
 					<PopoverTrigger>
 						<Button
-							className='h-full px-[10px] py-[6px] rounded-md'
+							className='px-[10px] py-[6px] rounded-md'
 							color='primary'>
 							<IoLockClosed className='mr-2' />
 							<p className='capitalize mr-1'>{project.type}</p>

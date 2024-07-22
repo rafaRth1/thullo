@@ -1,4 +1,4 @@
-import { Position, Rect } from '@components/popoverCustom/popover-context';
+import { Position, Rect } from '@components/popover-custom/popover-context';
 
 export const getCoordsPositionStatic = (
 	triggerRect: Rect,

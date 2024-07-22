@@ -66,7 +66,7 @@ export const Search = memo(() => {
 	}, [id]);
 
 	return (
-		<div className='flex justify-end w-full mr-4'>
+		<div className='flex justify-end w-full md:mr-4'>
 			{match ? (
 				<div
 					className='search-container relative'
@@ -127,7 +127,7 @@ export const Search = memo(() => {
 					<IoSearchOutline
 						size={25}
 						className='text-neutral-100 mx-4 cursor-pointer'
-						onClick={() => console.log('redirigiendo seccion search')}
+						// onClick={() => console.log('redirigiendo seccion search')}
 					/>
 				</Link>
 			)}

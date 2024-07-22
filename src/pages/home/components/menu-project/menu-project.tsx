@@ -36,7 +36,7 @@ export const MenuProject = ({ project, isShowMenuProject, setIsShowMenuProject }
 
 	return (
 		<div
-			className={`fixed right-0 top-[70px] z-40 transition-all duration-200 h-[90vh] bg-[#18181a] rounded-lg w-full min-[420px]:max-w-sm shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] flex flex-col ${
+			className={`fixed right-0 top-[70px] z-40 transition-all duration-200 h-[90vh] bg-[#18181a] rounded-lg w-[90%] min-[420px]:max-w-sm shadow-[0_5px_20px_-5px_rgba(0,0,0,0.4)] flex flex-col ${
 				isShowMenuProject ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
 			}`}>
 			{/* <span
