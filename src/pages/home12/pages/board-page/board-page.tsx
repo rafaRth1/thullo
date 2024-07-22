@@ -1,7 +1,7 @@
 import { FormCardProvider } from '@context/';
 import { useDisclosure } from '@nextui-org/react';
-import { Board } from '@pages/home/views';
-import { ModalFormCard, ModalFormList, ModalFormEditCard } from '@pages/home/components';
+import { Board } from '@pages/home12/views';
+import { ModalFormCard, ModalFormList, ModalFormEditCard } from '@pages/home12/components';
 import { useBoardProvider } from '@hooks/';
 import { Spinner } from '@components/';
 

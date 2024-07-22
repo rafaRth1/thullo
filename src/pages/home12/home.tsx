@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Spinner } from '@components/';
 import { AppProvider } from '@context/';
 import { useAuthProvider } from '@hooks/use-auth-provider';
-import { Header, SubHeader } from '@pages/home/views';
+import { Header, SubHeader } from '@pages/home12/views';
 
 export const Home = () => {
 	const { auth, loading } = useAuthProvider();

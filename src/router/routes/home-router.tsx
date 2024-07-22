@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { BoardsPage, BoardPage, SearchPage } from '@pages/home/pages';
+import { BoardsPage, BoardPage, SearchPage } from '@pages/home12/pages';
 import { BoardProvider } from '@context/';
-import { Home } from '@pages/home/home';
+import { Home } from '@pages/home12/home';
 
 export const HomeRouter = () => {
 	return (

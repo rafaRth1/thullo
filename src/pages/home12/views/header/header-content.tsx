@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem } from '@nextui-org/dropdown';
 import { Button } from '@nextui-org/button';
-import { Search } from '@pages/home/components';
+import { Search } from '@pages/home12/components';
 import { useAppDispatch, useAuthProvider } from '@hooks/';
 import { Logo } from '@components/';
 import { projectApi } from '@redux/home/apis';

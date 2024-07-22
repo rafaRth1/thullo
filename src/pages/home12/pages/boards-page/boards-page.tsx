@@ -1,4 +1,4 @@
-import { CardBoard, ModalFormProject } from '@pages/home/components';
+import { CardBoard, ModalFormProject } from '@pages/home12/components';
 import { useDisclosure } from '@nextui-org/modal';
 import { Button } from '@nextui-org/button';
 import { Spinner } from '@components/';

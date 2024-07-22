@@ -3,7 +3,7 @@ import { Avatar } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { Button } from '@nextui-org/button';
 import { FormCollabrator } from '@components/';
-import { MenuProject } from '@pages/home/components';
+import { MenuProject } from '@pages/home12/components';
 import { MemberType, ProjectTypes } from '@interfaces/';
 import { IoAddOutline, IoEllipsisHorizontalSharp, IoLockClosed } from 'react-icons/io5';
 

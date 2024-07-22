@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { DragDropContext, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 import { useAppDispatch, useBoardProvider } from '@hooks/';
 import { moveDrag, reorder } from '@utils/';
-import { StrictModeDroppable, TaskCardList } from '@pages/home/components';
+import { StrictModeDroppable, TaskCardList } from '@pages/home12/components';
 import { listApi, useOrdenPositionTaskCardsMutation, useOrderTaskCardsOndragMutation } from '@redux/home/apis';
 import { ListTypes } from '@interfaces/';
 import { IoAddOutline } from 'react-icons/io5';

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { Appthunk } from '../../../store';
-import { createProjectService, destroyImageService, getProjectsService } from '@pages/home/services/project-service';
+import { createProjectService, destroyImageService, getProjectsService } from '@pages/home12/services/project-service';
 import { addProject, getProjects, loadingError, loadingStart } from './project-slice';
 
 export const fetchGetProjects = (): Appthunk => {
