@@ -1,6 +1,6 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { projecSlice } from './home/slices/projectslice';
-import { listSlice } from './home/slices/listsSlice';
+import { projecSlice } from './home/slices/project-slice';
+import { listSlice } from './home/slices/list-slice';
 import { listApi, projectApi, taskcardApi } from './home/apis/';
 // import { authSlice } from './auth';
 

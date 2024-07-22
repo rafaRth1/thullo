@@ -1,14 +1,11 @@
-import clientAxios from '@utils/clientAxios';
+import clientAxios from '@utils/client-axios';
 import { AxiosRequestConfig } from 'axios';
 
 export const getProjectsService = (config: AxiosRequestConfig) => {
 	return clientAxios('/projects', config);
 };
 
-export const createProjectService = (
-	project: { name: string; name_img: string; type: string },
-	config: AxiosRequestConfig
-) => {
+export const createProjectService = (project: { name: string; name_img: string; type: string }, config: AxiosRequestConfig) => {
 	return clientAxios.post('/projects', project, config);
 };
 
@@ -27,11 +24,7 @@ export const editProjectService = (
 	);
 };
 
-export const deleteCollaboratorService = (
-	idProject: string,
-	idCollaborator: string,
-	config: AxiosRequestConfig
-) => {
+export const deleteCollaboratorService = (idProject: string, idCollaborator: string, config: AxiosRequestConfig) => {
 	return clientAxios.post(`/projects/delete-collaborator/${idProject}`, { id: idCollaborator }, config);
 };
 

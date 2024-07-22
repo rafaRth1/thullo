@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import clientAxios from '../../utils/clientAxios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Alerta, Logo } from '../../components';
-import { useAuthProvider } from '../../hooks/useAuthProvider';
-import { useAppDispatch } from '@hooks/useRedux';
+import { useAuthProvider, useAppDispatch } from '@hooks/';
+import { Alerta, Logo } from '@components/';
+import { clientAxios } from '@utils/';
 import { projectApi } from '@redux/home/apis';
+import { Input } from '@nextui-org/input';
+import { Button } from '@nextui-org/button';
 
 export const Login = () => {
-	const [valueSession, setValueSession] = useState({ email: '', password: '' });
+	const [valueSession, setValueSession] = useState({ email: 'user1@correo.com', password: '123456' });
 	const [alerta, setAlerta] = useState({ msg: '', error: false });
 	const { setAuth } = useAuthProvider();
 	const navigate = useNavigate();
@@ -20,19 +21,8 @@ export const Login = () => {
 		try {
 			const { data } = await clientAxios.post('/user/login', valueSession);
 
-			// const response = await fetch('http://localhost:4000/user/login', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify(valueSession),
-			// });
-
-			// const data = await response.json();
-
-			// console.log(data);
-
 			localStorage.setItem('token', data.token);
+
 			setAuth(data);
 			navigate('/');
 		} catch (error: any) {
@@ -66,42 +56,30 @@ export const Login = () => {
 					className='flex flex-col mx-auto p-5'
 					onSubmit={handleSubmit}>
 					<h1 className='text-white font-medium text-2xl text-center mb-10'>Iniciar sesión en Thullo</h1>
-					<div className='mb-5'>
-						<label
-							htmlFor='email'
-							className='text-white block'>
-							Email:
-						</label>
-						<input
-							id='email'
-							type='text'
-							autoComplete='username'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
-							value={valueSession.email}
-							onChange={(e) => setValueSession({ ...valueSession, email: e.target.value })}
-						/>
-					</div>
-					<div className='mb-5'>
-						<label
-							htmlFor='pass'
-							className='text-white block'>
-							Password:
-						</label>
-						<input
-							id='pass'
-							type='password'
-							name='pass'
-							autoComplete='current-password'
-							className='bg-neutral-300 text-gray-500 px-3 py-2 rounded-xl outline-none w-full'
-							value={valueSession.password}
-							onChange={(e) => setValueSession({ ...valueSession, password: e.target.value })}
-						/>
-					</div>
-					<button
-						type='submit'
-						className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700'>
-						Login
-					</button>
+
+					<Input
+						type='email'
+						label='Correo Electronico'
+						className='mb-5'
+						classNames={{ inputWrapper: 'bg-[#1d2021] hover:bg-red-600' }}
+						value={valueSession.email}
+						onChange={(e) => setValueSession({ ...valueSession, email: e.target.value })}
+					/>
+
+					<Input
+						type='password'
+						label='Contraseña'
+						className='mb-5'
+						classNames={{ inputWrapper: 'bg-[#1d2021]' }}
+						value={valueSession.password}
+						onChange={(e) => setValueSession({ ...valueSession, password: e.target.value })}
+					/>
+
+					<Button
+						color='primary'
+						type='submit'>
+						Iniciar Sesión
+					</Button>
 					<div className='mt-10'>
 						{/* <Link
 							to='/auth/forget-password'
@@ -110,8 +88,8 @@ export const Login = () => {
 						</Link> */}
 						<Link
 							to='/auth/register'
-							className='text-white text-base block font-light text-center hover:underline'>
-							¿No tiene una cuenta?, Registrese
+							className='text-white text-base block font-medium text-center hover:underline'>
+							¿No tiene una cuenta? Registrese
 						</Link>
 					</div>
 				</form>

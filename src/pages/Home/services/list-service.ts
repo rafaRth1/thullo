@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import clientAxios from '@utils/clientAxios';
+import clientAxios from '@utils/client-axios';
 
 export const fetchProjectService = async (controller: AbortController, idProject?: string) => {
 	const token = localStorage.getItem('token');

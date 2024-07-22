@@ -1,3 +1,3 @@
-export * from './BoardsPage/BoardsPage';
-export * from './BoardPage/BoardPage';
-export * from './SearchPage/SearchPage';
+export * from './boards-page/boards-page';
+export * from './board-page/board-page';
+export * from './search-page/search-page';

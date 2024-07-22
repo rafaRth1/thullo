@@ -1,15 +1,5 @@
-import {
-	ReactElement,
-	useContext,
-	useRef,
-	cloneElement,
-	useMemo,
-	Children,
-	useState,
-	useEffect,
-	useCallback,
-} from 'react';
-import { PopoverContext } from './PopoverContext';
+import { ReactElement, useContext, useRef, cloneElement, useMemo, Children, useState, useEffect, useCallback } from 'react';
+import { PopoverContext } from './popover-context';
 
 interface Props {
 	children: ReactElement;

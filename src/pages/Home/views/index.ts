@@ -1,3 +1,3 @@
-export * from './Header/Header';
-export * from './SubHeader/SubHeader';
-export * from './Board/Board';
+export * from './header/header';
+export * from './sub-header/sub-header';
+export * from './board/board';

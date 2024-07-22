@@ -78,7 +78,7 @@ export const Search = memo(() => {
 						placeholder='Search'
 						id='search'
 						type='search'
-						className={`bg-transparent border border-neutral-700 text-white focus-visible:outline-blue-700 h-11 ${
+						className={`bg-transparent text-sm border border-[#1d2021] text-white focus-visible:outline-none h-11 ${
 							isActiveFocus ? 'w-full lg:w-[500px]' : 'w-[300px]'
 						} rounded-md py-1 px-3 mr-2`}
 						value={search}
@@ -89,8 +89,8 @@ export const Search = memo(() => {
 					/>
 
 					{isActiveFocus ? (
-						<div className='result-search absolute bg-neutral-700 w-full p-2 rounded-md mt-4 z-20'>
-							<span className='text-neutral-300 uppercase'>Proyectos Recientes</span>
+						<div className='result-search absolute bg-[#1d2021] w-full p-4 rounded-md mt-4 z-20'>
+							<p className='text-neutral-300'>Proyectos Recientes</p>
 
 							<ul className='flex flex-col'>
 								{projects.map((project) => (
@@ -101,7 +101,7 @@ export const Search = memo(() => {
 											setIsPointerLeave(false);
 											refInput.current?.focus();
 										}}
-										className='flex items-center p-1 hover:bg-neutral-600 rounded'>
+										className='flex items-center p-2 hover:opacity-90 rounded'>
 										<img
 											src={
 												project.name_img
@@ -113,7 +113,7 @@ export const Search = memo(() => {
 										/>
 
 										<div className='flex flex-col'>
-											<span className='text-neutral-200 ml-3'>{project.name}</span>
+											<span className='text-neutral-200 ml-3'>{project.name_board}</span>
 											<span className='text-neutral-400 ml-3'>Workspace</span>
 										</div>
 									</Link>

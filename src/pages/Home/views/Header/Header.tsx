@@ -1,5 +1,5 @@
 import { useProvider } from '@hooks/';
-import { HeaderContent } from './HeaderContent';
+import { HeaderContent } from './header-content';
 
 export const Header = () => {
 	const { project } = useProvider();

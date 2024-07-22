@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import clientAxios from '@utils/clientAxios';
+import clientAxios from '@utils/client-axios';
 import { TaskCardTypes, CommentTypes } from '@interfaces/';
 
 export const addTaskCardService = async (card: TaskCardTypes) => {
